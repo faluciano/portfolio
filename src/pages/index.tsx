@@ -26,22 +26,28 @@ const HomeContent = () => {
   return (
     <div className="mx-auto grid grid-cols-12 gap-5 p-11">
       <div className="col-span-12 rounded-lg p-16 sm:col-span-7 text-left align-top">
-        <Fade className="text-6xl">
-          Hi, I&apos;m Felix
+        <Fade>
+          <div className="text-6xl">
+            Hi, I&apos;m Felix
+          </div>
         </Fade>
-          <Fade duration={3000} className="text-xl text-gray-400 mt-2">
+        <Fade duration={3000}>
+          <div className="text-xl text-gray-400 mt-2">
             Software Engineer
-          </Fade>
-          <Fade duration={7000} className="mx-5 text-xl">
+          </div>
+        </Fade>
+        <Fade duration={7000}>
+          <div className="mx-5 text-xl">
             Hi, my name is Felix and I&apos;m a passionate Software Engineer with a love for solving complex problems and building cool ideas. 
             I graduated from the New Jersey Institute of Technology with a B.S. in Computer Science.
             Feel free to look around my portfolio!
-          </Fade>
-          <a href="Resume-Revised-Felix.pdf" download="Felix-Luciano.pdf">
-            <button className="bg-teal-900 rounded-lg h-10 px-5 mt-5">
-              CV
-            </button>
-          </a>
+          </div>
+        </Fade>  
+        <a href="Resume-Revised-Felix.pdf" download="Felix-Luciano.pdf">
+          <button className="bg-teal-900 rounded-lg h-10 px-5 mt-5">
+            CV
+          </button>
+        </a>
         
       </div>
       <div className="col-span-12 rounded-lg p-16 sm:col-span-5">
