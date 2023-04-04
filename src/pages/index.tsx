@@ -37,7 +37,7 @@ const HomeContent = () => {
           </div>
         </Fade>
         <Fade duration={7000}>
-          <div className="mx-5 text-xl">
+          <div className="ml-5 text-xl">
             Hi, my name is Felix and I&apos;m a passionate Software Engineer with a love for solving complex problems and building cool ideas. 
             I graduated from the New Jersey Institute of Technology with a B.S. in Computer Science.
             Feel free to look around my portfolio!
@@ -59,10 +59,14 @@ const HomeContent = () => {
 
 const Skills = () => {
   return (
-    <div className="text-5xl text-center">
-      Skills
+    <div>
+      <div className="text-5xl text-center">
+        Skills
+      </div>
+      <div className="relative w-full h-24">
+
+      </div>
     </div>
-    
   )
 }
 
