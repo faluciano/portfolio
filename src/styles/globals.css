@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html{
+        @apply bg-gradient-to-r from-slate-900 to-slate-700;
+        @apply text-white;
+        @apply font-serif;
+    };
+    
+}
