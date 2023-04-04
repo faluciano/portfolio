@@ -36,7 +36,7 @@ const HomeContent = () => {
             I graduated from the New Jersey Institute of Technology with a B.S. in Computer Science.
             Feel free to look around my portfolio!
           </div>
-          <a href="/public/Resume-Revised-Felix.pdf" download="Felix-Luciano.pdf">
+          <a href="Resume-Revised-Felix.pdf" download="Felix-Luciano.pdf">
             <button className="bg-teal-900 rounded-lg h-10 px-5 mt-5">
               CV
             </button>
