@@ -33,17 +33,28 @@ const HomeContent = () => {
         </Fade>
         <Fade duration={7000}>
           <div className="ml-5 text-xl">
-            Hi, my name is Felix and I&apos;m a passionate Software Engineer
-            with a love for solving complex problems and building cool ideas. I
-            graduated from the New Jersey Institute of Technology with a B.S. in
-            Computer Science. Feel free to look around my portfolio!
+            <p>
+              Hi, my name is Felix and I&apos;m a passionate Software Engineer
+              with a love for solving complex problems and building cool ideas.
+              I enjoy buiding fullstack web apps, mobile apps as well as
+              automation scripts to simplify day to day tasks.
+            </p>
+            <p className="mt-6">
+              Outside of my carrer I enjoy music and play the bass!(some of my
+              best ideas come after a good jam session) I also enjoy boardgames
+              and videogames.
+            </p>
+            <p className="mt-6">
+              Feel free to look around my portfolio which was built with Next.js
+              and Tailwind!
+            </p>
           </div>
         </Fade>
         <a href="Resume-Revised-Felix.pdf" download="Felix-Luciano.pdf">
           <button className="mt-5 h-10 rounded-lg bg-teal-900 px-5">CV</button>
         </a>
       </div>
-      <div className="col-span-12 rounded-lg p-16 sm:col-span-5">
+      <div className="col-span-12 rounded-lg p-16 sm:col-span-5 md:max-h-96 md:max-w-md">
         <Image src={Me} alt="My Picture" className="rounded-lg" />
       </div>
     </div>

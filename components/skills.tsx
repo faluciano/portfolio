@@ -6,6 +6,9 @@ import {
   JSLogo,
   TailwindLogo,
   CppLogo,
+  NextjsLogo,
+  FlaskLogo,
+  MysqlLogo,
 } from "components/images/logos";
 import { Fade } from "react-awesome-reveal";
 
@@ -57,6 +60,21 @@ const Skills = () => {
             className="mr-4 inline-flex h-20 w-20"
           >
             <CppLogo />
+          </a>
+          <a href="https://nextjs.org/" className="mr-4 inline-flex h-20 w-20">
+            <NextjsLogo />
+          </a>
+          <a
+            href="https://flask.palletsprojects.com/"
+            className="mr-4 inline-flex h-20 w-20"
+          >
+            <FlaskLogo />
+          </a>
+          <a
+            href="https://www.mysql.com/"
+            className="mr-4 inline-flex h-20 w-20"
+          >
+            <MysqlLogo />
           </a>
         </div>
       </Fade>
