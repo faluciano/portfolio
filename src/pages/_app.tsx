@@ -9,7 +9,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Felix Luciano Porfolio</title>
+        <title>Felix Luciano Portfolio</title>
       </Head>
       <HeadNav />
       <Component {...pageProps} />
