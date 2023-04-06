@@ -5,6 +5,7 @@ import {
   ReactLogo,
   JSLogo,
   TailwindLogo,
+  CppLogo,
 } from "components/images/logos";
 import { Fade } from "react-awesome-reveal";
 
@@ -50,6 +51,12 @@ const Skills = () => {
             className="mr-4 inline-flex h-20 w-20"
           >
             <TailwindLogo />
+          </a>
+          <a
+            href="https://en.cppreference.com/w/"
+            className="mr-4 inline-flex h-20 w-20"
+          >
+            <CppLogo />
           </a>
         </div>
       </Fade>
