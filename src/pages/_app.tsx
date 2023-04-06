@@ -11,9 +11,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <Head>
         <title>Felix Luciano Porfolio</title>
       </Head>
-      <HeadNav/>
+      <HeadNav />
       <Component {...pageProps} />
-      <Analytics/>
+      <Analytics />
     </>
   );
 };
