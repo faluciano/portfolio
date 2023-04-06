@@ -4,6 +4,7 @@ import {
   TSLogo,
   ReactLogo,
   JSLogo,
+  TailwindLogo,
 } from "components/images/logos";
 import { Fade } from "react-awesome-reveal";
 
@@ -43,6 +44,12 @@ const Skills = () => {
             className="mr-4 inline-flex h-20 w-20"
           >
             <PythonLogo />
+          </a>
+          <a
+            href="https://tailwindcss.com/"
+            className="mr-4 inline-flex h-20 w-20"
+          >
+            <TailwindLogo />
           </a>
         </div>
       </Fade>

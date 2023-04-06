@@ -1,3 +1,4 @@
+import { Fade } from "react-awesome-reveal";
 import ProjectCard from "./projectcard";
 
 const Projects = () => {
@@ -45,11 +46,13 @@ const Projects = () => {
       {ProjectData.map((project) => {
         return (
           <div key={project.title} className="m-4 inline-flex">
-            <ProjectCard
-              title={project.title}
-              description={project.description}
-              url={project.url}
-            />
+            <Fade>
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                url={project.url}
+              />
+            </Fade>
           </div>
         );
       })}
