@@ -13,6 +13,29 @@ const Projects = () => {
       description: "Movie browsing app for android that uses TMDB",
       url: "https://github.com/faluciano/Flixster",
     },
+    {
+      title: "Music Randomizer",
+      description:
+        "Web App written using flask as a backend as well as the Spotify and Genius API. You can search any artist and a random song from their top songs will be displayed as well as information about the artist, lyrics, preview and album image for the song",
+      url: "https://github.com/NJIT-CS490-SP21/project1-fal6",
+    },
+    {
+      title: "Anime Bot",
+      description:
+        "Discord bot that tells you quotes from different anime as well as what episode a picture from an anime is from",
+      url: "https://github.com/faluciano/anime-go-bot",
+    },
+    {
+      title: "Online Checkers Site",
+      description: "Online checkers site made using websockets",
+      url: "https://github.com/donovan-westwater/Online-Checkers-Site",
+    },
+    {
+      title: "Portfolio",
+      description:
+        "Portfolio website writen in typescript using tailwindcss and Next.js. This site!",
+      url: "https://github.com/faluciano/portfolio",
+    },
   ];
   return (
     <>
@@ -21,7 +44,7 @@ const Projects = () => {
       </div>
       {ProjectData.map((project) => {
         return (
-          <div key={project.title} className="mb-4 ml-4 mr-4 mt-4 inline-flex">
+          <div key={project.title} className="m-4 inline-flex">
             <ProjectCard
               title={project.title}
               description={project.description}
