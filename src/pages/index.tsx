@@ -25,7 +25,7 @@ const HomeContent = () => {
   return (
     <div id="about" className="mx-auto grid grid-cols-12 gap-5 p-11">
       <div className="col-span-12 rounded-lg p-8 text-left align-top sm:col-span-7">
-        <Fade>
+        <Fade triggerOnce={true}>
           <div className="text-6xl">Hi, I&apos;m Felix</div>
         </Fade>
         <Fade duration={3000}>
