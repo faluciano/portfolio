@@ -6,10 +6,10 @@ import Footer from "components/footer";
 import Projects from "components/projects";
 import Contact from "components/contact";
 import Skills from "components/skills";
-// import { api } from "~/utils/api";
+//import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  //const github = api.projects;
   return (
     <div>
       <HomeContent />
