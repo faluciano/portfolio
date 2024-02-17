@@ -9,13 +9,16 @@ import {
   NextjsLogo,
   FlaskLogo,
   MysqlLogo,
+  ExpoLogo,
 } from "components/images/logos";
 import { Fade } from "react-awesome-reveal";
 
 const Skills = () => {
   return (
     <div>
-      <div className="text-center text-5xl">Skills</div>
+      <div className="text-center text-5xl text-black dark:text-white">
+        Skills
+      </div>
       <Fade>
         <div className=" p-10 text-center">
           <a
@@ -75,6 +78,9 @@ const Skills = () => {
             className="mr-4 inline-flex h-20 w-20"
           >
             <MysqlLogo />
+          </a>
+          <a href="https://expo.dev/" className="mr-4 inline-flex h-20 w-20">
+            <ExpoLogo />
           </a>
         </div>
       </Fade>

@@ -15,6 +15,12 @@ const Projects = () => {
       url: "https://github.com/faluciano/Flixster",
     },
     {
+      title: "Talking Head BLE",
+      description:
+        "Cross platform app that uses BLE to interface with an Arduino powered talking head. Written in React Native and Arduino programmed in C++",
+      url: "public/Felix 2024 Resume.pdf",
+    },
+    {
       title: "Music Randomizer",
       description:
         "Web App written using flask as a backend as well as the Spotify and Genius API. You can search any artist and a random song from their top songs will be displayed as well as information about the artist, lyrics, preview and album image for the song",
@@ -40,7 +46,10 @@ const Projects = () => {
   ];
   return (
     <>
-      <div id="projects" className="text-center text-5xl">
+      <div
+        id="projects"
+        className="text-center text-5xl text-black dark:text-white"
+      >
         Projects
       </div>
       {ProjectData.map((project) => {

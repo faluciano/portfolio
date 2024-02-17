@@ -16,20 +16,24 @@ const Home: NextPage = () => {
       <Skills />
       <Projects />
       <Contact />
-      <Footer />
     </div>
   );
 };
 
 const HomeContent = () => {
   return (
-    <div id="about" className="mx-auto grid grid-cols-12 gap-5 p-11">
+    <div
+      id="about"
+      className="mx-auto grid grid-cols-12 gap-5 p-11 text-black dark:text-white"
+    >
       <div className="col-span-12 rounded-lg p-8 text-left align-top sm:col-span-7">
         <Fade triggerOnce={true}>
           <div className="text-6xl">Hi, I&apos;m Felix</div>
         </Fade>
         <Fade duration={3000}>
-          <div className="mt-2 text-xl text-gray-400">Software Engineer</div>
+          <div className="mt-2 text-xl dark:text-gray-400">
+            Software Engineer
+          </div>
         </Fade>
         <Fade duration={7000}>
           <div className="ml-5 text-xl">
@@ -40,9 +44,9 @@ const HomeContent = () => {
               automation scripts to simplify day to day tasks.
             </p>
             <p className="mt-6">
-              Outside of my carrer I enjoy music and play the bass!(some of my
-              best ideas come after a good jam session) I also enjoy boardgames
-              and videogames.
+              Outside of my carrer I enjoy music and play the bass! I also enjoy
+              boardgames and videogames as well as creating small projects with
+              microcontrollers.
             </p>
             <p className="mt-6">
               Feel free to look around my portfolio which was built with Next.js
@@ -50,8 +54,10 @@ const HomeContent = () => {
             </p>
           </div>
         </Fade>
-        <a href="Resume-Revised-Felix.pdf" download="Felix-Luciano.pdf">
-          <button className="mt-5 h-10 rounded-lg bg-teal-900 px-5">CV</button>
+        <a href="Felix 2024 Resume.pdf" download="Felix-Luciano.pdf">
+          <button className="mt-5 h-10 rounded-lg bg-teal-500 px-5 dark:bg-teal-900">
+            CV
+          </button>
         </a>
       </div>
       <div className="col-span-12 rounded-lg p-16 sm:col-span-5 md:max-h-96 md:max-w-md">
