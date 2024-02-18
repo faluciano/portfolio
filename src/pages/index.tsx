@@ -106,8 +106,14 @@ const HomeContent = () => {
           </button>
         </a>
       </div>
-      <div className="col-span-12 rounded-lg p-16 sm:col-span-5 md:max-h-96 md:max-w-md">
-        <Image src={Me} alt="My Picture" className="rounded-lg" />
+      <div className="col-span-12 sm:col-span-5">
+        <Image
+          src={Me}
+          alt="My Picture"
+          className="rounded-lg"
+          width={500}
+          height={500}
+        />
       </div>
     </div>
   );
