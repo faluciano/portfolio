@@ -15,30 +15,30 @@ const Home: NextPage<{ projects: Prop[] }> = () => {
 
     let interval = Math.floor(seconds / 31536000);
     if (interval >= 1) {
-      return interval + " years ago";
+      return interval.toString() + " years ago";
     }
 
     interval = Math.floor(seconds / 2592000);
     if (interval >= 1) {
-      return interval + " months ago";
+      return interval.toString() + " months ago";
     }
 
     interval = Math.floor(seconds / 86400);
     if (interval >= 1) {
-      return interval + " days ago";
+      return interval.toString() + " days ago";
     }
 
     interval = Math.floor(seconds / 3600);
     if (interval >= 1) {
-      return interval + " hours ago";
+      return interval.toString() + " hours ago";
     }
 
     interval = Math.floor(seconds / 60);
     if (interval >= 1) {
-      return interval + " minutes ago";
+      return interval.toString() + " minutes ago";
     }
 
-    return Math.floor(seconds) + " seconds ago";
+    return Math.floor(seconds).toString() + " seconds ago";
   }
   const fetchProjects = (): Prop[] => {
     const res = api.projects.hello.useQuery();

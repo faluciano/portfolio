@@ -15,7 +15,6 @@ const RepoSchema = z.object({
   description: z.string().nullable(),
   html_url: z.string().url(),
   updated_at: z.string(),
-  forks_count: z.number(),
 });
 
 export const projectsRouter = createTRPCRouter({

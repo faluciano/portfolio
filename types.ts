@@ -3,5 +3,4 @@ type Prop = {
   description: string;
   html_url: string;
   updated_at: string;
-  forks_count: number;
 };
