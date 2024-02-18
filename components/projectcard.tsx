@@ -1,4 +1,4 @@
-const ProjectCard = ({ name, description, html_url, updated_at }: Prop) => {
+const ProjectCard = ({ name, description, html_url, pushed_at }: Prop) => {
   return (
     <a
       href={html_url}
@@ -11,7 +11,7 @@ const ProjectCard = ({ name, description, html_url, updated_at }: Prop) => {
         {description}
       </p>
       <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
-        Last updated: {updated_at}
+        Last updated: {pushed_at}
       </p>
     </a>
   );

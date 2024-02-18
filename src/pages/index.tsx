@@ -45,12 +45,12 @@ const Home: NextPage<{ projects: Prop[] }> = () => {
     return (
       res.data
         ?.sort((a, b) =>
-          new Date(a.updated_at) < new Date(b.updated_at) ? 1 : -1
+          new Date(a.pushed_at) < new Date(b.pushed_at) ? 1 : -1
         )
         .map((project) => ({
           ...project,
           description: project.description || "",
-          updated_at: timeAgo(project.updated_at),
+          pushed_at: timeAgo(project.pushed_at),
         })) || []
     );
   };

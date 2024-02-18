@@ -67,7 +67,7 @@ const Projects = ({ projects }: { projects: Prop[] }) => {
                 name={project.name}
                 description={project.description}
                 html_url={project.html_url}
-                updated_at={project.updated_at}
+                pushed_at={project.pushed_at}
               />
             </Fade>
           </div>
