@@ -7,17 +7,55 @@ import Contact from "components/contact";
 import Skills from "components/skills";
 import { api } from "~/utils/api";
 
-const Home: NextPage = () => {
+const Home: NextPage<{ projects: Prop[] }> = () => {
+  function timeAgo(timestamp: string) {
+    const seconds = Math.floor(
+      (new Date().getTime() - new Date(timestamp).getTime()) / 1000
+    );
+
+    let interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) {
+      return interval + " years ago";
+    }
+
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+      return interval + " months ago";
+    }
+
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+      return interval + " days ago";
+    }
+
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+      return interval + " hours ago";
+    }
+
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+      return interval + " minutes ago";
+    }
+
+    return Math.floor(seconds) + " seconds ago";
+  }
   const fetchProjects = (): Prop[] => {
     const res = api.projects.hello.useQuery();
     return (
-      res.data?.map((project) => ({
-        ...project,
-        description: project.description || "",
-      })) || []
+      res.data
+        ?.sort((a, b) =>
+          new Date(a.updated_at) < new Date(b.updated_at) ? 1 : -1
+        )
+        .map((project) => ({
+          ...project,
+          description: project.description || "",
+          updated_at: timeAgo(project.updated_at),
+        })) || []
     );
   };
   const projects = fetchProjects();
+
   return (
     <div>
       <HomeContent />
