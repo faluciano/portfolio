@@ -2,19 +2,27 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import Me from "public/Me.jpeg";
 import { Fade } from "react-awesome-reveal";
-import Footer from "components/footer";
 import Projects from "components/projects";
 import Contact from "components/contact";
 import Skills from "components/skills";
-//import { api } from "~/utils/api";
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  //const github = api.projects;
+  const fetchProjects = (): Prop[] => {
+    const res = api.projects.hello.useQuery();
+    return (
+      res.data?.map((project) => ({
+        ...project,
+        description: project.description || "",
+      })) || []
+    );
+  };
+  const projects = fetchProjects();
   return (
     <div>
       <HomeContent />
       <Skills />
-      <Projects />
+      <Projects projects={projects} />
       <Contact />
     </div>
   );

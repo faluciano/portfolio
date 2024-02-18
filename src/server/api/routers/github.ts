@@ -1,16 +1,27 @@
-//import { z } from "zod";
+import { z } from "zod";
 import { Octokit } from "octokit";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-const octokit = new Octokit({auth:process.env.GITHUB_TOKEN});
+const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
-const requestProjects = () =>{
-    return octokit.rest.users.getAuthenticated();
-}
+const requestProjects = async () => {
+  const response = await octokit.rest.repos.listForAuthenticatedUser();
+  return response.data;
+};
+
+const RepoSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  description: z.string().nullable(),
+  html_url: z.string().url(),
+  updated_at: z.string(),
+  forks_count: z.number(),
+});
 
 export const projectsRouter = createTRPCRouter({
-  hello: publicProcedure
-    .query(() => {
-      return requestProjects();
-    }),
+  hello: publicProcedure.query(async () => {
+    const projects = await requestProjects();
+    const validatedProjects = projects.map((project) => RepoSchema.parse(project));
+    return validatedProjects;
+  }),
 });
