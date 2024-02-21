@@ -1,4 +1,8 @@
-const ProjectCard = ({ name, description, html_url, pushed_at }: Prop) => {
+import { Badge } from "./ui/badge";
+import * as colors from "public/github-lang-colors.json";
+
+const ProjectCard = ({ name, description, html_url, pushed_at, language}: Prop) => {
+  const color: string = colors[language as keyof typeof colors] || "";
   return (
     <a
       href={html_url}
@@ -13,6 +17,7 @@ const ProjectCard = ({ name, description, html_url, pushed_at }: Prop) => {
       <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
         Last updated: {pushed_at}
       </p>
+      <Badge style={{ backgroundColor: color }}>{language}</Badge>
     </a>
   );
 };

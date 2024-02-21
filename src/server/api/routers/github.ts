@@ -15,6 +15,7 @@ const RepoSchema = z.object({
   description: z.string().nullable(),
   html_url: z.string().url(),
   pushed_at: z.string(),
+  language: z.string().nullable(),
 });
 
 export const projectsRouter = createTRPCRouter({

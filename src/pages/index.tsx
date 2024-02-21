@@ -2,9 +2,9 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import Me from "public/Me.jpeg";
 import { Fade } from "react-awesome-reveal";
-import Projects from "components/projects";
-import Contact from "components/contact";
-import Skills from "components/skills";
+import Projects from "~/components/projects";
+import Contact from "~/components/contact";
+import Skills from "~/components/skills";
 import { api } from "~/utils/api";
 
 const Home: NextPage<{ projects: Prop[] }> = () => {
@@ -51,6 +51,7 @@ const Home: NextPage<{ projects: Prop[] }> = () => {
           ...project,
           description: project.description || "",
           pushed_at: timeAgo(project.pushed_at),
+          language: project.language || "",
         })) || []
     );
   };

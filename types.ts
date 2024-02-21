@@ -3,4 +3,5 @@ type Prop = {
   description: string;
   html_url: string;
   pushed_at: string;
+  language: string;
 };
