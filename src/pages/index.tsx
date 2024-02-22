@@ -62,7 +62,7 @@ const HomeContent = () => {
             <p>
               Hi, my name is Felix and I&apos;m a passionate Software Engineer
               with a love for solving complex problems and building cool ideas.
-              I enjoy buiding fullstack web apps, mobile apps as well as
+              I enjoy building fullstack web apps, mobile apps as well as
               automation scripts to simplify day to day tasks.
             </p>
             <p className="mt-6">
