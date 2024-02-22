@@ -6,62 +6,37 @@ import Projects from "~/components/projects";
 import Contact from "~/components/contact";
 import Skills from "~/components/skills";
 import { api } from "~/utils/api";
+import { timeAgo } from "~/utils/timeago";
+import { useMemo } from "react";
 
-const Home: NextPage<{ projects: Prop[] }> = () => {
-  function timeAgo(timestamp: string) {
-    const seconds = Math.floor(
-      (new Date().getTime() - new Date(timestamp).getTime()) / 1000
-    );
+const Home: NextPage = () => {
 
-    let interval = Math.floor(seconds / 31536000);
-    if (interval >= 1) {
-      return interval.toString() + " years ago";
+  const { data, error } = api.projects.hello.useQuery(undefined, {
+    refetchOnWindowFocus: false
+  });
+
+  const cachedProjects = useMemo(() => {
+    if (error) {
+      return [] as Prop[];
     }
 
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1) {
-      return interval.toString() + " months ago";
-    }
-
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) {
-      return interval.toString() + " days ago";
-    }
-
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1) {
-      return interval.toString() + " hours ago";
-    }
-
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1) {
-      return interval.toString() + " minutes ago";
-    }
-
-    return Math.floor(seconds).toString() + " seconds ago";
-  }
-  const fetchProjects = (): Prop[] => {
-    const res = api.projects.hello.useQuery();
-    return (
-      res.data
-        ?.sort((a, b) =>
-          new Date(a.pushed_at) < new Date(b.pushed_at) ? 1 : -1
-        )
-        .map((project) => ({
-          ...project,
-          description: project.description || "",
-          pushed_at: timeAgo(project.pushed_at),
-          language: project.language || "",
-        })) || []
-    );
-  };
-  const projects = fetchProjects();
-
+    return data
+      ?.sort((a, b) =>
+        new Date(a.pushed_at) < new Date(b.pushed_at) ? 1 : -1
+      )
+      .map((project) => ({
+        ...project,
+        description: project.description || "",
+        pushed_at: timeAgo(project.pushed_at),
+        language: project.language || "",
+      })) || [];
+  }, [data, error]);
+  
   return (
     <div>
       <HomeContent />
       <Skills />
-      <Projects projects={projects} />
+      <Projects projects={cachedProjects} />
       <Contact />
     </div>
   );
