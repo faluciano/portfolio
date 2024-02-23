@@ -10,11 +10,12 @@ const Skills = () => {
       </div>
       <Fade>
         <div className=" p-10 text-center">
-          {Object.keys(logos).map((key) => {
-            if (key === "GitHubLogo" || key === "LinkedinLogo") return null;
-            const LogoComponent = logos[key as keyof typeof logos];
-            return <LogoComponent key={key}/>;
-          })}
+        {
+          Object.keys(logos).map((logo) => {
+            const Logo = logos[logo as keyof typeof logos]();
+            return Logo.social ? null : (Logo.jsx);
+          })
+        }
         </div>
       </Fade>
     </div>

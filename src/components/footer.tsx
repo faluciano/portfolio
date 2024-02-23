@@ -1,10 +1,12 @@
-import { GithubLogo, LinkedinLogo } from "./images/logos";
+import * as logos from "./images/logos";
 
 const Footer = () => {
   return (
     <div className="p-5 text-center items-center">
-      <GithubLogo />
-      <LinkedinLogo />
+      {Object.keys(logos).map((logo) => {
+        const Logo = logos[logo as keyof typeof logos]();
+        return Logo.social ? (Logo.jsx) : null;
+      })}
     </div>
   );
 };
