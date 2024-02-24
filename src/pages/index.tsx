@@ -8,29 +8,31 @@ import Skills from "~/components/skills";
 import { api } from "~/utils/api";
 import { timeAgo } from "~/utils/timeago";
 import { useMemo } from "react";
+import { byDate } from "~/utils/orders";
 
 const Home: NextPage = () => {
 
-  const { data, error } = api.projects.hello.useQuery(undefined, {
+  const { data, error } = api.projects.getProjects.useQuery(undefined, {
     refetchOnWindowFocus: false
   });
 
-  const cachedProjects = useMemo(() => {
+  const cachedProjects: Project[] = useMemo(() => {
     if (error) {
-      return [] as Prop[];
+      return [];
     }
 
-    return data
-      ?.sort((a, b) =>
-        new Date(a.pushed_at) < new Date(b.pushed_at) ? 1 : -1
-      )
-      .map((project) => ({
+    return (data as Project[])?.map((project) => ({
         ...project,
         description: project.description || "",
+        languages: [] as Language[],
+        owner: project.owner || {},
+      })).sort(byDate).map((project) => ({
+        ...project,
         pushed_at: timeAgo(project.pushed_at),
-        language: project.language || "",
-      })) || [];
-  }, [data, error]);
+        languages: [] as Language[],
+      }))
+      || [];
+  }, [data, error]) || [];
   
   return (
     <div>

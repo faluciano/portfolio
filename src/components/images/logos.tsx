@@ -7,7 +7,7 @@ export const PythonLogo = (): Logos => {
   return {
     social: false, 
     jsx:(
-      <a href="https://www.python.org/" className="mr-4 inline-flex h-20 w-20">
+      <a key="python" href="https://www.python.org/" className="mr-4 inline-flex h-20 w-20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="64"
@@ -62,7 +62,7 @@ export const JavaLogo = () : Logos => {
   return { 
       social : false,
       jsx: (
-        <a href="https://www.java.com/en/" className="mr-4 inline-flex h-20 w-20">
+        <a key="java" href="https://www.java.com/en/" className="mr-4 inline-flex h-20 w-20">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="64"
@@ -87,7 +87,7 @@ export const TSLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://www.typescriptlang.org/" className="mr-4 inline-flex h-20 w-20">
+      <a key="typescript" href="https://www.typescriptlang.org/" className="mr-4 inline-flex h-20 w-20">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
           <path
             d="M0 32v32h64.002V-.002H0zm51.577-2.55c1.625.406 2.865 1.128 4.003 2.306.59.63 1.463 1.778 1.534 2.052.02.08-2.763 1.95-4.45 2.997-.06.04-.305-.223-.58-.63-.823-1.2-1.686-1.717-3.007-1.808-1.94-.132-3.2.884-3.18 2.58 0 .498.07.792.274 1.2.427.884 1.22 1.412 3.708 2.49 4.582 1.97 6.542 3.27 7.76 5.12 1.36 2.062 1.666 5.354.742 7.802-1.016 2.662-3.535 4.47-7.08 5.07-1.097.193-3.698.163-4.876-.05-2.57-.457-5.008-1.727-6.512-3.393-.59-.65-1.737-2.347-1.666-2.47.03-.04.295-.203.59-.376l2.377-1.37 1.84-1.067.386.57c.538.823 1.717 1.95 2.428 2.326 2.042 1.077 4.846.924 6.227-.315.59-.538.833-1.097.833-1.92 0-.742-.09-1.067-.477-1.625-.498-.71-1.514-1.31-4.4-2.56-3.302-1.422-4.724-2.306-6.024-3.708-.752-.813-1.463-2.113-1.758-3.2-.244-.904-.305-3.17-.112-4.084.68-3.2 3.088-5.415 6.563-6.075 1.128-.213 3.75-.132 4.856.142zM36.552 32.12l.02 2.62h-8.33v23.67H22.35v-23.67h-8.33v-2.57l.07-2.64c.03-.04 5.1-.06 11.246-.05l11.185.03z"
@@ -103,7 +103,7 @@ export const ReactLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://reactjs.org/" className="mr-4 inline-flex h-20 w-20">
+      <a key= "react" href="https://reactjs.org/" className="mr-4 inline-flex h-20 w-20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="64"
@@ -132,7 +132,7 @@ export const JSLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://www.javascript.com/" className="mr-4 inline-flex h-20 w-20">
+      <a key="javascript" href="https://www.javascript.com/" className="mr-4 inline-flex h-20 w-20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="64"
@@ -154,7 +154,7 @@ export const GithubLogo = (): Logos => {
   return {
     social: true,
     jsx: (
-      <a href="https://github.com/faluciano" className="mr-4 inline-flex h-20 w-20">
+      <a key="github" href="https://github.com/faluciano" className="mr-4 inline-flex h-20 w-20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="64"
@@ -176,7 +176,7 @@ export const LinkedinLogo = (): Logos => {
   return {
     social: true,
     jsx: (
-      <a href="https://www.linkedin.com/in/felix-luciano-salomon-6266021b6/" className="mr-4 inline-flex h-20 w-20">
+      <a key="linkedin" href="https://www.linkedin.com/in/felix-luciano-salomon-6266021b6/" className="mr-4 inline-flex h-20 w-20">
         <svg
           height="64"
           width="64"
@@ -203,7 +203,7 @@ export const TailwindLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://tailwindcss.com/" className="mr-4 inline-flex h-20 w-20">
+      <a key="tailwind" href="https://tailwindcss.com/" className="mr-4 inline-flex h-20 w-20">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
           <defs>
             <linearGradient
@@ -233,7 +233,7 @@ export const CppLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://www.cplusplus.com/" className="mr-4 inline-flex h-20 w-20">
+      <a key="cpp" href="https://www.cplusplus.com/" className="mr-4 inline-flex h-20 w-20">
         <svg
           xmlns="http://www.w</a>3.org/2000/svg"
           width="64"
@@ -275,7 +275,7 @@ export const NextjsLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://nextjs.org/" className="mr-4 inline-flex h-20 w-20">
+      <a key= "nextjs" href="https://nextjs.org/" className="mr-4 inline-flex h-20 w-20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="64"
@@ -294,7 +294,7 @@ export const FlaskLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://flask.palletsprojects.com/" className="mr-4 inline-flex h-20 w-20">
+      <a key="flask" href="https://flask.palletsprojects.com/" className="mr-4 inline-flex h-20 w-20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="64"
@@ -313,7 +313,7 @@ export const MysqlLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://www.mysql.com/" className="mr-4 inline-flex h-20 w-20"> 
+      <a key="mysql" href="https://www.mysql.com/" className="mr-4 inline-flex h-20 w-20"> 
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="64"
@@ -336,7 +336,7 @@ export const ExpoLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://expo.dev/" className="mr-4 inline-flex h-20 w-20">
+      <a key="expo" href="https://expo.dev/" className="mr-4 inline-flex h-20 w-20">
         <svg
           width="64"
           height="64"
@@ -358,7 +358,7 @@ export const GoLogo = (): Logos => {
   return {
     social: false,
     jsx: (
-      <a href="https://golang.org/" className="mr-4 inline-flex h-20 w-20">
+      <a key="go" href="https://golang.org/" className="mr-4 inline-flex h-20 w-20">
         <svg xmlns="http://www.w3.org/2000/svg" 
           height="64" 
           viewBox="16.8 16.1 72.9 27.6" 
@@ -379,9 +379,9 @@ export const XLogo = (): Logos => {
   return {
     social: true,
     jsx: (
-      <a href="https://twitter.com/picapollo821" className="mr-4 inline-flex h-20 w-20">
+      <a key="x" href="https://twitter.com/picapollo821" className="mr-4 inline-flex h-20 w-20">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 48 48">
-        <path fill="#212121" fill-rule="evenodd" d="M38,42H10c-2.209,0-4-1.791-4-4V10c0-2.209,1.791-4,4-4h28	c2.209,0,4,1.791,4,4v28C42,40.209,40.209,42,38,42z" clip-rule="evenodd"></path>
+        <path fill="#212121" fillRule="evenodd" d="M38,42H10c-2.209,0-4-1.791-4-4V10c0-2.209,1.791-4,4-4h28	c2.209,0,4,1.791,4,4v28C42,40.209,40.209,42,38,42z" clipRule="evenodd"></path>
         <path fill="#fff" d="M34.257,34h-6.437L13.829,14h6.437L34.257,34z M28.587,32.304h2.563L19.499,15.696h-2.563 L28.587,32.304z"></path>
         <polygon fill="#fff" points="15.866,34 23.069,25.656 22.127,24.407 13.823,34"></polygon>
         <polygon fill="#fff" points="24.45,21.721 25.355,23.01 33.136,14 31.136,14"></polygon>
