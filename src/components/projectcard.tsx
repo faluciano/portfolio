@@ -1,8 +1,15 @@
 import { Badge } from "./ui/badge";
 import * as colors from "public/github-lang-colors.json";
 
-const ProjectCard = ({ name, description, html_url, pushed_at, languages }: Project) => {
-  const color = (lang: string): string=>colors[lang as keyof typeof colors] || "grey";
+const ProjectCard = ({
+  name,
+  description,
+  html_url,
+  pushed_at,
+  languages,
+}: Project) => {
+  const color = (lang: string): string =>
+    colors[lang as keyof typeof colors] || "grey";
   return (
     <a
       href={html_url}
@@ -18,7 +25,10 @@ const ProjectCard = ({ name, description, html_url, pushed_at, languages }: Proj
         Last updated: {pushed_at}
       </p>
       {languages.map((lang) => (
-        <Badge key={lang.language} style={{ backgroundColor: color(lang.language) }}>
+        <Badge
+          key={lang.language}
+          style={{ backgroundColor: color(lang.language) }}
+        >
           {lang.language}
         </Badge>
       ))}

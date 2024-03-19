@@ -9,10 +9,13 @@ const requestProjects = async () => {
   return response.data;
 };
 
-const requestLanguages = async(repo: string, owner: string) => {
-  const response = await octokit.rest.repos.listLanguages({ owner: owner, repo: repo });
+const requestLanguages = async (repo: string, owner: string) => {
+  const response = await octokit.rest.repos.listLanguages({
+    owner: owner,
+    repo: repo,
+  });
   return response.data;
-}
+};
 
 const RepoSchema = z.object({
   id: z.number(),
@@ -30,23 +33,32 @@ const LanguageSchema = z.object({
   bytes: z.number(),
 });
 
-
 export const projectsRouter = createTRPCRouter({
   getProjects: publicProcedure.query(async () => {
-    const projects = await requestProjects() as unknown as Project[];
-    const validatedProjects = projects.map((project) => RepoSchema.parse(project)); 
-    return validatedProjects as unknown as Project[] || [];
+    const projects = (await requestProjects()) as unknown as Project[];
+    const validatedProjects = projects.map((project) =>
+      RepoSchema.parse(project)
+    );
+    return (validatedProjects as unknown as Project[]) || [];
   }),
 });
 
 export const languagesRouter = createTRPCRouter({
-  getLanguages: publicProcedure.input(z.object({
-    repo: z.string(),
-    owner: z.string(),
-  })).query(async (opts) => {
-    const languages = await requestLanguages(opts.input.repo, opts.input.owner);
-    const validatedLanguages = Object.keys(languages).map((language) => LanguageSchema.parse({ language, bytes: languages[language] }));
-    return validatedLanguages as Language[] || [];
-  }),
+  getLanguages: publicProcedure
+    .input(
+      z.object({
+        repo: z.string(),
+        owner: z.string(),
+      })
+    )
+    .query(async (opts) => {
+      const languages = await requestLanguages(
+        opts.input.repo,
+        opts.input.owner
+      );
+      const validatedLanguages = Object.keys(languages).map((language) =>
+        LanguageSchema.parse({ language, bytes: languages[language] })
+      );
+      return (validatedLanguages as Language[]) || [];
+    }),
 });
-

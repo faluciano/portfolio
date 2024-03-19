@@ -3,16 +3,18 @@ import ProjectCard from "./projectcard";
 import { api } from "~/utils/api";
 
 const Projects = ({ projects }: { projects: Project[] }) => {
-
   const processLanguages = (project: Project) => {
-    const { data, error } = api.languages.getLanguages.useQuery({ owner: project.owner.login, repo: project.name }, {
-      refetchOnWindowFocus: false
-    });
+    const { data, error } = api.languages.getLanguages.useQuery(
+      { owner: project.owner.login, repo: project.name },
+      {
+        refetchOnWindowFocus: false,
+      }
+    );
     if (error) {
       return [] as Language[];
     }
-    return data as Language[] || [] as Language[];
-  }
+    return (data as Language[]) || ([] as Language[]);
+  };
 
   return (
     <>

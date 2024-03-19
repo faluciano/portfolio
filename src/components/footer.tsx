@@ -2,10 +2,10 @@ import * as logos from "./images/logos";
 
 const Footer = () => {
   return (
-    <div className="p-5 text-center items-center">
+    <div className="items-center p-5 text-center">
       {Object.keys(logos).map((logo) => {
         const Logo = logos[logo as keyof typeof logos]();
-        return Logo.social ? (Logo.jsx) : null;
+        return Logo.social ? Logo.jsx : null;
       })}
     </div>
   );

@@ -10,10 +10,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <>
       <Head>
         <title>Felix Luciano Portfolio</title>
-        <meta
-          name="description"
-          content="My personal portfolio website"
-        />
+        <meta name="description" content="My personal portfolio website" />
       </Head>
       <HeadNav />
       <Component {...pageProps} />
