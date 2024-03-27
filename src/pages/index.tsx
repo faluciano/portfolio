@@ -42,7 +42,7 @@ const Home: NextPage = () => {
     <div>
       <HomeContent />
       <Skills />
-      <Projects projects={cachedProjects} />
+      {cachedProjects.length > 0 && <Projects projects={cachedProjects} />}
       <Contact />
     </div>
   );
@@ -90,11 +90,14 @@ const HomeContent = () => {
       </div>
       <div className="col-span-12 sm:col-span-5">
         <Image
+          priority={true}
           src={Me}
           alt="My Picture"
           className="rounded-lg"
-          width={500}
-          height={500}
+          style={{
+            width: "auto",
+            height: 500,
+          }}
         />
       </div>
     </div>
