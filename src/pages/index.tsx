@@ -96,7 +96,7 @@ const HomeContent = () => {
           className="rounded-lg"
           style={{
             width: "auto",
-            height: 500,
+            height: "auto",
           }}
         />
       </div>
