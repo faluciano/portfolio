@@ -1,21 +1,7 @@
 import { Fade } from "react-awesome-reveal";
 import ProjectCard from "./projectcard";
-import { api } from "~/utils/api";
 
 const Projects = ({ projects }: { projects: Project[] }) => {
-  const processLanguages = (project: Project) => {
-    const { data, error } = api.languages.getLanguages.useQuery(
-      { owner: project.owner.login, repo: project.name },
-      {
-        refetchOnWindowFocus: false,
-      }
-    );
-    if (error) {
-      return [] as Language[];
-    }
-    return (data as Language[]) || ([] as Language[]);
-  };
-
   return (
     <>
       <div
@@ -24,23 +10,22 @@ const Projects = ({ projects }: { projects: Project[] }) => {
       >
         Projects
       </div>
-      {projects.map((project: Project) => {
-        const languages = processLanguages(project);
-        return (
-          <div key={project.name} className="m-4 inline-flex">
-            <Fade>
+      <div className="flex flex-wrap justify-center gap-4 px-4">
+        {projects.map((project: Project) => (
+          <Fade key={project.name}>
+            <div className="w-full max-w-sm sm:w-[400px]">
               <ProjectCard
                 name={project.name}
                 description={project.description}
                 html_url={project.html_url}
                 pushed_at={project.pushed_at}
-                languages={languages.sort((a, b) => b.bytes - a.bytes)}
+                languages={project.languages.sort((a, b) => b.bytes - a.bytes)}
                 owner={project.owner}
               />
-            </Fade>
-          </div>
-        );
-      })}
+            </div>
+          </Fade>
+        ))}
+      </div>
     </>
   );
 };

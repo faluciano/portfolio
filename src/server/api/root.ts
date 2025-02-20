@@ -1,6 +1,5 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { exampleRouter } from "~/server/api/routers/example";
-import { languagesRouter, projectsRouter } from "~/server/api/routers/github";
+import { githubRouter } from "~/server/api/routers/github";
 
 /**
  * This is the primary router for your server.
@@ -8,9 +7,7 @@ import { languagesRouter, projectsRouter } from "~/server/api/routers/github";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
-  projects: projectsRouter,
-  languages: languagesRouter,
+  github: githubRouter,
 });
 
 // export type definition of API
