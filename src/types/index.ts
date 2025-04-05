@@ -1,9 +1,9 @@
-type Language = {
+export interface Language {
   language: string;
   bytes: number;
-};
+}
 
-interface Project {
+export interface Project {
   id: number;
   name: string;
   description: string | null;
@@ -12,14 +12,8 @@ interface Project {
   owner: {
     login: string;
   };
-  languages: {
-    language: string;
-    bytes: number;
-  }[];
+  languages: Language[];
   stargazers_count: number;
   fork: boolean;
-  topics: string[];
   homepage: string | null;
-}
-
-export type { Project };
+} 

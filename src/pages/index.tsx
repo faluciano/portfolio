@@ -11,33 +11,37 @@ import { useMemo } from "react";
 import { byDate } from "~/utils/orders";
 
 const Home: NextPage = () => {
-  const { data, error } = api.github.getProjectsWithLanguages.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-    staleTime: 60 * 60 * 1000, // Consider data fresh for 1 hour
-  });
+  const { data, error, isLoading } = api.github.getProjectsWithLanguages.useQuery(
+    undefined,
+    {
+      staleTime: 60 * 60 * 1000, // Consider data fresh for 1 hour
+    }
+  );
 
-  const cachedProjects: Project[] = useMemo(() => {
-    if (error) {
+  const cachedProjects = useMemo(() => {
+    if (error || !data) {
       return [];
     }
 
-    return (data as Project[])
-      ?.map(project => ({
+    return data
+      .map(project => ({
         ...project,
-        description: project.description || "",
+        description: project.description ?? "",
       }))
       .sort(byDate)
       .map(project => ({
         ...project,
         pushed_at: timeAgo(project.pushed_at),
-      })) || [];
+      }));
   }, [data, error]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <HomeContent />
       <Skills />
-      {cachedProjects.length > 0 && <Projects projects={cachedProjects} />}
+      {!isLoading && cachedProjects.length > 0 && (
+        <Projects projects={cachedProjects} />
+      )}
       <Contact />
     </div>
   );
