@@ -19,9 +19,10 @@ const Home: NextPage = () => {
   );
 
   const cachedProjects = useMemo(() => {
-    if (error || !data) {
-      return [];
-    }
+    // Handle loading and error states
+    if (isLoading) return [];
+    if (error) return [];
+    if (!data) return [];
 
     return data
       .map(project => ({
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
         ...project,
         pushed_at: timeAgo(project.pushed_at),
       }));
-  }, [data, error]);
+  }, [data, error, isLoading]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800">

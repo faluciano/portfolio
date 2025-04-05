@@ -23,17 +23,16 @@ const config = {
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: path.join(__dirname, "tsconfig.json"),
+    project: true,
   },
   plugins: ["@typescript-eslint"],
   extends: [
     "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
   ],
   rules: {
+    "@typescript-eslint/prefer-nullish-coalescing": ["off"],
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {
@@ -54,7 +53,6 @@ const config = {
     "react/react-in-jsx-scope": "off", // Not needed in Next.js
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/ban-ts-comment": "warn",
-    "@typescript-eslint/prefer-nullish-coalescing": "warn",
     "@typescript-eslint/no-unnecessary-condition": "warn",
   },
   settings: {
@@ -62,6 +60,7 @@ const config = {
       rootDir: __dirname,
     },
   },
+  ignorePatterns: [".eslintrc.cjs", "*.config.js", "*.config.cjs"],
 };
 
 module.exports = config;
