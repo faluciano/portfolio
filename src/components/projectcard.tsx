@@ -1,5 +1,6 @@
 import { Badge } from "./ui/badge";
 import * as colors from "public/github-lang-colors.json";
+import { FaGithub } from "react-icons/fa";
 
 const ProjectCard = ({
   name,
@@ -10,28 +11,40 @@ const ProjectCard = ({
 }: Project) => {
   const color = (lang: string): string =>
     colors[lang as keyof typeof colors] || "grey";
+
   return (
     <a
       href={html_url}
-      className="block w-96 rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:border-teal-500 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800"
     >
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {name}
-      </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">
+      <div className="mb-4 flex items-center justify-between">
+        <h5 className="text-2xl font-bold tracking-tight text-gray-900 transition-colors group-hover:text-teal-500 dark:text-white dark:group-hover:text-teal-400">
+          {name}
+        </h5>
+        <FaGithub className="h-6 w-6 text-gray-500 transition-colors group-hover:text-teal-500 dark:text-gray-400 dark:group-hover:text-teal-400" />
+      </div>
+      
+      <p className="mb-4 font-normal text-gray-700 dark:text-gray-400">
         {description}
       </p>
-      <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
+      
+      <div className="mb-4 flex flex-wrap gap-2">
+        {languages.map((lang) => (
+          <Badge
+            key={lang.language}
+            style={{ backgroundColor: color(lang.language) }}
+            className="transition-transform group-hover:scale-105"
+          >
+            {lang.language}
+          </Badge>
+        ))}
+      </div>
+      
+      <p className="text-sm text-gray-500 dark:text-gray-300">
         Last updated: {pushed_at}
       </p>
-      {languages.map((lang) => (
-        <Badge
-          key={lang.language}
-          style={{ backgroundColor: color(lang.language) }}
-        >
-          {lang.language}
-        </Badge>
-      ))}
     </a>
   );
 };

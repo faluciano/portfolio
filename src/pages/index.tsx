@@ -34,7 +34,7 @@ const Home: NextPage = () => {
   }, [data, error]);
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <HomeContent />
       <Skills />
       {cachedProjects.length > 0 && <Projects projects={cachedProjects} />}
@@ -47,53 +47,63 @@ const HomeContent = () => {
   return (
     <div
       id="about"
-      className="mx-auto grid grid-cols-12 gap-5 p-11 text-black dark:text-white"
+      className="container mx-auto flex min-h-[calc(100vh-4rem)] items-center px-4 py-16 sm:px-6 lg:px-8"
     >
-      <div className="col-span-12 rounded-lg p-8 text-left align-top sm:col-span-7">
-        <Fade triggerOnce={true}>
-          <div className="text-6xl">Hi, I&apos;m Felix</div>
-        </Fade>
-        <Fade duration={3000}>
-          <div className="mt-2 text-xl dark:text-gray-400">
-            Software Engineer
-          </div>
-        </Fade>
-        <Fade duration={7000}>
-          <div className="ml-5 text-xl">
-            <p>
-              Hi, my name is Felix and I&apos;m a passionate Software Engineer
-              with a love for solving complex problems and building cool ideas.
-              I enjoy building fullstack web apps, mobile apps as well as
-              automation scripts to simplify day to day tasks.
-            </p>
-            <p className="mt-6">
-              Outside of my carrer I enjoy music and play the bass! I also enjoy
-              boardgames and videogames as well as creating small projects with
-              microcontrollers.
-            </p>
-            <p className="mt-6">
-              Feel free to look around my portfolio which was built with Next.js
-              and Tailwind!
-            </p>
-          </div>
-        </Fade>
-        <a href="Felix 2024 Resume.pdf" download="Felix-Luciano.pdf">
-          <button className="mt-5 h-10 rounded-lg bg-teal-500 px-5 dark:bg-teal-900">
-            CV
-          </button>
-        </a>
-      </div>
-      <div className="col-span-12 sm:col-span-5">
-        <Image
-          priority={true}
-          src={Me}
-          alt="My Picture"
-          className="rounded-lg"
-          style={{
-            width: "auto",
-            height: "auto",
-          }}
-        />
+      <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div className="order-2 flex flex-col justify-center space-y-8 lg:order-1">
+          <Fade triggerOnce={true} cascade damping={0.1}>
+            <div>
+              <h1 className="text-5xl font-bold tracking-tight text-black dark:text-white sm:text-6xl">
+                Hi, I&apos;m Felix
+              </h1>
+              <h2 className="mt-4 text-3xl font-semibold text-teal-500 dark:text-teal-400 sm:text-4xl">
+                Software Engineer
+              </h2>
+            </div>
+            <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300 sm:text-xl">
+              <p className="leading-relaxed">
+                I&apos;m a passionate Software Engineer with a love for solving complex problems and building innovative solutions. 
+                I specialize in fullstack web development, mobile apps, and automation.
+              </p>
+              <p className="leading-relaxed">
+                When I&apos;m not coding, you can find me playing bass, enjoying board games, or tinkering with microcontrollers.
+              </p>
+              <p className="leading-relaxed">
+                This portfolio was built with Next.js and Tailwind CSS to showcase my work and skills.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="Felix 2024 Resume.pdf"
+                download="Felix-Luciano.pdf"
+                className="inline-flex items-center rounded-lg bg-teal-500 px-6 py-3 text-lg font-semibold text-white transition-all hover:bg-teal-600 dark:bg-teal-900 dark:hover:bg-teal-800"
+              >
+                Download CV
+              </a>
+              <a
+                href="#projects"
+                className="inline-flex items-center rounded-lg border-2 border-teal-500 px-6 py-3 text-lg font-semibold text-teal-500 transition-all hover:bg-teal-500 hover:text-white dark:border-teal-400 dark:text-teal-400 dark:hover:bg-teal-900"
+              >
+                View Projects
+              </a>
+            </div>
+          </Fade>
+        </div>
+        
+        <div className="order-1 flex justify-center lg:order-2">
+          <Fade triggerOnce={true} delay={500}>
+            <div className="relative h-[600px] w-[450px] overflow-hidden rounded-2xl shadow-2xl sm:h-[700px] sm:w-[525px] lg:h-[800px] lg:w-[600px]">
+              <Image
+                priority={true}
+                src={Me}
+                alt="My Picture"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 450px, (max-width: 1200px) 525px, 600px"
+              />
+            </div>
+          </Fade>
+        </div>
       </div>
     </div>
   );
