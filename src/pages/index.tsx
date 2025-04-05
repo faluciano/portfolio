@@ -9,9 +9,10 @@ import { api } from "~/utils/api";
 import { timeAgo } from "~/utils/timeago";
 import { useMemo } from "react";
 import { byDate } from "~/utils/orders";
+import { LoadingScreen } from "~/components/ui/loading-spinner";
 
 const Home: NextPage = () => {
-  const { data, error, isLoading } = api.github.getProjectsWithLanguages.useQuery(
+  const { data, error, isLoading, isFetching } = api.github.getProjectsWithLanguages.useQuery(
     undefined,
     {
       staleTime: 60 * 60 * 1000, // Consider data fresh for 1 hour
@@ -19,8 +20,6 @@ const Home: NextPage = () => {
   );
 
   const cachedProjects = useMemo(() => {
-    // Handle loading and error states
-    if (isLoading) return [];
     if (error) return [];
     if (!data) return [];
 
@@ -34,15 +33,36 @@ const Home: NextPage = () => {
         ...project,
         pushed_at: timeAgo(project.pushed_at),
       }));
-  }, [data, error, isLoading]);
+  }, [data, error]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <HomeContent />
       <Skills />
-      {!isLoading && cachedProjects.length > 0 && (
-        <Projects projects={cachedProjects} />
-      )}
+      <div id="projects" className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+        {isLoading ? (
+          <LoadingScreen />
+        ) : error ? (
+          <div className="flex min-h-[200px] items-center justify-center">
+            <p className="text-sm text-red-500 dark:text-red-400">
+              Error loading projects
+            </p>
+          </div>
+        ) : !data?.length ? (
+          <div className="flex min-h-[200px] items-center justify-center">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              No projects found
+            </p>
+          </div>
+        ) : (
+          <Projects projects={cachedProjects} />
+        )}
+        {isFetching && !isLoading && (
+          <div className="mt-4 text-center text-sm text-gray-500">
+            Refreshing projects...
+          </div>
+        )}
+      </div>
       <Contact />
     </div>
   );
