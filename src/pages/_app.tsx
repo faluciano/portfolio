@@ -1,5 +1,5 @@
 import { type AppType } from "next/app";
-import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Head from "next/head";
@@ -30,7 +30,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       </Head>
       <HeadNav />
       <Component {...pageProps} />
-      <Analytics />
+      <SpeedInsights />
     </>
   );
 };
