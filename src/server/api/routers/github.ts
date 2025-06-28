@@ -26,9 +26,9 @@ const ensureCacheDir = async () => {
   }
 };
 
-ensureCacheDir();
+void ensureCacheDir();
 
-const getFromCache = async (key: string): Promise<unknown | null> => {
+const getFromCache = async <T>(key: string, schema: z.ZodType<T>): Promise<T | null> => {
   const cacheFile = path.join(CACHE_DIR, `${key}.json`);
   try {
     const stats = await fs.stat(cacheFile);
@@ -36,7 +36,13 @@ const getFromCache = async (key: string): Promise<unknown | null> => {
       return null; // Cache expired
     }
     const data = await fs.readFile(cacheFile, "utf-8");
-    return JSON.parse(data);
+    const parsedData = schema.safeParse(JSON.parse(data));
+    if (parsedData.success) {
+      return parsedData.data;
+    } else {
+      console.error(`Failed to parse cached data for ${key}:`, parsedData.error);
+      return null;
+    }
   } catch (error) {
     return null; // Not found or other error
   }
@@ -71,13 +77,15 @@ const RepoSchema = z.object({
   homepage: z.string().nullable(),
 });
 
-const ReposSchema = z.array(RepoSchema);
-
 type RepoType = z.infer<typeof RepoSchema>;
 
+const ReposSchema = z.array(RepoSchema);
+
 const requestProjects = async (): Promise<RepoType[]> => {
-  const cached = await getFromCache('projects');
-  if (cached) return cached as RepoType[];
+  const cached = await getFromCache('projects', ReposSchema);
+  if (cached) {
+    return cached;
+  }
 
   try {
     // Get authenticated user's information
@@ -91,7 +99,7 @@ const requestProjects = async (): Promise<RepoType[]> => {
       sort: 'pushed',
       per_page: 100,
     });
-    const ownedRepos = z.array(RepoSchema).safeParse(ownedResponse.data);
+    const ownedRepos = ReposSchema.safeParse(ownedResponse.data);
     if (!ownedRepos.success) throw new Error('Failed to validate owned repos');
 
     // Fetch repositories user has contributed to
@@ -100,14 +108,14 @@ const requestProjects = async (): Promise<RepoType[]> => {
       sort: 'updated',
       per_page: 100,
     });
-    const contributedRepos = z.object({ items: z.array(RepoSchema) }).safeParse(contributedResponse.data);
+    const contributedRepos = z.object({ items: ReposSchema }).safeParse(contributedResponse.data);
     if (!contributedRepos.success) throw new Error('Failed to validate contributed repos');
 
     // Fetch starred repositories
     const starredResponse = await octokit.rest.activity.listReposStarredByAuthenticatedUser({
       per_page: 100,
     });
-    const starredRepos = z.array(RepoSchema).safeParse(starredResponse.data);
+    const starredRepos = ReposSchema.safeParse(starredResponse.data);
     if (!starredRepos.success) throw new Error('Failed to validate starred repos');
 
     // Combine all repositories and remove duplicates
@@ -146,7 +154,7 @@ const requestProjects = async (): Promise<RepoType[]> => {
       homepage: repo.homepage,
     }));
 
-    setCache('projects', enrichedRepos);
+    void setCache('projects', enrichedRepos);
     return enrichedRepos;
   } catch (error) {
     console.error('Error fetching projects:', error);
@@ -160,10 +168,10 @@ const requestLanguages = async (repos: {repo: string, owner: string}[]): Promise
   await Promise.all(
     repos.map(async ({repo, owner}) => {
       const cacheKey = `lang_${owner}_${repo}`;
-      const cached = await getFromCache(cacheKey);
+      const cached = await getFromCache(cacheKey, z.record(z.string(), z.number()));
       
       if (cached) {
-        results[repo] = cached as Record<string, number>;
+        results[repo] = cached;
         return;
       }
 
@@ -181,7 +189,7 @@ const requestLanguages = async (repos: {repo: string, owner: string}[]): Promise
         }
         
         results[repo] = parsedData.data;
-        setCache(cacheKey, results[repo]);
+        void setCache(cacheKey, results[repo]);
       } catch (error) {
         console.error(`Error fetching languages for ${repo}:`, error);
         results[repo] = {};
