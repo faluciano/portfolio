@@ -8,6 +8,8 @@ import superjson from "superjson";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Head from "next/head";
 import HeadNav from "~/components/headnav";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const [trpcClient] = useState(() =>
@@ -46,8 +48,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <Component {...pageProps} />
         <SpeedInsights />
       </QueryClientProvider>
-    </api.Provider>
-  );
+    </api.Provider>  );
 };
 
 export default MyApp;

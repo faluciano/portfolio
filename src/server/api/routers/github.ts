@@ -2,6 +2,8 @@ import { z } from "zod";
 import { Octokit } from "@octokit/rest";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import type { Project, Language } from "~/types";
+import fs from "fs/promises";
+import path from "path";
 
 if (!process.env.GITHUB_TOKEN) {
   throw new Error("GITHUB_TOKEN is not set");
@@ -12,26 +14,41 @@ const octokit = new Octokit({
 });
 
 // Cache responses for 1 hour
-const cache = new Map<string, {data: unknown, timestamp: number}>();
+const CACHE_DIR = path.resolve(".cache");
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour in milliseconds
 
-const getFromCache = (key: string) => {
-  const cached = cache.get(key);
-  if (!cached) return null;
-  
-  if (Date.now() - cached.timestamp > CACHE_TTL) {
-    cache.delete(key);
-    return null;
+// Ensure the cache directory exists
+const ensureCacheDir = async () => {
+  try {
+    await fs.mkdir(CACHE_DIR, { recursive: true });
+  } catch (error) {
+    console.error("Failed to create cache directory:", error);
   }
-  
-  return cached.data;
 };
 
-const setCache = (key: string, data: unknown) => {
-  cache.set(key, {
-    data,
-    timestamp: Date.now()
-  });
+ensureCacheDir();
+
+const getFromCache = async (key: string): Promise<unknown | null> => {
+  const cacheFile = path.join(CACHE_DIR, `${key}.json`);
+  try {
+    const stats = await fs.stat(cacheFile);
+    if (Date.now() - stats.mtime.getTime() > CACHE_TTL) {
+      return null; // Cache expired
+    }
+    const data = await fs.readFile(cacheFile, "utf-8");
+    return JSON.parse(data);
+  } catch (error) {
+    return null; // Not found or other error
+  }
+};
+
+const setCache = async (key: string, data: unknown) => {
+  const cacheFile = path.join(CACHE_DIR, `${key}.json`);
+  try {
+    await fs.writeFile(cacheFile, JSON.stringify(data), "utf-8");
+  } catch (error) {
+    console.error(`Failed to write to cache file ${key}.json:`, error);
+  }
 };
 
 // Schema for validating GitHub API responses
@@ -54,10 +71,12 @@ const RepoSchema = z.object({
   homepage: z.string().nullable(),
 });
 
+const ReposSchema = z.array(RepoSchema);
+
 type RepoType = z.infer<typeof RepoSchema>;
 
 const requestProjects = async (): Promise<RepoType[]> => {
-  const cached = getFromCache('projects');
+  const cached = await getFromCache('projects');
   if (cached) return cached as RepoType[];
 
   try {
@@ -141,7 +160,7 @@ const requestLanguages = async (repos: {repo: string, owner: string}[]): Promise
   await Promise.all(
     repos.map(async ({repo, owner}) => {
       const cacheKey = `lang_${owner}_${repo}`;
-      const cached = getFromCache(cacheKey);
+      const cached = await getFromCache(cacheKey);
       
       if (cached) {
         results[repo] = cached as Record<string, number>;
