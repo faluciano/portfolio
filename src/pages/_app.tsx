@@ -10,6 +10,7 @@ import Head from "next/head";
 import HeadNav from "~/components/headnav";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import Footer from "~/components/footer";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const [trpcClient] = useState(() =>
@@ -35,6 +36,8 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             content="Felix Luciano - Software Engineer Portfolio"
           />
           <title>Felix Luciano - Portfolio</title>
+          <meta property="og:site_name" content="Felix Luciano" />
+          <link rel="canonical" href="https://felixluciano.dev" />
           <meta
             name="keywords"
             content="Felix Luciano, Felix Luciano Salomon, Felix Luciano Portfolio, Felix Luciano Salomon Portfolio, Felix Luciano Resume, Felix Luciano Salomon Resume, Felix Luciano Projects, Felix Luciano Salomon Projects, Felix Luciano Skills, Felix Luciano Salomon Skills, Felix Luciano Contact, Felix Luciano Salomon Contact, Felix Luciano Software Engineer, Felix Luciano Salomon Software Engineer, Felix Luciano Developer, Felix Luciano Salomon Developer, Felix Luciano Full Stack Developer, Felix Luciano Salomon Full Stack Developer, Felix Luciano Frontend Developer, Felix Luciano Salomon Frontend Developer, Felix Luciano Backend Developer, Felix Luciano Salomon Backend Developer, Felix Luciano Web Developer, Felix Luciano Salomon Web Developer, Felix Luciano JavaScript Developer, Felix Luciano Salomon JavaScript Developer, Felix Luciano TypeScript Developer, Felix Luciano Salomon TypeScript Developer, Felix Luciano Python Developer, Felix Luciano Salomon Python Developer, Felix Luciano Java Developer, Felix Luciano Salomon Java Developer, Felix Luciano C++ Developer, Felix Luciano Salomon C++ Developer, Felix Luciano Go Developer, Felix Luciano Salomon Go Developer, Felix Software, Felix Developer, Felix Full Stack Developer, Felix Frontend Developer, Felix Backend Developer, Felix Web Developer, Felix JavaScript Developer, Felix TypeScript Developer, Felix Python Developer, Felix Java Developer, Felix C++ Developer, Felix Go Developer, Felix Luciano Salomon NJIT, Felix Luciano Salomon New Jersey Institute of Technology, Felix NJIT, Felix New Jersey Institute of Technology, Felix Luciano NJIT, Felix Luciano Salomon NJI, Felix AWS, Felix Luciano AWS, Felix Luciano Salomon AWS"
@@ -47,6 +50,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <main className={`${GeistSans.variable} ${GeistMono.variable}`}>
           <HeadNav />
           <Component {...pageProps} />
+          <Footer />
           <SpeedInsights />
         </main>
       </QueryClientProvider>

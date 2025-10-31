@@ -4,8 +4,8 @@
 
 @layer base {
     html{
-        @apply bg-gradient-to-r from-slate-900 to-slate-700;
-        @apply text-white;
-        @apply font-sans;
+        @apply font-sans antialiased;
+        @apply bg-white text-gray-900;
+        @apply dark:bg-gray-900 dark:text-white;
     };
 }
