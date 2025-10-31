@@ -45,7 +45,7 @@ const Home: NextPage = () => {
         <meta property="og:description" content="Full‑stack engineer. Next.js, TypeScript, automation. Open to work." />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/Me.jpeg" />
-        <meta property="og:url" content="https://felixluciano.dev" />
+        <meta property="og:url" content="https://faluciano.com" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Felix Luciano — Software Engineer" />
         <meta name="twitter:description" content="Full‑stack engineer. Next.js, TypeScript, automation. Open to work." />
@@ -57,7 +57,7 @@ const Home: NextPage = () => {
               "@type": "Person",
               name: "Felix Luciano",
               jobTitle: "Software Engineer",
-              url: "https://felixluciano.dev",
+              url: "https://faluciano.com",
               sameAs: [
                 "https://github.com/faluciano",
                 "https://www.linkedin.com/in/felixluciano"
