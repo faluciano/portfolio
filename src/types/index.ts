@@ -9,6 +9,7 @@ export interface Project {
   description: string | null;
   html_url: string;
   pushed_at: string;
+  created_at: string;
   owner: {
     login: string;
   };
@@ -16,4 +17,4 @@ export interface Project {
   stargazers_count: number;
   fork: boolean;
   homepage: string | null;
-} 
+}

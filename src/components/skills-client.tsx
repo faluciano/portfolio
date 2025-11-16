@@ -1,16 +1,38 @@
-import { useMemo } from "react";
+"use client";
+
+import { useMemo, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { api } from "~/utils/api";
 import { LOGO_URLS } from "~/constants/logo-urls";
 import { motion } from "framer-motion";
 import type { Project } from "~/types";
 
-interface SkillsProps {
-  onSkillClick: (tech: string) => void;
+interface SkillsClientProps {
+  initialData: Project[];
+  onSkillClick?: (tech: string) => void;
 }
 
-const Skills = ({ onSkillClick }: SkillsProps) => {
+const SkillsClient = ({ initialData, onSkillClick }: SkillsClientProps) => {
+  const router = useRouter();
+  
+  const handleSkillClick = useCallback((tech: string) => {
+    // Navigate to homepage with tech filter
+    router.push(`/?tech=${encodeURIComponent(tech)}`);
+    
+    // Smooth scroll to projects section
+    setTimeout(() => {
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+    
+    // Call optional callback
+    onSkillClick?.(tech);
+  }, [router, onSkillClick]);
   const { data } = api.github.getProjectsWithLanguages.useQuery(undefined, {
     staleTime: 60 * 60 * 1000,
+    initialData,
   });
 
   const aggregatedLanguages = useMemo(() => {
@@ -30,6 +52,7 @@ const Skills = ({ onSkillClick }: SkillsProps) => {
 
   return (
     <motion.section
+      id="skills"
       aria-labelledby="skills-heading"
       className="border-y border-gray-200/70 bg-white/60 py-12 dark:border-gray-800/70 dark:bg-gray-900/60 sm:py-16 md:py-20"
       initial={{ opacity: 0, y: 20 }}
@@ -77,9 +100,9 @@ const Skills = ({ onSkillClick }: SkillsProps) => {
                   {src ? (
                     <motion.button
                       type="button"
-                      onClick={() => onSkillClick(lang.language)}
+                      onClick={() => handleSkillClick(lang.language)}
                       aria-label={`Filter projects by ${lang.language}`}
-                      className="flex h-16 w-16 items-center justify-center rounded-xl bg-white/50 p-2.5 shadow-sm backdrop-blur-sm transition-colors hover:bg-white/70 hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 dark:bg-gray-800/50 dark:hover:bg-gray-800/70 dark:hover:ring-primary-400 sm:h-20 sm:w-20 sm:p-3"
+                      className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-transparent bg-white/50 p-2.5 shadow-sm backdrop-blur-sm transition-all hover:border-primary-500 hover:bg-white/70 dark:bg-gray-800/50 dark:hover:border-primary-400 dark:hover:bg-gray-800/70 sm:h-20 sm:w-20 sm:p-3"
                       whileHover={{
                         scale: 1.15,
                         rotate: [0, -5, 5, -5, 0],
@@ -99,14 +122,14 @@ const Skills = ({ onSkillClick }: SkillsProps) => {
                   ) : (
                     <motion.button
                       type="button"
-                      onClick={() => onSkillClick(lang.language)}
+                      onClick={() => handleSkillClick(lang.language)}
                       className="flex h-16 w-16 items-center justify-center sm:h-20 sm:w-20"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                       aria-label={`Filter projects by ${lang.language}`}
                     >
                       <span
-                        className="rounded-xl border border-gray-200 bg-white/50 px-3 py-1.5 text-xs font-semibold text-gray-700 shadow-sm backdrop-blur-sm transition-colors hover:bg-white/70 hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-200 dark:hover:bg-gray-800/70 dark:hover:ring-primary-400 sm:px-4 sm:py-2"
+                        className="rounded-xl border-2 border-gray-200 bg-white/50 px-3 py-1.5 text-xs font-semibold text-gray-700 shadow-sm backdrop-blur-sm transition-all hover:border-primary-500 hover:bg-white/70 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-200 dark:hover:border-primary-400 dark:hover:bg-gray-800/70 sm:px-4 sm:py-2"
                         aria-hidden="true"
                       >
                         {lang.language}
@@ -126,4 +149,4 @@ const Skills = ({ onSkillClick }: SkillsProps) => {
   );
 };
 
-export default Skills;
+export default SkillsClient;

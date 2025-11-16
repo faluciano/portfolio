@@ -82,7 +82,7 @@ type RepoType = z.infer<typeof RepoSchema>;
 const ReposSchema = z.array(RepoSchema);
 
 const requestProjects = async (): Promise<RepoType[]> => {
-  const cached = await getFromCache('projects', ReposSchema);
+  const cached = await getFromCache("projects", ReposSchema);
   if (cached) {
     return cached;
   }
@@ -91,73 +91,37 @@ const requestProjects = async (): Promise<RepoType[]> => {
     // Get authenticated user's information
     const userResponse = await octokit.rest.users.getAuthenticated();
     const user = UserSchema.safeParse(userResponse.data);
-    if (!user.success) throw new Error('Failed to validate user data');
+    if (!user.success) throw new Error("Failed to validate user data");
 
-    // Fetch owned repositories
+    // Fetch owned repositories only (leaner, focuses on your work)
     const ownedResponse = await octokit.rest.repos.listForAuthenticatedUser({
-      visibility: 'public',
-      sort: 'pushed',
+      visibility: "public",
+      sort: "pushed",
       per_page: 100,
     });
     const ownedRepos = ReposSchema.safeParse(ownedResponse.data);
-    if (!ownedRepos.success) throw new Error('Failed to validate owned repos');
+    if (!ownedRepos.success) throw new Error("Failed to validate owned repos");
 
-    // Fetch repositories user has contributed to
-    const contributedResponse = await octokit.rest.search.repos({
-      q: `user:${user.data.login} fork:true`,
-      sort: 'updated',
-      per_page: 100,
-    });
-    const contributedRepos = z.object({ items: ReposSchema }).safeParse(contributedResponse.data);
-    if (!contributedRepos.success) throw new Error('Failed to validate contributed repos');
-
-    // Fetch starred repositories
-    const starredResponse = await octokit.rest.activity.listReposStarredByAuthenticatedUser({
-      per_page: 100,
-    });
-    const starredRepos = ReposSchema.safeParse(starredResponse.data);
-    if (!starredRepos.success) throw new Error('Failed to validate starred repos');
-
-    // Combine all repositories and remove duplicates
-    const allRepos = [
-      ...ownedRepos.data,
-      ...contributedRepos.data.items,
-      ...starredRepos.data,
-    ].filter((repo) => {
-      // Include if:
-      // 1. User owns the repo, or
-      // 2. It's a fork that's been modified
-      return (
-        repo.owner.login === user.data.login ||
-        (repo.fork && repo.pushed_at !== repo.created_at)
+    // Filter and sort on the server for consistent ordering
+    const filteredRepos = ownedRepos.data
+      .filter((repo) => !repo.fork)
+      .sort(
+        (a, b) =>
+          new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime(),
       );
-    });
 
-    // Remove duplicates while preserving order
-    const uniqueRepos = Array.from(
-      new Map(allRepos.map(repo => [repo.id, repo])).values()
-    );
-
-    // Create base repo objects with required fields
-    const enrichedRepos = uniqueRepos.map((repo) => ({
-      id: repo.id,
-      name: repo.name,
-      description: repo.description,
-      html_url: repo.html_url,
-      pushed_at: repo.pushed_at,
-      created_at: repo.created_at,
-      owner: {
-        login: repo.owner.login,
-      },
-      stargazers_count: repo.stargazers_count,
-      fork: repo.fork,
-      homepage: repo.homepage,
-    }));
-
-    void setCache('projects', enrichedRepos);
-    return enrichedRepos;
+    void setCache("projects", filteredRepos);
+    return filteredRepos;
   } catch (error) {
-    console.error('Error fetching projects:', error);
+    console.error("Error fetching projects:", error);
+
+    // If we hit an error (e.g. GitHub rate limiting), try to fall back to
+    // any stale cache instead of returning an empty list.
+    const stale = await getFromCache("projects", ReposSchema).catch(() => null);
+    if (stale) {
+      return stale;
+    }
+
     return [];
   }
 };

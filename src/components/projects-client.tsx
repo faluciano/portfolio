@@ -1,27 +1,31 @@
+"use client";
+
 import ProjectCard from "./projectcard";
 import FilterButton from "./filter-button";
 import { useState, useMemo, useCallback } from "react";
 import type { Project } from "~/types";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams, useRouter } from "next/navigation";
 
 type SortOption = "recent" | "stars" | "name";
 
-interface ProjectsProps {
-  projects: Project[];
-  selectedTech: string | null;
-  setSelectedTech: (tech: string | null) => void;
+interface ProjectsClientProps {
+  initialData: Project[];
 }
 
-const Projects = ({ projects, selectedTech, setSelectedTech }: ProjectsProps) => {
+const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const selectedTech = searchParams?.get("tech") ?? null;
   const [sortBy, setSortBy] = useState<SortOption>("recent");
 
   const handleClearFilter = useCallback(() => {
-    setSelectedTech(null);
-  }, [setSelectedTech]);
+    router.push("/");
+  }, [router]);
 
   const handleTechFilter = useCallback((tech: string) => {
-    setSelectedTech(tech);
-  }, [setSelectedTech]);
+    router.push(`/?tech=${encodeURIComponent(tech)}`);
+  }, [router]);
 
   const handleSortChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,18 +36,18 @@ const Projects = ({ projects, selectedTech, setSelectedTech }: ProjectsProps) =>
 
   const allTechnologies = useMemo(() => {
     const techs = new Set<string>();
-    projects.forEach((project) => {
+    initialData.forEach((project) => {
       project.languages.forEach((lang) => techs.add(lang.language));
     });
     return Array.from(techs).sort();
-  }, [projects]);
+  }, [initialData]);
 
   const filteredProjects = useMemo(() => {
     const filtered = selectedTech
-      ? projects.filter((project) =>
+      ? initialData.filter((project) =>
           project.languages.some((lang) => lang.language === selectedTech),
         )
-      : projects;
+      : initialData;
 
     return [...filtered].sort((a, b) => {
       switch (sortBy) {
@@ -58,10 +62,11 @@ const Projects = ({ projects, selectedTech, setSelectedTech }: ProjectsProps) =>
           );
       }
     });
-  }, [projects, selectedTech, sortBy]);
+  }, [initialData, selectedTech, sortBy]);
 
   return (
     <motion.section
+      id="projects"
       aria-labelledby="projects-heading"
       className="bg-gradient-to-b from-white to-gray-50 py-20 dark:from-gray-900 dark:to-gray-950"
       initial={{ opacity: 0, y: 20 }}
@@ -165,4 +170,4 @@ const Projects = ({ projects, selectedTech, setSelectedTech }: ProjectsProps) =>
   );
 };
 
-export default Projects;
+export default ProjectsClient;
