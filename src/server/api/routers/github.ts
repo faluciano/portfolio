@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Octokit } from "@octokit/rest";
+import { connection } from "next/server";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import type { Project, Language } from "~/types";
 import fs from "fs/promises";
@@ -176,6 +177,9 @@ const requestLanguages = async (repos: {repo: string, owner: string}[]): Promise
 // Export a single router with all procedures
 export const githubRouter = createTRPCRouter({
   getProjectsWithLanguages: publicProcedure.query(async () => {
+    // Mark this as dynamic - requires runtime data fetching
+    await connection();
+    
     const projects = await requestProjects();
     
     const languages = await requestLanguages(

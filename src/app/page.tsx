@@ -12,9 +12,6 @@ import { api } from "~/utils/api-server";
 export default function HomePage() {
   return (
     <>
-      <a href="#main-content" className="skip-to-main">
-        Skip to main content
-      </a>
       <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
         <HeadNav />
         <main id="main-content">

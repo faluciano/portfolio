@@ -24,24 +24,6 @@
     box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.2);
 }
 
-/* Skip to main content link */
-.skip-to-main {
-    position: absolute;
-    left: -9999px;
-    top: 1rem;
-    z-index: 999;
-    padding: 1rem 1.5rem;
-    background-color: #14b8a6;
-    color: white;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    font-weight: 600;
-}
-
-.skip-to-main:focus {
-    left: 1rem;
-}
-
 /* Smooth scroll behavior */
 html {
     scroll-behavior: smooth;
