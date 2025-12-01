@@ -15,7 +15,10 @@ const octokit = new Octokit({
 });
 
 // Cache responses for 1 hour
-const CACHE_DIR = path.resolve(".cache");
+const CACHE_DIR =
+  process.env.NODE_ENV === "production"
+    ? path.join("/tmp", ".cache")
+    : path.resolve(".cache");
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour in milliseconds
 
 // Ensure the cache directory exists
@@ -127,14 +130,14 @@ const requestProjects = async (): Promise<RepoType[]> => {
   }
 };
 
-const requestLanguages = async (repos: {repo: string, owner: string}[]): Promise<Record<string, Language[]>> => {
+const requestLanguages = async (repos: { repo: string, owner: string }[]): Promise<Record<string, Language[]>> => {
   const results: Record<string, Record<string, number>> = {};
-  
+
   await Promise.all(
-    repos.map(async ({repo, owner}) => {
+    repos.map(async ({ repo, owner }) => {
       const cacheKey = `lang_${owner}_${repo}`;
       const cached = await getFromCache(cacheKey, z.record(z.string(), z.number()));
-      
+
       if (cached) {
         results[repo] = cached;
         return;
@@ -145,14 +148,14 @@ const requestLanguages = async (repos: {repo: string, owner: string}[]): Promise
           owner,
           repo,
         });
-        
+
         const parsedData = z.record(z.string(), z.number()).safeParse(languageResponse.data);
         if (!parsedData.success) {
           console.error(`Failed to validate language data for ${repo}`);
           results[repo] = {};
           return;
         }
-        
+
         results[repo] = parsedData.data;
         void setCache(cacheKey, results[repo]);
       } catch (error) {
@@ -179,9 +182,9 @@ export const githubRouter = createTRPCRouter({
   getProjectsWithLanguages: publicProcedure.query(async () => {
     // Mark this as dynamic - requires runtime data fetching
     await connection();
-    
+
     const projects = await requestProjects();
-    
+
     const languages = await requestLanguages(
       projects.map((p) => ({
         repo: p.name,
