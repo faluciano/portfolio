@@ -8,6 +8,7 @@ import Footer from "~/components/footer";
 import { ProjectsGridSkeleton } from "~/components/ui/skeleton";
 import SkillsClient from "~/components/skills-client";
 import { api } from "~/utils/api-server";
+import DownloadCVButton from "~/components/download-cv-button";
 
 export default function HomePage() {
   return (
@@ -93,14 +94,10 @@ function HomeContent() {
             >
               View projects
             </a>
-            <a
-              href="resume.pdf"
-              download="Felix-Luciano.pdf"
+            <DownloadCVButton
+              location="homepage"
               className="inline-flex min-h-[44px] w-full items-center justify-center rounded-lg border-2 border-primary-600 px-6 py-3 text-sm font-semibold text-primary-700 shadow-sm transition-all hover:bg-primary-600 hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:border-primary-400 dark:text-primary-300 dark:hover:bg-primary-900 dark:focus:ring-offset-gray-900 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
-              aria-label="Download Felix's resume as a PDF"
-            >
-              Download CV
-            </a>
+            />
             <a
               href="#contact"
               className="inline-flex min-h-[44px] w-full items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold text-gray-700 underline-offset-4 transition-all hover:text-primary-600 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:text-gray-200 dark:hover:text-primary-400 dark:focus:ring-offset-gray-900 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
