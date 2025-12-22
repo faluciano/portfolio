@@ -43,7 +43,7 @@ function HomeContent() {
   return (
     <div
       id="about"
-      className="container mx-auto flex min-h-[calc(100vh-4rem)] items-center px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
+      className="scroll-snap-section container mx-auto flex items-center px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
     >
       <div className="grid w-full grid-cols-1 items-center gap-12 sm:gap-16 lg:grid-cols-2 lg:gap-20">
         <div className="order-2 flex flex-col justify-center space-y-6 sm:space-y-8 lg:order-1">
@@ -94,7 +94,7 @@ function HomeContent() {
               View projects
             </a>
             <a
-              href="Felix 2024 Resume.pdf"
+              href="resume.pdf"
               download="Felix-Luciano.pdf"
               className="inline-flex min-h-[44px] w-full items-center justify-center rounded-lg border-2 border-primary-600 px-6 py-3 text-sm font-semibold text-primary-700 shadow-sm transition-all hover:bg-primary-600 hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:border-primary-400 dark:text-primary-300 dark:hover:bg-primary-900 dark:focus:ring-offset-gray-900 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
               aria-label="Download Felix's resume as a PDF"

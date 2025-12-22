@@ -68,7 +68,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
     <motion.section
       id="projects"
       aria-labelledby="projects-heading"
-      className="bg-gradient-to-b from-white to-gray-50 py-20 dark:from-gray-900 dark:to-gray-950"
+      className="scroll-snap-section bg-gradient-to-b from-white to-gray-50 py-20 dark:from-gray-900 dark:to-gray-950 flex flex-col justify-center"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}

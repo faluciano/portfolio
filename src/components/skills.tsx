@@ -53,7 +53,7 @@ const Skills = ({ onSkillClick }: SkillsProps) => {
 
         <div className="mt-12 overflow-hidden sm:mt-14 md:mt-16" role="region" aria-label="Technology skills showcase">
           <motion.div
-            className="flex gap-8 animate-marquee-icons whitespace-nowrap sm:gap-10 md:gap-12"
+            className="flex gap-8 animate-marquee-icons whitespace-nowrap py-4 sm:gap-10 sm:py-6 md:gap-12"
             role="list"
             aria-label="Technologies and programming languages"
             style={{ willChange: "transform" }}

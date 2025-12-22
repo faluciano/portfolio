@@ -7,7 +7,7 @@ const Contact = memo(function Contact() {
   return (
     <motion.section
       id="contact"
-      className="container mx-auto px-4 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8"
+      className="scroll-snap-section container mx-auto px-4 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8 flex flex-col justify-center"
       aria-labelledby="contact-heading"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ const Contact = memo(function Contact() {
             LinkedIn Profile
           </motion.a>
           <motion.a
-            href="/Felix 2024 Resume.pdf"
+            href="/resume.pdf"
             download="Felix-Luciano.pdf"
             className="inline-flex min-h-[44px] w-full items-center justify-center rounded-lg border-2 border-primary-600 px-6 py-3 text-sm font-semibold text-primary-700 shadow-sm transition-all hover:bg-primary-600 hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:border-primary-400 dark:text-primary-300 dark:hover:bg-primary-900 dark:focus:ring-offset-gray-900 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
             aria-label="Download Felix's resume as a PDF"
