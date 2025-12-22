@@ -213,7 +213,7 @@ export const LinkedinLogo = (): Logos => {
     jsx: (
       <a
         key="linkedin"
-        href="https://www.linkedin.com/in/felix-luciano-salomon-6266021b6/"
+        href="https://www.linkedin.com/in/faluciano/"
         className="inline-flex h-20 w-20"
         aria-label="Visit Felix's LinkedIn profile"
       >

@@ -36,7 +36,7 @@ const Contact = memo(function Contact() {
         </div>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4">
           <motion.a
-            href="https://www.linkedin.com/in/felix-luciano-salomon-6266021b6/"
+            href="https://www.linkedin.com/in/faluciano/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-[44px] w-full items-center justify-center rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-primary-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:bg-primary-500 dark:hover:bg-primary-400 dark:focus:ring-offset-gray-900 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
