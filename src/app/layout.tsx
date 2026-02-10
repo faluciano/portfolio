@@ -8,27 +8,25 @@ import "~/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Felix Luciano - Software Engineer",
-  description: "Felix Luciano - Software Engineer Portfolio",
+  description:
+    "Felix Luciano is a Software Engineer at Microsoft building full-stack web and mobile applications with TypeScript, React, React Native, Go, and Kotlin.",
   keywords: [
     "Felix Luciano",
     "Felix Luciano Salomon",
-    "Felix Luciano Portfolio",
-    "Felix Luciano Resume",
-    "Felix Luciano Projects",
-    "Felix Luciano Skills",
     "Software Engineer",
+    "Microsoft",
     "Full Stack Developer",
-    "Frontend Developer",
-    "Backend Developer",
-    "Web Developer",
-    "JavaScript Developer",
+    "Mobile Developer",
     "TypeScript Developer",
-    "Python Developer",
     "React Developer",
+    "React Native",
     "Next.js Developer",
-    "NJIT",
-    "New Jersey Institute of Technology",
-    "AWS",
+    "Go Developer",
+    "Kotlin Developer",
+    "Seattle",
+    "Web Developer",
+    "JavaScript",
+    "Python",
   ],
   icons: {
     icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>',
@@ -36,7 +34,8 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Felix Luciano",
     title: "Felix Luciano - Software Engineer",
-    description: "Felix Luciano - Software Engineer Portfolio",
+    description:
+      "Felix Luciano is a Software Engineer at Microsoft building full-stack web and mobile applications with TypeScript, React, React Native, Go, and Kotlin.",
     url: "https://faluciano.com",
   },
   alternates: {

@@ -6,6 +6,7 @@ import { FaGithub, FaStar, FaCodeBranch, FaExternalLinkAlt } from "react-icons/f
 import type { Project } from "~/types";
 import { memo } from "react";
 import { motion } from "framer-motion";
+import { timeAgo } from "~/utils/timeago";
 
 const getLanguageColor = (lang: string): string =>
   colors[lang as keyof typeof colors] || "grey";
@@ -119,7 +120,7 @@ const ProjectCard = memo(function ProjectCard({
       </motion.div>
       
       <p className="text-xs font-medium text-gray-500 dark:text-gray-400 sm:text-sm">
-        Last updated: {pushed_at}
+        Last updated: {timeAgo(pushed_at)}
       </p>
     </motion.article>
   );
