@@ -23,9 +23,12 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
     router.push("/");
   }, [router]);
 
-  const handleTechFilter = useCallback((tech: string) => {
-    router.push(`/?tech=${encodeURIComponent(tech)}`);
-  }, [router]);
+  const handleTechFilter = useCallback(
+    (tech: string) => {
+      router.push(`/?tech=${encodeURIComponent(tech)}`);
+    },
+    [router],
+  );
 
   const handleSortChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -65,35 +68,37 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
   }, [initialData, selectedTech, sortBy]);
 
   return (
-    <motion.section
+    <section
       id="projects"
       aria-labelledby="projects-heading"
-      className="scroll-snap-section bg-gradient-to-b from-white to-gray-50 py-20 dark:from-gray-900 dark:to-gray-950 flex flex-col justify-center"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="scroll-snap-section flex flex-col justify-center py-20"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h2
             id="projects-heading"
-            className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl md:text-4xl"
+            className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl"
           >
             Selected projects
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:mt-4 sm:text-base md:text-lg">
-            A mix of personal and open-source work. Filter by technology or
-            sort by what matters to you.
+          <p
+            className="mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base md:text-lg"
+            style={{ color: "rgb(var(--color-text-muted))" }}
+          >
+            A mix of personal and open-source work. Filter by technology or sort
+            by what matters to you.
           </p>
         </div>
 
         <div className="mt-8 flex flex-col items-start justify-between gap-4 sm:mt-10 md:mt-12 md:flex-row md:items-center md:gap-6">
           <div className="w-full md:w-auto">
-            <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-400 sm:mb-3 md:mb-0 md:inline md:mr-3">
+            <span
+              className="mb-2 block text-xs font-semibold tracking-wider uppercase sm:mb-3 md:mr-3 md:mb-0 md:inline"
+              style={{ color: "rgb(var(--color-text-muted))" }}
+            >
               Filter by tech
             </span>
-            <div className="flex flex-wrap gap-2 max-w-full overflow-x-auto pb-2 md:pb-0">
+            <div className="flex max-w-full flex-wrap gap-2 overflow-x-auto pb-2 md:pb-0">
               <FilterButton active={!selectedTech} onClick={handleClearFilter}>
                 All
               </FilterButton>
@@ -110,14 +115,23 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
           </div>
 
           <div className="flex w-full items-center gap-3 md:w-auto">
-            <label htmlFor="sort-select" className="flex-shrink-0 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-400">
+            <label
+              htmlFor="sort-select"
+              className="flex-shrink-0 text-xs font-semibold tracking-wider uppercase"
+              style={{ color: "rgb(var(--color-text-muted))" }}
+            >
               Sort by
             </label>
             <select
               id="sort-select"
               value={sortBy}
               onChange={handleSortChange}
-              className="min-h-[44px] flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-900 sm:px-4 md:flex-initial"
+              className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
+              style={{
+                borderColor: "rgb(var(--color-surface-elevated))",
+                backgroundColor: "rgb(var(--color-surface))",
+                color: "rgb(var(--color-text))",
+              }}
             >
               <option value="recent">Most recent</option>
               <option value="stars">Most stars</option>
@@ -126,16 +140,20 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
           </div>
         </div>
 
-        <div className="mt-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 sm:mt-6 sm:text-sm">
+        <div
+          className="mt-4 text-center text-xs font-medium sm:mt-6 sm:text-sm"
+          style={{ color: "rgb(var(--color-text-muted))" }}
+        >
           Showing {filteredProjects.length} project
           {filteredProjects.length === 1 ? "" : "s"}
           {selectedTech ? ` with ${selectedTech}` : ""}
         </div>
 
+        {/* Asymmetric gap — horizontal wider than vertical (Pillar 4) */}
         <AnimatePresence mode="wait">
           <motion.div
             key={`${selectedTech}-${sortBy}`}
-            className="mt-8 grid grid-cols-1 gap-6 sm:mt-10 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3"
+            className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:mt-10 sm:grid-cols-2 md:gap-x-10 md:gap-y-8 lg:mt-12 lg:grid-cols-3"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -147,9 +165,9 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.4,
-                  delay: index * 0.05,
-                  ease: "easeOut"
+                  duration: 0.35,
+                  delay: index * 0.03,
+                  ease: "easeOut",
                 }}
               >
                 <ProjectCard {...project} />
@@ -160,13 +178,17 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
 
         {filteredProjects.length === 0 && (
           <div role="status" className="mt-8 text-center sm:mt-12">
-            <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-              No projects match your filters. Try selecting a different technology.
+            <p
+              className="text-sm sm:text-base"
+              style={{ color: "rgb(var(--color-text-muted))" }}
+            >
+              No projects match your filters. Try selecting a different
+              technology.
             </p>
           </div>
         )}
       </div>
-    </motion.section>
+    </section>
   );
 };
 

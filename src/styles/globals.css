@@ -2,182 +2,253 @@
 @config "../../tailwind.config.cjs";
 
 @keyframes fade-up-soft {
-    from {
-        opacity: 0;
-        transform: translateY(16px) scale(0.98);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .animate-fade-up-soft {
-    animation: fade-up-soft 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fade-up-soft 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Focus visible styles for accessibility */
 *:focus-visible {
-    outline: 2px solid #14b8a6;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.2);
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgb(var(--color-accent) / 0.2);
 }
 
 /* Smooth scroll behavior */
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 /* Scroll snap on viewport */
 @media (prefers-reduced-motion: no-preference) {
-    html {
-        scroll-snap-type: y proximity;
-    }
+  html {
+    scroll-snap-type: y proximity;
+  }
 }
 
 /* Scroll snap sections */
 .scroll-snap-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for mobile */
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
 }
 
 /* Scroll margin for fixed header */
 section[id],
 div[id] {
-    scroll-margin-top: 5rem;
+  scroll-margin-top: 5rem;
 }
 
 /* Performance optimization for animations */
 @media (prefers-reduced-motion: no-preference) {
-    .animate-marquee-icons {
-        will-change: transform;
-    }
-    
-    /* Optimize frequently animated elements */
-    [class*="transition"],
-    [class*="hover:"],
-    .group:hover * {
-        will-change: transform, opacity;
-    }
+  .animate-marquee-icons {
+    will-change: transform;
+  }
+
+  /* Optimize frequently animated elements */
+  [class*="transition"],
+  [class*="hover:"],
+  .group:hover * {
+    will-change: transform, opacity;
+  }
 }
 
 @layer base {
-    html {
-        @apply font-sans antialiased;
-        @apply bg-white text-gray-900;
-        @apply dark:bg-gray-900 dark:text-white;
-    }
+  :root {
+    --color-surface: 255 255 255;
+    --color-surface-elevated: 248 250 252;
+    --color-text: 15 23 42;
+    --color-text-muted: 100 116 139;
+    --color-accent: 0 229 217;
+    --color-accent-hover: 0 184 173;
+  }
 
-    /* Enhanced typography hierarchy */
-    h1 {
-        @apply text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl;
-        line-height: 1.2;
-    }
+  .dark {
+    --color-surface: 10 20 19;
+    --color-surface-elevated: 15 30 28;
+    --color-text: 236 253 252;
+    --color-text-muted: 148 200 196;
+    --color-accent: 0 229 217;
+    --color-accent-hover: 26 255 243;
+  }
 
-    h2 {
-        @apply text-3xl font-bold tracking-tight sm:text-4xl;
-        line-height: 1.2;
-    }
+  html {
+    @apply font-sans antialiased;
+    background-color: rgb(var(--color-surface));
+    color: rgb(var(--color-text));
+  }
 
-    h3 {
-        @apply text-xl font-bold tracking-tight sm:text-2xl;
-        line-height: 1.3;
-    }
+  /* Enhanced typography hierarchy */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+  }
 
-    h4 {
-        @apply text-lg font-semibold sm:text-xl;
-        line-height: 1.4;
-    }
+  h1 {
+    @apply text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl;
+    line-height: 1.2;
+  }
 
-    p {
-        line-height: 1.6;
-    }
+  h2 {
+    @apply text-3xl font-bold tracking-tight sm:text-4xl;
+    line-height: 1.2;
+  }
 
-    /* Consistent interactive states */
-    button, a {
-        @apply transition-colors duration-200;
-    }
+  h3 {
+    @apply text-xl font-bold tracking-tight sm:text-2xl;
+    line-height: 1.3;
+  }
 
-    /* Prevent horizontal overflow on all screen sizes */
-    html, body {
-        overflow-x: hidden;
-        max-width: 100vw;
-    }
+  h4 {
+    @apply text-lg font-semibold sm:text-xl;
+    line-height: 1.4;
+  }
 
-    /* Better word breaking for long content */
-    p, li, span, div {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-    }
+  p {
+    line-height: 1.6;
+  }
 
-    /* Ensure images never cause overflow */
-    img {
-        max-width: 100%;
-        height: auto;
-    }
+  /* Consistent interactive states */
+  button,
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  /* Prevent horizontal overflow on all screen sizes */
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Better word breaking for long content */
+  p,
+  li,
+  span,
+  div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Ensure images never cause overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 /* Reduced motion support - comprehensive */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-    
-    /* Disable marquee animation */
-    .animate-marquee-icons {
-        animation: none !important;
-    }
-    
-    /* Disable pulse animation */
-    .animate-pulse {
-        animation: none !important;
-    }
-    
-    /* Simplify transforms */
-    [class*="hover:scale"],
-    [class*="hover:rotate"] {
-        transform: none !important;
-    }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable marquee animation */
+  .animate-marquee-icons {
+    animation: none !important;
+  }
+
+  /* Disable pulse animation */
+  .animate-pulse {
+    animation: none !important;
+  }
+
+  /* Simplify transforms */
+  [class*="hover:scale"],
+  [class*="hover:rotate"] {
+    transform: none !important;
+  }
 }
 
 /* Loading pulse animation for skeleton screens */
 @keyframes skeleton-pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .animate-pulse {
-    animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Optimized transitions for better performance */
 .transition-optimized {
-    transition-property: transform, opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 200ms;
+  transition-property: transform, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }
 
 /* Mobile-specific responsive utilities */
 @media (max-width: 639px) {
-    /* Ensure text remains readable on mobile */
-    body {
-        font-size: 16px;
-        -webkit-text-size-adjust: 100%;
-    }
-    
-    /* Improve tap targets on mobile */
-    button, a, input, select, textarea {
-        min-height: 44px;
-    }
+  /* Ensure text remains readable on mobile */
+  body {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Improve tap targets on mobile */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+  }
+}
+
+/* Grain texture overlay — Pillar 5: Atmosphere & Depth */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+.dark body::after {
+  opacity: 0.04;
+}
+
+/* Glass morphism levels — Pillar 5: Atmosphere & Depth */
+.glass-subtle {
+  background: rgb(var(--color-surface) / 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.glass-medium {
+  background: rgb(var(--color-surface) / 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glass-heavy {
+  background: rgb(var(--color-surface) / 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }

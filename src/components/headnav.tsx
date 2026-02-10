@@ -46,10 +46,12 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
   useEffect(() => {
     if (open && menuRef.current) {
       const focusableElements = menuRef.current.querySelectorAll(
-        'a[href], button:not([disabled])'
+        "a[href], button:not([disabled])",
       );
       const firstElement = focusableElements[0] as HTMLElement;
-      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+      const lastElement = focusableElements[
+        focusableElements.length - 1
+      ] as HTMLElement;
 
       const handleTab = (e: KeyboardEvent) => {
         if (e.key !== "Tab") return;
@@ -95,13 +97,20 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200/60 bg-white/70 backdrop-blur-md dark:border-gray-800/60 dark:bg-gray-900/70">
-      <nav className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+    <header
+      className="glass-heavy sticky top-0 z-50 w-full border-b"
+      style={{ borderColor: "rgb(var(--color-surface-elevated) / 0.6)" }}
+    >
+      <nav
+        className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+        aria-label="Main navigation"
+      >
         <Link
           href="/"
-          className="flex items-center gap-3 text-sm font-semibold tracking-tight text-gray-900 transition-colors hover:text-primary-600 dark:text-gray-100 dark:hover:text-primary-400"
+          className="hover:text-primary-600 dark:hover:text-primary-400 flex items-center gap-3 text-sm font-semibold tracking-tight transition-colors"
+          style={{ color: "rgb(var(--color-text))" }}
         >
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-600 text-sm font-bold text-white shadow-sm dark:bg-primary-500">
+          <span className="bg-primary-600 dark:bg-primary-500 inline-flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-white shadow-sm">
             FL
           </span>
           <span className="hidden text-base sm:inline">Felix Luciano</span>
@@ -112,7 +121,8 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
           <button
             ref={buttonRef}
             type="button"
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2.5 text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white dark:focus:ring-offset-gray-900"
+            className="focus:ring-primary-500 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2.5 transition-colors hover:bg-[rgb(var(--color-surface-elevated))] focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            style={{ color: "rgb(var(--color-text))" }}
             aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -138,22 +148,27 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
           </button>
         </div>
 
-        <div className="hidden sm:flex items-center gap-6" role="navigation">
+        <div className="hidden items-center gap-6 sm:flex" role="navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={`relative text-sm font-medium transition-colors ${
                 currentSection === link.href
-                  ? 'text-primary-600 dark:text-primary-400'
-                  : 'text-gray-700 hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400'
+                  ? "text-primary-600 dark:text-primary-400"
+                  : "hover:text-primary-600 dark:hover:text-primary-400"
               }`}
+              style={
+                currentSection !== link.href
+                  ? { color: "rgb(var(--color-text-muted))" }
+                  : undefined
+              }
               aria-current={currentSection === link.href ? "page" : undefined}
             >
               {link.label}
               {currentSection === link.href && (
                 <motion.div
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-600 dark:bg-primary-400"
+                  className="bg-primary-600 dark:bg-primary-400 absolute right-0 -bottom-1 left-0 h-0.5"
                   layoutId="navbar-indicator"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
@@ -169,7 +184,8 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
           <motion.div
             ref={menuRef}
             id="mobile-menu"
-            className="border-t border-gray-200 bg-white/95 px-4 pb-4 pt-2 shadow-md backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/95 sm:hidden"
+            className="glass-heavy border-t px-4 pt-2 pb-4 shadow-md sm:hidden"
+            style={{ borderColor: "rgb(var(--color-surface-elevated))" }}
             role="navigation"
             aria-label="Mobile navigation"
             initial={{ opacity: 0, height: 0 }}
@@ -187,18 +203,25 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
                   transition={{
                     duration: 0.2,
                     delay: index * 0.05,
-                    ease: "easeOut"
+                    ease: "easeOut",
                   }}
                 >
                   <Link
                     href={link.href}
                     className={`block min-h-[44px] rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                       currentSection === link.href
-                        ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300'
-                        : 'text-gray-800 hover:bg-gray-100 hover:text-primary-600 dark:text-gray-100 dark:hover:bg-gray-800 dark:hover:text-primary-400'
+                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300"
+                        : "hover:text-primary-600 dark:hover:text-primary-400 hover:bg-[rgb(var(--color-surface-elevated))]"
                     }`}
+                    style={
+                      currentSection !== link.href
+                        ? { color: "rgb(var(--color-text))" }
+                        : undefined
+                    }
                     onClick={handleClose}
-                    aria-current={currentSection === link.href ? "page" : undefined}
+                    aria-current={
+                      currentSection === link.href ? "page" : undefined
+                    }
                   >
                     {link.label}
                   </Link>
