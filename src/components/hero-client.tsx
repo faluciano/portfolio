@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import DownloadCVButton from "~/components/download-cv-button";
 
-const RubiksCube = dynamic(() => import("~/components/rubiks-cube"), {
+const ParticleSphere = dynamic(() => import("~/components/particle-sphere"), {
   ssr: false,
   loading: () => (
     <div className="flex h-full w-full items-center justify-center">
@@ -139,7 +139,7 @@ export default function HeroClient() {
           </motion.div>
         </div>
 
-        {/* ── Cube column ──────────────────────────────────── */}
+        {/* ── Particle sphere column ─────────────────────────── */}
         <motion.div
           className="order-1 flex items-center justify-center lg:order-2"
           variants={imageVariants}
@@ -151,10 +151,10 @@ export default function HeroClient() {
             />
             <div
               className="relative h-full w-full"
-              aria-label="Interactive 3D Rubik's cube"
+              aria-label="Interactive 3D particle sphere"
               role="img"
             >
-              <RubiksCube />
+              <ParticleSphere />
             </div>
           </div>
         </motion.div>
