@@ -8,13 +8,13 @@ import { type Group, type Mesh, MeshStandardMaterial } from "three";
 /* ── Color palette ──────────────────────────────────────────── */
 
 const FACE_COLORS = {
-  right: "#3B82F6", // primary blue (accent)
-  left: "#1E3A8A", // deep navy (primary-900)
-  top: "#93C5FD", // light sky (primary-300)
-  bottom: "#172554", // darkest navy (primary-950)
-  front: "#60A5FA", // medium blue (primary-400)
-  back: "#1D4ED8", // strong blue (primary-700)
-  inner: "#0F172A", // near-black slate for inner faces
+  right: "#B71234", // red
+  left: "#FF5800", // orange
+  top: "#FFFFFF", // white
+  bottom: "#FFD500", // yellow
+  front: "#0046AD", // blue
+  back: "#009B48", // green
+  inner: "#1A1A1A", // near-black for inner faces
 } as const;
 
 /**
@@ -166,11 +166,13 @@ export default function RubiksCube() {
 
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mql.matches);
 
     function handleChange(event: MediaQueryListEvent) {
       setPrefersReducedMotion(event.matches);
     }
+
+    // Sync initial value via the same callback used for updates
+    handleChange({ matches: mql.matches } as MediaQueryListEvent);
 
     mql.addEventListener("change", handleChange);
     return () => mql.removeEventListener("change", handleChange);

@@ -10,14 +10,12 @@ const ThemeToggle = memo(function ThemeToggle() {
 
   // Only show the toggle after mounting to avoid hydration mismatch
   useEffect(() => {
-    setMounted(true);
+    requestAnimationFrame(() => setMounted(true));
   }, []);
 
   // Don't render anything until mounted (prevents hydration mismatch)
   if (!mounted) {
-    return (
-      <div className="h-10 w-10 sm:h-11 sm:w-11" />
-    );
+    return <div className="h-10 w-10 sm:h-11 sm:w-11" />;
   }
 
   const isDark = theme === "dark";
@@ -26,7 +24,7 @@ const ThemeToggle = memo(function ThemeToggle() {
     <motion.button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2.5 text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white dark:focus:ring-offset-gray-900"
+      className="focus:ring-primary-500 relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2.5 text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:outline-none dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white dark:focus:ring-offset-gray-900"
       aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
       aria-pressed={isDark}
       whileHover={{ scale: 1.05 }}

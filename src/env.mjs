@@ -49,11 +49,12 @@ if (!!process.env.SKIP_ENV_VALIDATION == false) {
   if (parsed.success === false) {
     console.error(
       "❌ Invalid environment variables:",
-      parsed.error.flatten().fieldErrors
+      parsed.error.flatten().fieldErrors,
     );
     throw new Error("Invalid environment variables");
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- env proxy wraps validated zod output
   env = new Proxy(/** @type {any} */ (parsed.data), {
     get(target, prop) {
       if (typeof prop !== "string") return undefined;
@@ -63,8 +64,9 @@ if (!!process.env.SKIP_ENV_VALIDATION == false) {
         throw new Error(
           process.env.NODE_ENV === "production"
             ? "❌ Attempted to access a server-side environment variable on the client"
-            : `❌ Attempted to access server-side environment variable '${prop}' on the client`
+            : `❌ Attempted to access server-side environment variable '${prop}' on the client`,
         );
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return -- accessing validated zod output by dynamic key
       return target[/** @type {keyof typeof target} */ (prop)];
     },
   });

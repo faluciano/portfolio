@@ -1,7 +1,7 @@
-type Language = {
+interface Language {
   language: string;
   bytes: number;
-};
+}
 
 interface Project {
   id: number;

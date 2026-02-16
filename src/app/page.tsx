@@ -62,7 +62,7 @@ function SkillsSkeleton() {
           />
         </div>
         <div className="mt-12 flex justify-center gap-8">
-          {[...Array(8)].map((_, i) => (
+          {[...Array<undefined>(8)].map((_, i) => (
             <div key={i} className="flex flex-col items-center gap-2">
               <div
                 className="h-16 w-16 animate-pulse rounded-xl sm:h-20 sm:w-20"
