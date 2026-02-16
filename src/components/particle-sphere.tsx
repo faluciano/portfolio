@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, PointMaterial, Points } from "@react-three/drei";
-import { type Points as PointsType, Vector3 } from "three";
+import { type Points as PointsType } from "three";
+import { useTheme } from "next-themes";
 
 /* ── Constants ──────────────────────────────────────────────── */
 
@@ -12,25 +13,36 @@ const SPHERE_RADIUS = 1.5;
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5)); // ≈ 2.399963
 
 const ROTATION_SPEED = 0.1; // rad/s on Y axis
-const BREATHING_AMPLITUDE = 0.02;
-const BREATHING_FREQUENCY = 0.3; // Hz
-const BREATHING_OMEGA = 2 * Math.PI * BREATHING_FREQUENCY;
 
-const MOUSE_INFLUENCE_RADIUS = 0.3;
-const MOUSE_PUSH_STRENGTH = 0.15;
-const LERP_BACK_FACTOR = 0.05;
+// Color shimmer: wave pattern travels across the sphere surface
+const SHIMMER_SPEED = 0.6;
+const SHIMMER_AMPLITUDE = 0.25;
+// How many color bands wrap around the sphere (higher = more bands)
+const SHIMMER_WAVE_BANDS = 4;
 
-const DEEP_BLUE = "#3B82F6";
+// Dark mode palette (blue tones)
+const DARK_DEEP_BLUE = "#60A5FA"; // (96, 165, 250)
+const DARK_LIGHT_BLUE = "#93C5FD"; // (147, 197, 253)
+const DARK_ACCENT = "#67E8F9"; // (103, 232, 249) - cyan-ish
+
+// Light mode palette (warm tones)
+const LIGHT_PURPLE = "#6D28D9"; // (109, 40, 217)
+const LIGHT_MAGENTA = "#A21CAF"; // (162, 28, 175)
+const LIGHT_INDIGO = "#4F46E5"; // (79, 70, 229)
+const LIGHT_ACCENT = "#DB2777"; // (219, 39, 119) - pink
 
 /* ── Fibonacci sphere distribution ──────────────────────────── */
 
-function generateSpherePositions(count: number, radius: number): Float32Array {
+function generateSphereData(count: number, radius: number) {
   const positions = new Float32Array(count * 3);
+  const phis = new Float32Array(count);
 
   for (let i = 0; i < count; i++) {
     const y = 1 - (i / (count - 1)) * 2; // range: 1 to -1
     const radiusAtY = Math.sqrt(1 - y * y);
     const theta = GOLDEN_ANGLE * i;
+
+    phis[i] = Math.acos(Math.max(-1, Math.min(1, y)));
 
     const index = i * 3;
     positions[index] = Math.cos(theta) * radiusAtY * radius;
@@ -38,31 +50,72 @@ function generateSpherePositions(count: number, radius: number): Float32Array {
     positions[index + 2] = Math.sin(theta) * radiusAtY * radius;
   }
 
-  return positions;
+  return { positions, phis };
 }
 
 /* ── Generate per-particle color buffer ─────────────────────── */
 
-function generateColors(count: number): Float32Array {
+function generateColors(count: number, isDark: boolean): Float32Array {
   const colors = new Float32Array(count * 3);
 
-  // Deep blue: #3B82F6 → (59, 130, 246) / 255
-  const deepR = 59 / 255;
-  const deepG = 130 / 255;
-  const deepB = 246 / 255;
+  if (isDark) {
+    // Dark mode: Deep blue and light blue
+    // Deep blue: #60A5FA → (96, 165, 250) / 255
+    const deepR = 96 / 255;
+    const deepG = 165 / 255;
+    const deepB = 250 / 255;
 
-  // Light blue: #60A5FA → (96, 165, 250) / 255
-  const lightR = 96 / 255;
-  const lightG = 165 / 255;
-  const lightB = 250 / 255;
+    // Light blue: #93C5FD → (147, 197, 253) / 255
+    const lightR = 147 / 255;
+    const lightG = 197 / 255;
+    const lightB = 253 / 255;
 
-  for (let i = 0; i < count; i++) {
-    // ~30% of particles get the lighter shade for depth variation
-    const useLighter = Math.random() < 0.3;
-    const index = i * 3;
-    colors[index] = useLighter ? lightR : deepR;
-    colors[index + 1] = useLighter ? lightG : deepG;
-    colors[index + 2] = useLighter ? lightB : deepB;
+    for (let i = 0; i < count; i++) {
+      // ~30% of particles get the lighter shade for depth variation
+      const useLighter = Math.random() < 0.3;
+      const index = i * 3;
+      colors[index] = useLighter ? lightR : deepR;
+      colors[index + 1] = useLighter ? lightG : deepG;
+      colors[index + 2] = useLighter ? lightB : deepB;
+    }
+  } else {
+    // Light mode: Purple, indigo, magenta (~50% purple, ~30% indigo, ~20% magenta)
+    // Purple: #6D28D9 → (109, 40, 217) / 255
+    const purpleR = 109 / 255;
+    const purpleG = 40 / 255;
+    const purpleB = 217 / 255;
+
+    // Magenta: #A21CAF → (162, 28, 175) / 255
+    const magentaR = 162 / 255;
+    const magentaG = 28 / 255;
+    const magentaB = 175 / 255;
+
+    // Indigo: #4F46E5 → (79, 70, 229) / 255
+    const indigoR = 79 / 255;
+    const indigoG = 70 / 255;
+    const indigoB = 229 / 255;
+
+    for (let i = 0; i < count; i++) {
+      const rand = Math.random();
+      const index = i * 3;
+
+      if (rand < 0.5) {
+        // Purple (~50%)
+        colors[index] = purpleR;
+        colors[index + 1] = purpleG;
+        colors[index + 2] = purpleB;
+      } else if (rand < 0.8) {
+        // Indigo (~30%)
+        colors[index] = indigoR;
+        colors[index + 1] = indigoG;
+        colors[index + 2] = indigoB;
+      } else {
+        // Magenta (~20%)
+        colors[index] = magentaR;
+        colors[index + 1] = magentaG;
+        colors[index + 2] = magentaB;
+      }
+    }
   }
 
   return colors;
@@ -72,93 +125,72 @@ function generateColors(count: number): Float32Array {
 
 interface ParticleSphereSceneProps {
   enableAnimation: boolean;
+  isDark: boolean;
 }
 
-function ParticleSphereScene({ enableAnimation }: ParticleSphereSceneProps) {
+function ParticleSphereScene({ enableAnimation, isDark }: ParticleSphereSceneProps) {
   const pointsRef = useRef<PointsType>(null);
 
-  const basePositions = useMemo(
-    () => generateSpherePositions(PARTICLE_COUNT, SPHERE_RADIUS),
+  const sphereData = useMemo(
+    () => generateSphereData(PARTICLE_COUNT, SPHERE_RADIUS),
     [],
   );
+  const basePositions = sphereData.positions;
+  const phis = sphereData.phis;
 
-  const colors = useMemo(() => generateColors(PARTICLE_COUNT), []);
+  const colors = useMemo(() => generateColors(PARTICLE_COUNT, isDark), [isDark]);
 
-  // Reusable vectors to avoid allocation in the render loop
-  const pointerDirectionRef = useRef(new Vector3());
-  const particleNormalRef = useRef(new Vector3());
+  // Store base colors in a ref so shimmer can reference originals
+  const baseColorsRef = useRef<Float32Array>(colors);
+
+  // Update base colors ref when theme changes
+  useEffect(() => {
+    baseColorsRef.current = colors;
+  }, [colors]);
 
   useFrame((state, delta) => {
     const points = pointsRef.current;
     if (!points) return;
 
-    const positionAttr = points.geometry.getAttribute("position");
-    const positions = positionAttr.array as Float32Array;
-
     const elapsed = state.clock.elapsedTime;
-    const pointer = state.pointer; // normalized -1 to 1
-    const pDir = pointerDirectionRef.current;
-    const pNorm = particleNormalRef.current;
 
-    // Convert pointer to a 3D direction on a conceptual sphere
-    pDir.set(pointer.x, pointer.y, 0.5).normalize();
+    // Shimmer animation: subtle color shifts
+    if (enableAnimation) {
+      const colorAttr = points.geometry.getAttribute("color");
+      const colorArray = colorAttr.array as Float32Array;
+      const baseColors = baseColorsRef.current;
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const i3 = i * 3;
+      // Accent colors for shimmer
+      const accentR = isDark ? 103 / 255 : 219 / 255;
+      const accentG = isDark ? 232 / 255 : 39 / 255;
+      const accentB = isDark ? 249 / 255 : 119 / 255;
 
-      // Original position on the Fibonacci sphere (normalized direction)
-      const baseX = basePositions[i3]!;
-      const baseY = basePositions[i3 + 1]!;
-      const baseZ = basePositions[i3 + 2]!;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        // Use phi (polar angle) for spatially coherent color bands
+        const phi = phis[i]!;
+        const shimmerFactor =
+          (Math.sin(elapsed * SHIMMER_SPEED + phi * SHIMMER_WAVE_BANDS) + 1) *
+          0.5 *
+          SHIMMER_AMPLITUDE;
 
-      pNorm.set(baseX, baseY, baseZ).normalize();
+        const i3 = i * 3;
+        const baseR = baseColors[i3]!;
+        const baseG = baseColors[i3 + 1]!;
+        const baseB = baseColors[i3 + 2]!;
 
-      // Breathing: sine-wave radial oscillation
-      let radialOffset = 0;
-      if (enableAnimation) {
-        radialOffset =
-          Math.sin(elapsed * BREATHING_OMEGA + i * 0.01) * BREATHING_AMPLITUDE;
+        // Lerp between base color and accent color
+        colorArray[i3] = baseR + (accentR - baseR) * shimmerFactor;
+        colorArray[i3 + 1] = baseG + (accentG - baseG) * shimmerFactor;
+        colorArray[i3 + 2] = baseB + (accentB - baseB) * shimmerFactor;
       }
 
-      // Mouse displacement: push particles outward near pointer direction
-      const dotProduct = pNorm.x * pDir.x + pNorm.y * pDir.y + pNorm.z * pDir.z;
-
-      // Angular proximity: higher dot product = closer to pointer direction
-      const proximity = Math.max(0, dotProduct);
-      const withinInfluence = proximity > 1 - MOUSE_INFLUENCE_RADIUS;
-
-      let mouseOffset = 0;
-      if (withinInfluence) {
-        // Smooth falloff: stronger push when closer to pointer center
-        const strength =
-          ((proximity - (1 - MOUSE_INFLUENCE_RADIUS)) /
-            MOUSE_INFLUENCE_RADIUS) *
-          MOUSE_PUSH_STRENGTH;
-        mouseOffset = strength;
-      }
-
-      // Target position: base + breathing + mouse displacement along normal
-      const totalOffset = radialOffset + mouseOffset;
-      const targetX = baseX + pNorm.x * totalOffset;
-      const targetY = baseY + pNorm.y * totalOffset;
-      const targetZ = baseZ + pNorm.z * totalOffset;
-
-      // Lerp current toward target for smooth motion
-      positions[i3] =
-        positions[i3]! + (targetX - positions[i3]!) * LERP_BACK_FACTOR;
-      positions[i3 + 1] =
-        positions[i3 + 1]! + (targetY - positions[i3 + 1]!) * LERP_BACK_FACTOR;
-      positions[i3 + 2] =
-        positions[i3 + 2]! + (targetZ - positions[i3 + 2]!) * LERP_BACK_FACTOR;
+      colorAttr.needsUpdate = true;
     }
 
     // Auto-rotation
     if (enableAnimation) {
       points.rotation.y += delta * ROTATION_SPEED;
     }
-
-    // Flag the position attribute for GPU upload
-    positionAttr.needsUpdate = true;
   });
 
   return (
@@ -172,11 +204,10 @@ function ParticleSphereScene({ enableAnimation }: ParticleSphereSceneProps) {
       <PointMaterial
         transparent
         vertexColors
-        size={0.02}
+        size={0.03}
         sizeAttenuation
         depthWrite={false}
-        opacity={0.8}
-        color={DEEP_BLUE}
+        opacity={0.9}
       />
     </Points>
   );
@@ -186,6 +217,10 @@ function ParticleSphereScene({ enableAnimation }: ParticleSphereSceneProps) {
 
 export default function ParticleSphere() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const { resolvedTheme } = useTheme();
+
+  // Default to dark theme during SSR or when theme is undefined
+  const isDark = resolvedTheme !== "light";
 
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -207,7 +242,7 @@ export default function ParticleSphere() {
       gl={{ antialias: true, alpha: true }}
       style={{ width: "100%", height: "100%" }}
     >
-      <ParticleSphereScene enableAnimation={!prefersReducedMotion} />
+      <ParticleSphereScene enableAnimation={!prefersReducedMotion} isDark={isDark} />
 
       <OrbitControls
         enableZoom={false}
