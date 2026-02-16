@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, RoundedBox } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { type Group, type Mesh, MeshStandardMaterial } from "three";
 
-/* ── Color palette ──────────────────────────────────────────── */
+/* ── Standard Rubik's cube colors ───────────────────────────── */
 
 const FACE_COLORS = {
   right: "#B71234", // red
@@ -14,11 +14,11 @@ const FACE_COLORS = {
   bottom: "#FFD500", // yellow
   front: "#0046AD", // blue
   back: "#009B48", // green
-  inner: "#1A1A1A", // near-black for inner faces
+  inner: "#1A1A1A", // near-black for non-outer faces
 } as const;
 
 /**
- * Material order for a BoxGeometry / RoundedBox:
+ * BoxGeometry material index order:
  * [+x (right), -x (left), +y (top), -y (bottom), +z (front), -z (back)]
  */
 type FaceDirection = "right" | "left" | "top" | "bottom" | "front" | "back";
@@ -32,13 +32,13 @@ const FACE_ORDER: FaceDirection[] = [
   "back",
 ];
 
-/* ── Cubie size & gap ───────────────────────────────────────── */
+/* ── Cubie sizing ───────────────────────────────────────────── */
 
 const CUBIE_SIZE = 0.9;
 const GAP = 0.05;
-const STEP = CUBIE_SIZE + GAP; // ~0.95
+const STEP = CUBIE_SIZE + GAP;
 
-/* ── Material cache ─────────────────────────────────────────── */
+/* ── Material cache (shared across cubies for performance) ─── */
 
 const materialCache = new Map<string, MeshStandardMaterial>();
 
@@ -55,14 +55,13 @@ function getMaterial(color: string): MeshStandardMaterial {
   return mat;
 }
 
-/* ── Determine face visibility ──────────────────────────────── */
+/* ── Determine which faces are on the outside of the 3×3×3 ── */
 
 function isOuterFace(
   position: [number, number, number],
   face: FaceDirection,
 ): boolean {
   const [x, y, z] = position;
-
   switch (face) {
     case "right":
       return x === 1;
@@ -90,7 +89,7 @@ function buildCubieMaterials(
   });
 }
 
-/* ── Cubie positions (26 visible) ───────────────────────────── */
+/* ── All 26 visible cubie positions ─────────────────────────── */
 
 const COORDS = [-1, 0, 1] as const;
 
@@ -98,7 +97,7 @@ const CUBIE_POSITIONS: [number, number, number][] = [];
 for (const x of COORDS) {
   for (const y of COORDS) {
     for (const z of COORDS) {
-      if (x === 0 && y === 0 && z === 0) continue; // skip hidden center
+      if (x === 0 && y === 0 && z === 0) continue;
       CUBIE_POSITIONS.push([x, y, z]);
     }
   }
@@ -121,20 +120,19 @@ function Cubie({ gridPosition }: CubieProps) {
   ];
 
   return (
-    <RoundedBox
+    <mesh
       ref={meshRef}
-      args={[CUBIE_SIZE, CUBIE_SIZE, CUBIE_SIZE]}
-      radius={0.06}
-      smoothness={4}
       position={worldPosition}
       material={materials}
       castShadow
       receiveShadow
-    />
+    >
+      <boxGeometry args={[CUBIE_SIZE, CUBIE_SIZE, CUBIE_SIZE]} />
+    </mesh>
   );
 }
 
-/* ── Cube assembly with auto-rotation ───────────────────────── */
+/* ── Cube group with auto-rotation ──────────────────────────── */
 
 interface CubeGroupProps {
   enableAutoRotate: boolean;
@@ -145,7 +143,6 @@ function CubeGroup({ enableAutoRotate }: CubeGroupProps) {
 
   useFrame((_state, delta) => {
     if (!enableAutoRotate || !groupRef.current) return;
-
     groupRef.current.rotation.y += delta * 0.15;
     groupRef.current.rotation.x += delta * 0.05;
   });
@@ -171,7 +168,6 @@ export default function RubiksCube() {
       setPrefersReducedMotion(event.matches);
     }
 
-    // Sync initial value via the same callback used for updates
     handleChange({ matches: mql.matches } as MediaQueryListEvent);
 
     mql.addEventListener("change", handleChange);
