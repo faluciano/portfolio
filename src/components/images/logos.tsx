@@ -10,7 +10,7 @@ export const GithubLogo = (): Logos => {
       <a
         key="github"
         href="https://github.com/faluciano"
-        className="inline-flex h-20 w-20 text-gray-900 hover:text-teal-600 dark:text-white dark:hover:text-teal-400"
+        className="hover:text-primary-600 dark:hover:text-primary-400 inline-flex h-20 w-20 text-gray-900 dark:text-white"
         aria-label="Visit Felix's GitHub profile"
       >
         <svg
@@ -71,7 +71,7 @@ export const XLogo = (): Logos => {
       <a
         key="x"
         href="https://twitter.com/picapollo821"
-        className="inline-flex h-20 w-20 text-gray-900 hover:text-teal-600 dark:text-white dark:hover:text-teal-400"
+        className="hover:text-primary-600 dark:hover:text-primary-400 inline-flex h-20 w-20 text-gray-900 dark:text-white"
         aria-label="Visit Felix's X (Twitter) profile"
       >
         <svg

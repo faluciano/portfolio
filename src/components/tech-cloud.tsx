@@ -44,7 +44,7 @@ const TechCloud = memo(function TechCloud({ languages }: TechCloudProps) {
           key={lang.language}
           className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-100"
         >
-          <span className="mr-2 h-2 w-2 rounded-full bg-teal-500" />
+          <span className="bg-primary-500 mr-2 h-2 w-2 rounded-full" />
           {lang.language}
         </span>
       ))}

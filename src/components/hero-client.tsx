@@ -150,7 +150,7 @@ export default function HeroClient() {
         >
           <div className="relative aspect-[3/4] w-full max-w-[320px] sm:max-w-[400px] md:max-w-[420px] lg:max-w-[460px]">
             <div
-              className="from-primary-500/40 absolute inset-0 -translate-y-8 rounded-[2.5rem] bg-gradient-to-br via-transparent to-emerald-500/40 blur-3xl"
+              className="from-primary-500/40 absolute inset-0 -translate-y-8 rounded-[2.5rem] bg-gradient-to-br via-transparent to-blue-500/40 blur-3xl"
               aria-hidden="true"
             />
             <div className="glass-medium relative h-full w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl ring-1 ring-black/10">

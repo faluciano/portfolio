@@ -69,17 +69,17 @@ div[id] {
     --color-surface-elevated: 248 250 252;
     --color-text: 15 23 42;
     --color-text-muted: 100 116 139;
-    --color-accent: 0 229 217;
-    --color-accent-hover: 0 184 173;
+    --color-accent: 59 130 246;
+    --color-accent-hover: 37 99 235;
   }
 
   .dark {
-    --color-surface: 10 20 19;
-    --color-surface-elevated: 15 30 28;
-    --color-text: 236 253 252;
-    --color-text-muted: 148 200 196;
-    --color-accent: 0 229 217;
-    --color-accent-hover: 26 255 243;
+    --color-surface: 10 15 25;
+    --color-surface-elevated: 15 23 38;
+    --color-text: 236 241 255;
+    --color-text-muted: 156 170 210;
+    --color-accent: 59 130 246;
+    --color-accent-hover: 96 165 250;
   }
 
   html {
