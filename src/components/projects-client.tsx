@@ -6,7 +6,6 @@ import CategoryTabs from "./category-tabs";
 import { useState, useMemo, useCallback } from "react";
 import type { Project } from "~/types";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSearchParams, useRouter } from "next/navigation";
 import { CATEGORIES } from "~/constants/categories";
 
 type SortOption = "recent" | "stars" | "name";
@@ -15,51 +14,50 @@ interface ProjectsClientProps {
   initialData: Project[];
 }
 
+const updateUrl = (params: Record<string, string | null>) => {
+  const url = new URL(window.location.href);
+  for (const [key, value] of Object.entries(params)) {
+    if (value) {
+      url.searchParams.set(key, value);
+    } else {
+      url.searchParams.delete(key);
+    }
+  }
+  window.history.replaceState({}, "", url.toString());
+};
+
 const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedTech = searchParams?.get("tech") ?? null;
-  const selectedCategory = searchParams?.get("category") ?? null;
+  const [selectedTech, setSelectedTech] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return new URL(window.location.href).searchParams.get("tech");
+  });
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    () => {
+      if (typeof window === "undefined") return null;
+      return new URL(window.location.href).searchParams.get("category");
+    },
+  );
   const [sortBy, setSortBy] = useState<SortOption>("recent");
 
   const handleClearFilter = useCallback(() => {
-    if (selectedCategory) {
-      router.push(`/?category=${encodeURIComponent(selectedCategory)}`);
-    } else {
-      router.push("/");
-    }
-  }, [router, selectedCategory]);
+    setSelectedTech(null);
+    updateUrl({ tech: null });
+  }, []);
 
   const handleCategoryFilter = useCallback(
-    (category: string) => {
-      const params = new URLSearchParams();
-      params.set("category", category);
-      if (selectedTech) {
-        params.set("tech", selectedTech);
-      }
-      router.push(`/?${params.toString()}`);
+    (category: string | null) => {
+      setSelectedCategory(category);
+      updateUrl({ category, tech: selectedTech });
     },
-    [router, selectedTech],
+    [selectedTech],
   );
-
-  const handleClearCategory = useCallback(() => {
-    if (selectedTech) {
-      router.push(`/?tech=${encodeURIComponent(selectedTech)}`);
-    } else {
-      router.push("/");
-    }
-  }, [router, selectedTech]);
 
   const handleTechFilter = useCallback(
     (tech: string) => {
-      const params = new URLSearchParams();
-      params.set("tech", tech);
-      if (selectedCategory) {
-        params.set("category", selectedCategory);
-      }
-      router.push(`/?${params.toString()}`);
+      setSelectedTech(tech);
+      updateUrl({ tech, category: selectedCategory });
     },
-    [router, selectedCategory],
+    [selectedCategory],
   );
 
   const handleSortChange = useCallback(
@@ -135,9 +133,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
           <CategoryTabs
             categories={CATEGORIES}
             selectedCategory={selectedCategory}
-            onSelect={(topic) =>
-              topic ? handleCategoryFilter(topic) : handleClearCategory()
-            }
+            onSelect={handleCategoryFilter}
           />
 
           <div className="flex w-full flex-col items-start justify-between gap-4 md:flex-row md:items-center md:gap-6">
