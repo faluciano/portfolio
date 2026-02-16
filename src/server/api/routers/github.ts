@@ -79,6 +79,7 @@ const RepoSchema = z.object({
   stargazers_count: z.number(),
   fork: z.boolean(),
   homepage: z.string().nullable(),
+  topics: z.array(z.string()).default([]),
 });
 
 type RepoType = z.infer<typeof RepoSchema>;

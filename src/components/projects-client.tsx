@@ -2,10 +2,12 @@
 
 import ProjectCard from "./projectcard";
 import FilterButton from "./filter-button";
+import CategoryTabs from "./category-tabs";
 import { useState, useMemo, useCallback } from "react";
 import type { Project } from "~/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
+import { CATEGORIES } from "~/constants/categories";
 
 type SortOption = "recent" | "stars" | "name";
 
@@ -17,17 +19,47 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedTech = searchParams?.get("tech") ?? null;
+  const selectedCategory = searchParams?.get("category") ?? null;
   const [sortBy, setSortBy] = useState<SortOption>("recent");
 
   const handleClearFilter = useCallback(() => {
-    router.push("/");
-  }, [router]);
+    if (selectedCategory) {
+      router.push(`/?category=${encodeURIComponent(selectedCategory)}`);
+    } else {
+      router.push("/");
+    }
+  }, [router, selectedCategory]);
+
+  const handleCategoryFilter = useCallback(
+    (category: string) => {
+      const params = new URLSearchParams();
+      params.set("category", category);
+      if (selectedTech) {
+        params.set("tech", selectedTech);
+      }
+      router.push(`/?${params.toString()}`);
+    },
+    [router, selectedTech],
+  );
+
+  const handleClearCategory = useCallback(() => {
+    if (selectedTech) {
+      router.push(`/?tech=${encodeURIComponent(selectedTech)}`);
+    } else {
+      router.push("/");
+    }
+  }, [router, selectedTech]);
 
   const handleTechFilter = useCallback(
     (tech: string) => {
-      router.push(`/?tech=${encodeURIComponent(tech)}`);
+      const params = new URLSearchParams();
+      params.set("tech", tech);
+      if (selectedCategory) {
+        params.set("category", selectedCategory);
+      }
+      router.push(`/?${params.toString()}`);
     },
-    [router],
+    [router, selectedCategory],
   );
 
   const handleSortChange = useCallback(
@@ -46,12 +78,21 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
   }, [initialData]);
 
   const filteredProjects = useMemo(() => {
-    const filtered = selectedTech
+    // First filter by category
+    let filtered = selectedCategory
       ? initialData.filter((project) =>
-          project.languages.some((lang) => lang.language === selectedTech),
+          project.topics?.includes(selectedCategory),
         )
       : initialData;
 
+    // Then filter by tech
+    filtered = selectedTech
+      ? filtered.filter((project) =>
+          project.languages.some((lang) => lang.language === selectedTech),
+        )
+      : filtered;
+
+    // Then sort
     return [...filtered].sort((a, b) => {
       switch (sortBy) {
         case "stars":
@@ -65,7 +106,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
           );
       }
     });
-  }, [initialData, selectedTech, sortBy]);
+  }, [initialData, selectedCategory, selectedTech, sortBy]);
 
   return (
     <section
@@ -90,53 +131,63 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col items-start justify-between gap-4 sm:mt-10 md:mt-12 md:flex-row md:items-center md:gap-6">
-          <div className="w-full md:w-auto">
-            <span
-              className="mb-2 block text-xs font-semibold tracking-wider uppercase sm:mb-3 md:mr-3 md:mb-0 md:inline"
-              style={{ color: "rgb(var(--color-text-muted))" }}
-            >
-              Filter by tech
-            </span>
-            <div className="flex max-w-full flex-wrap gap-2 overflow-x-auto pb-2 md:pb-0">
-              <FilterButton active={!selectedTech} onClick={handleClearFilter}>
-                All
-              </FilterButton>
-              {allTechnologies.map((tech) => (
-                <FilterButton
-                  key={tech}
-                  active={selectedTech === tech}
-                  onClick={() => handleTechFilter(tech)}
-                >
-                  {tech}
-                </FilterButton>
-              ))}
-            </div>
-          </div>
+        <div className="mt-8 flex flex-col items-start justify-between gap-6 sm:mt-10 md:mt-12">
+          <CategoryTabs
+            categories={CATEGORIES}
+            selectedCategory={selectedCategory}
+            onSelect={(topic) =>
+              topic ? handleCategoryFilter(topic) : handleClearCategory()
+            }
+          />
 
-          <div className="flex w-full items-center gap-3 md:w-auto">
-            <label
-              htmlFor="sort-select"
-              className="flex-shrink-0 text-xs font-semibold tracking-wider uppercase"
-              style={{ color: "rgb(var(--color-text-muted))" }}
-            >
-              Sort by
-            </label>
-            <select
-              id="sort-select"
-              value={sortBy}
-              onChange={handleSortChange}
-              className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
-              style={{
-                borderColor: "rgb(var(--color-surface-elevated))",
-                backgroundColor: "rgb(var(--color-surface))",
-                color: "rgb(var(--color-text))",
-              }}
-            >
-              <option value="recent">Most recent</option>
-              <option value="stars">Most stars</option>
-              <option value="name">Name</option>
-            </select>
+          <div className="flex w-full flex-col items-start justify-between gap-4 md:flex-row md:items-center md:gap-6">
+            <div className="w-full md:w-auto">
+              <span
+                className="mb-2 block text-xs font-semibold tracking-wider uppercase sm:mb-3 md:mr-3 md:mb-0 md:inline"
+                style={{ color: "rgb(var(--color-text-muted))" }}
+              >
+                Filter by tech
+              </span>
+              <div className="flex max-w-full flex-wrap gap-2 overflow-x-auto pb-2 md:pb-0">
+                <FilterButton active={!selectedTech} onClick={handleClearFilter}>
+                  All
+                </FilterButton>
+                {allTechnologies.map((tech) => (
+                  <FilterButton
+                    key={tech}
+                    active={selectedTech === tech}
+                    onClick={() => handleTechFilter(tech)}
+                  >
+                    {tech}
+                  </FilterButton>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex w-full items-center gap-3 md:w-auto">
+              <label
+                htmlFor="sort-select"
+                className="flex-shrink-0 text-xs font-semibold tracking-wider uppercase"
+                style={{ color: "rgb(var(--color-text-muted))" }}
+              >
+                Sort by
+              </label>
+              <select
+                id="sort-select"
+                value={sortBy}
+                onChange={handleSortChange}
+                className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
+                style={{
+                  borderColor: "rgb(var(--color-surface-elevated))",
+                  backgroundColor: "rgb(var(--color-surface))",
+                  color: "rgb(var(--color-text))",
+                }}
+              >
+                <option value="recent">Most recent</option>
+                <option value="stars">Most stars</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -146,13 +197,16 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
         >
           Showing {filteredProjects.length} project
           {filteredProjects.length === 1 ? "" : "s"}
+          {selectedCategory
+            ? ` in ${CATEGORIES.find((c) => c.topic === selectedCategory)?.label ?? selectedCategory}`
+            : ""}
           {selectedTech ? ` with ${selectedTech}` : ""}
         </div>
 
         {/* Asymmetric gap — horizontal wider than vertical (Pillar 4) */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${selectedTech}-${sortBy}`}
+            key={`${selectedCategory}-${selectedTech}-${sortBy}`}
             className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:mt-10 sm:grid-cols-2 md:gap-x-10 md:gap-y-8 lg:mt-12 lg:grid-cols-3"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

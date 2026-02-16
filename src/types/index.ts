@@ -17,4 +17,5 @@ export interface Project {
   stargazers_count: number;
   fork: boolean;
   homepage: string | null;
+  topics: string[];
 }
