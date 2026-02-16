@@ -8,7 +8,7 @@ const Contact = memo(function Contact() {
   return (
     <section
       id="contact"
-      className="scroll-snap-section container mx-auto flex flex-col justify-center px-4 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8"
+      className="container mx-auto flex flex-col justify-center px-4 py-16 sm:px-6 sm:py-20 md:py-24 lg:px-8"
       aria-labelledby="contact-heading"
     >
       <motion.div

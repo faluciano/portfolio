@@ -60,7 +60,7 @@ const SkillsClient = ({ initialData, onSkillClick }: SkillsClientProps) => {
     <section
       id="skills"
       aria-labelledby="skills-heading"
-      className="scroll-snap-section flex flex-col justify-center border-y py-12 sm:py-16 md:py-20"
+      className="flex flex-col justify-center border-y py-12 sm:py-16 md:py-20"
       style={{
         borderColor: "rgb(var(--color-surface-elevated))",
         backgroundColor: "rgb(var(--color-surface) / 0.6)",

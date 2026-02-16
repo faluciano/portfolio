@@ -28,21 +28,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Scroll snap on viewport */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-snap-type: y proximity;
-  }
-}
-
-/* Scroll snap sections */
-.scroll-snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  min-height: 100vh;
-  min-height: 100dvh; /* Dynamic viewport height for mobile */
-}
-
 /* Scroll margin for fixed header */
 section[id],
 div[id] {

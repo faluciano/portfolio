@@ -7,6 +7,7 @@ import { ProjectsGridSkeleton } from "~/components/ui/skeleton";
 import SkillsClient from "~/components/skills-client";
 import { api } from "~/utils/api-server";
 import HeroClient from "~/components/hero-client";
+import Experience from "~/components/experience";
 
 export default function HomePage() {
   return (
@@ -19,6 +20,8 @@ export default function HomePage() {
           <Suspense fallback={<SkillsSkeleton />}>
             <SkillsServerWrapper />
           </Suspense>
+
+          <Experience />
 
           <Suspense fallback={<ProjectsGridSkeleton />}>
             <ProjectsServer />

@@ -1,9 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Me from "public/Me.jpeg";
+import dynamic from "next/dynamic";
 import DownloadCVButton from "~/components/download-cv-button";
+
+const RubiksCube = dynamic(() => import("~/components/rubiks-cube"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center">
+      <div
+        className="h-12 w-12 animate-pulse rounded-xl"
+        style={{ backgroundColor: "rgb(var(--color-surface-elevated))" }}
+      />
+    </div>
+  ),
+});
 
 /* ── Orchestrated entrance variants ─────────────────────────── */
 
@@ -56,7 +67,7 @@ export default function HeroClient() {
   return (
     <motion.div
       id="about"
-      className="scroll-snap-section mx-auto flex max-w-7xl items-center px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
+      className="mx-auto flex max-w-7xl items-center px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
       variants={heroVariants}
       initial="hidden"
       animate="visible"
@@ -70,39 +81,31 @@ export default function HeroClient() {
               style={{ color: "rgb(var(--color-text))" }}
               variants={itemVariants}
             >
-              Hi, I&apos;m Felix — Software Engineer
+              Felix Luciano
             </motion.h1>
             <motion.p
               className="text-base leading-relaxed sm:text-lg md:text-xl"
               style={{ color: "rgb(var(--color-text-muted))" }}
               variants={itemVariants}
             >
-              Software engineer at Microsoft with experience across the full
-              stack. I work with diverse technologies—from C++ and C# to
-              TypeScript and Python— building scalable systems with a focus on
-              performance, developer experience, and maintainable architecture.
+              Software engineer at Microsoft, working on Defender for
+              Endpoint&mdash;security infrastructure that runs on billions of
+              devices. I collaborate across teams to ship platform migrations,
+              reduce build times by over 50%, and modernize services for ARM and
+              Kubernetes. Previously at AWS, where I built tooling that cut
+              incident resolution time by 80%.
             </motion.p>
           </div>
           <motion.div
             className="space-y-4 sm:space-y-6"
             variants={itemVariants}
           >
-            <p
-              className="text-sm leading-relaxed sm:text-base"
-              style={{ color: "rgb(var(--color-text-muted))" }}
-            >
-              My expertise spans product engineering, internal tooling, and
-              system integrations. I thrive working with large codebases and
-              adapting quickly to new technologies—whether it&apos;s modern web
-              frameworks, cloud platforms, or systems-level programming—building
-              solutions that scale across diverse engineering domains.
-            </p>
             <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3">
               {[
-                "Web apps with Next.js + TypeScript",
-                "REST/automation and cloud integrations",
-                "Mobile prototypes with React Native",
-                "Testing, CI, and performance tuning",
+                "Billions of devices protected through Microsoft Defender for Endpoint",
+                ">50% build time reduction across the Microsoft MDE portfolio",
+                "80% faster incident resolution at AWS Aurora",
+                "Open-source frameworks published to npm (@couch-kit/*)",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2 sm:gap-3">
                   <span className="bg-primary-500 h-1.5 w-1.5 flex-shrink-0 rounded-full sm:h-2 sm:w-2" />
@@ -133,35 +136,25 @@ export default function HeroClient() {
               location="homepage"
               className="border-primary-600 text-primary-700 hover:bg-primary-600 focus:ring-primary-500 dark:border-primary-400 dark:text-primary-300 dark:hover:bg-primary-900 inline-flex min-h-[44px] w-full items-center justify-center rounded-lg border-2 px-6 py-3 text-sm font-semibold shadow-sm transition-all hover:text-white hover:shadow-md focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
             />
-            <a
-              href="#contact"
-              className="hover:text-primary-600 focus:ring-primary-500 dark:hover:text-primary-400 inline-flex min-h-[44px] w-full items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold underline-offset-4 transition-all hover:underline focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
-              style={{ color: "rgb(var(--color-text-muted))" }}
-            >
-              Contact
-            </a>
           </motion.div>
         </div>
 
-        {/* ── Image column — breaks boundary on lg ─────── */}
+        {/* ── Cube column ──────────────────────────────────── */}
         <motion.div
-          className="order-1 flex justify-center lg:order-2 lg:-mr-8"
+          className="order-1 flex items-center justify-center lg:order-2"
           variants={imageVariants}
         >
-          <div className="relative aspect-[3/4] w-full max-w-[320px] sm:max-w-[400px] md:max-w-[420px] lg:max-w-[460px]">
+          <div className="relative aspect-square w-full max-w-[300px] sm:max-w-[380px] md:max-w-[400px] lg:max-w-[460px]">
             <div
-              className="from-primary-500/40 absolute inset-0 -translate-y-8 rounded-[2.5rem] bg-gradient-to-br via-transparent to-blue-500/40 blur-3xl"
+              className="from-primary-500/20 absolute inset-0 -translate-y-4 rounded-[2.5rem] bg-gradient-to-br via-transparent to-blue-500/20 blur-3xl"
               aria-hidden="true"
             />
-            <div className="glass-medium relative h-full w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl ring-1 ring-black/10">
-              <Image
-                priority={true}
-                src={Me}
-                alt="Portrait of Felix Luciano"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 360px, (max-width: 1200px) 420px, 460px"
-              />
+            <div
+              className="relative h-full w-full"
+              aria-label="Interactive 3D Rubik's cube"
+              role="img"
+            >
+              <RubiksCube />
             </div>
           </div>
         </motion.div>
