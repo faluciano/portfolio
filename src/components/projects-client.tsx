@@ -1,8 +1,6 @@
 "use client";
 
 import ProjectCard from "./projectcard";
-import FilterButton from "./filter-button";
-import CategoryTabs from "./category-tabs";
 import { useState, useMemo, useCallback } from "react";
 import type { Project } from "~/types";
 import { motion, AnimatePresence } from "framer-motion";
@@ -39,13 +37,9 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
   );
   const [sortBy, setSortBy] = useState<SortOption>("recent");
 
-  const handleClearFilter = useCallback(() => {
-    setSelectedTech(null);
-    updateUrl({ tech: null });
-  }, []);
-
   const handleCategoryFilter = useCallback(
-    (category: string | null) => {
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const category = e.target.value || null;
       setSelectedCategory(category);
       updateUrl({ category, tech: selectedTech });
     },
@@ -53,7 +47,8 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
   );
 
   const handleTechFilter = useCallback(
-    (tech: string) => {
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const tech = e.target.value || null;
       setSelectedTech(tech);
       updateUrl({ tech, category: selectedCategory });
     },
@@ -124,67 +119,62 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             className="mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base md:text-lg"
             style={{ color: "rgb(var(--color-text-muted))" }}
           >
-            A mix of personal and open-source work. Filter by technology or sort
+            A mix of personal and open-source work. Filter by category, technology, or sort
             by what matters to you.
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col items-start justify-between gap-6 sm:mt-10 md:mt-12">
-          <CategoryTabs
-            categories={CATEGORIES}
-            selectedCategory={selectedCategory}
-            onSelect={handleCategoryFilter}
-          />
+        <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10 md:mt-12">
+          <select
+            value={selectedCategory ?? ""}
+            onChange={handleCategoryFilter}
+            className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
+            style={{
+              borderColor: "rgb(var(--color-surface-elevated))",
+              backgroundColor: "rgb(var(--color-surface))",
+              color: "rgb(var(--color-text))",
+            }}
+          >
+            <option value="">All Categories</option>
+            {CATEGORIES.map((c) => (
+              <option key={c.topic} value={c.topic}>
+                {c.label}
+              </option>
+            ))}
+          </select>
 
-          <div className="flex w-full flex-col items-start justify-between gap-4 md:flex-row md:items-center md:gap-6">
-            <div className="w-full md:w-auto">
-              <span
-                className="mb-2 block text-xs font-semibold tracking-wider uppercase sm:mb-3 md:mr-3 md:mb-0 md:inline"
-                style={{ color: "rgb(var(--color-text-muted))" }}
-              >
-                Filter by tech
-              </span>
-              <div className="flex max-w-full flex-wrap gap-2 overflow-x-auto pb-2 md:pb-0">
-                <FilterButton active={!selectedTech} onClick={handleClearFilter}>
-                  All
-                </FilterButton>
-                {allTechnologies.map((tech) => (
-                  <FilterButton
-                    key={tech}
-                    active={selectedTech === tech}
-                    onClick={() => handleTechFilter(tech)}
-                  >
-                    {tech}
-                  </FilterButton>
-                ))}
-              </div>
-            </div>
+          <select
+            value={selectedTech ?? ""}
+            onChange={handleTechFilter}
+            className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
+            style={{
+              borderColor: "rgb(var(--color-surface-elevated))",
+              backgroundColor: "rgb(var(--color-surface))",
+              color: "rgb(var(--color-text))",
+            }}
+          >
+            <option value="">All Technologies</option>
+            {allTechnologies.map((tech) => (
+              <option key={tech} value={tech}>
+                {tech}
+              </option>
+            ))}
+          </select>
 
-            <div className="flex w-full items-center gap-3 md:w-auto">
-              <label
-                htmlFor="sort-select"
-                className="flex-shrink-0 text-xs font-semibold tracking-wider uppercase"
-                style={{ color: "rgb(var(--color-text-muted))" }}
-              >
-                Sort by
-              </label>
-              <select
-                id="sort-select"
-                value={sortBy}
-                onChange={handleSortChange}
-                className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
-                style={{
-                  borderColor: "rgb(var(--color-surface-elevated))",
-                  backgroundColor: "rgb(var(--color-surface))",
-                  color: "rgb(var(--color-text))",
-                }}
-              >
-                <option value="recent">Most recent</option>
-                <option value="stars">Most stars</option>
-                <option value="name">Name</option>
-              </select>
-            </div>
-          </div>
+          <select
+            value={sortBy}
+            onChange={handleSortChange}
+            className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
+            style={{
+              borderColor: "rgb(var(--color-surface-elevated))",
+              backgroundColor: "rgb(var(--color-surface))",
+              color: "rgb(var(--color-text))",
+            }}
+          >
+            <option value="recent">Most recent</option>
+            <option value="stars">Most stars</option>
+            <option value="name">Name</option>
+          </select>
         </div>
 
         <div
