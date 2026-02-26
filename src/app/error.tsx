@@ -15,35 +15,47 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-white to-gray-50 px-4 dark:from-gray-900 dark:to-gray-800">
+    <div
+      className="flex min-h-screen flex-col items-center justify-center px-4"
+      style={{ backgroundColor: "rgb(var(--color-surface))" }}
+    >
       <div className="w-full max-w-md space-y-8 text-center">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-            Something went wrong
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <h1 className="text-4xl font-bold">Something went wrong</h1>
+          <p
+            className="text-lg"
+            style={{ color: "rgb(var(--color-text-muted))" }}
+          >
             We encountered an unexpected error. Please try again.
           </p>
         </div>
 
         {error.message && (
-          <div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
-            <p className="text-sm text-red-800 dark:text-red-200">
-              {error.message}
-            </p>
+          <div
+            className="rounded-lg p-4"
+            style={{
+              backgroundColor: "rgb(239 68 68 / 0.1)",
+              color: "rgb(239 68 68)",
+            }}
+          >
+            <p className="text-sm">{error.message}</p>
           </div>
         )}
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <button
             onClick={reset}
-            className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-400 inline-flex min-h-[44px] items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 inline-flex min-h-[44px] items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:outline-none"
           >
             Try again
           </button>
           <Link
             href="/"
-            className="inline-flex min-h-[44px] items-center justify-center rounded-lg border-2 border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 transition-all hover:bg-gray-100 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-lg border-2 px-6 py-3 text-sm font-semibold transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            style={{
+              borderColor: "rgb(var(--color-surface-elevated))",
+              color: "rgb(var(--color-text))",
+            }}
           >
             Go home
           </Link>

@@ -128,7 +128,10 @@ interface ParticleSphereSceneProps {
   isDark: boolean;
 }
 
-function ParticleSphereScene({ enableAnimation, isDark }: ParticleSphereSceneProps) {
+function ParticleSphereScene({
+  enableAnimation,
+  isDark,
+}: ParticleSphereSceneProps) {
   const pointsRef = useRef<PointsType>(null);
 
   const sphereData = useMemo(
@@ -138,7 +141,10 @@ function ParticleSphereScene({ enableAnimation, isDark }: ParticleSphereScenePro
   const basePositions = sphereData.positions;
   const phis = sphereData.phis;
 
-  const colors = useMemo(() => generateColors(PARTICLE_COUNT, isDark), [isDark]);
+  const colors = useMemo(
+    () => generateColors(PARTICLE_COUNT, isDark),
+    [isDark],
+  );
 
   // Store base colors in a ref so shimmer can reference originals
   const baseColorsRef = useRef<Float32Array>(colors);
@@ -217,6 +223,8 @@ function ParticleSphereScene({ enableAnimation, isDark }: ParticleSphereScenePro
 
 export default function ParticleSphere() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
 
   // Default to dark theme during SSR or when theme is undefined
@@ -235,22 +243,44 @@ export default function ParticleSphere() {
     return () => mql.removeEventListener("change", handleChange);
   }, []);
 
-  return (
-    <Canvas
-      camera={{ position: [0, 0, 4.5], fov: 45 }}
-      dpr={[1, 1.5]}
-      gl={{ antialias: true, alpha: true }}
-      style={{ width: "100%", height: "100%" }}
-    >
-      <ParticleSphereScene enableAnimation={!prefersReducedMotion} isDark={isDark} />
+  // Pause rendering when off-screen
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
 
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        enableDamping
-        dampingFactor={0.08}
-        rotateSpeed={0.6}
-      />
-    </Canvas>
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry?.isIntersecting ?? false);
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
+      <Canvas
+        camera={{ position: [0, 0, 4.5], fov: 45 }}
+        dpr={[1, 1.5]}
+        gl={{ antialias: true, alpha: true }}
+        style={{ width: "100%", height: "100%" }}
+        frameloop={isVisible ? "always" : "never"}
+      >
+        <ParticleSphereScene
+          enableAnimation={!prefersReducedMotion && isVisible}
+          isDark={isDark}
+        />
+
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          enableDamping
+          dampingFactor={0.08}
+          rotateSpeed={0.6}
+        />
+      </Canvas>
+    </div>
   );
 }

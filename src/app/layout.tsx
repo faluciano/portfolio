@@ -75,6 +75,46 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Felix Luciano",
+              url: "https://faluciano.com",
+              jobTitle: "Software Engineer",
+              worksFor: {
+                "@type": "Organization",
+                name: "Microsoft",
+              },
+              alumniOf: {
+                "@type": "CollegeOrUniversity",
+                name: "New Jersey Institute of Technology",
+              },
+              sameAs: [
+                "https://github.com/faluciano",
+                "https://www.linkedin.com/in/faluciano/",
+                "https://twitter.com/picapollo821",
+              ],
+              knowsAbout: [
+                "TypeScript",
+                "React",
+                "React Native",
+                "Go",
+                "Kotlin",
+                "Next.js",
+                "Python",
+              ],
+            }),
+          }}
+        />
+        <a
+          href="#main-content"
+          className="fixed top-0 left-0 z-[100] -translate-y-full bg-[rgb(var(--color-accent))] px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0"
+        >
+          Skip to main content
+        </a>
         <Providers>{children}</Providers>
         <SpeedInsights />
         <Analytics />

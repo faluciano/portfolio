@@ -1,4 +1,4 @@
-import * as logos from "./images/logos";
+import { SocialLinks } from "./images/logos";
 import CurrentYear from "./ui/current-year";
 
 export default function Footer() {
@@ -16,10 +16,7 @@ export default function Footer() {
           className="flex flex-wrap items-center justify-center gap-8"
           aria-label="Social media links"
         >
-          {Object.keys(logos).map((logo) => {
-            const Logo = logos[logo as keyof typeof logos]();
-            return Logo.social ? Logo.jsx : null;
-          })}
+          <SocialLinks />
         </nav>
         <div className="mt-8 text-center">
           <p

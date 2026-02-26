@@ -149,7 +149,7 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
           </button>
         </div>
 
-        <div className="hidden items-center gap-6 sm:flex" role="navigation">
+        <div className="hidden items-center gap-6 sm:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}

@@ -9,10 +9,8 @@ interface LoadingSpinnerProps {
 export function LoadingSpinner({ size = 24, className }: LoadingSpinnerProps) {
   return (
     <Loader2
-      className={cn(
-        "text-primary-500 dark:text-primary-400 animate-spin",
-        className,
-      )}
+      className={cn("animate-spin", className)}
+      style={{ color: "rgb(var(--color-accent))" }}
       size={size}
     />
   );
@@ -23,7 +21,10 @@ export function LoadingScreen() {
     <div className="flex min-h-[200px] items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         <LoadingSpinner size={48} />
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p
+          className="text-sm"
+          style={{ color: "rgb(var(--color-text-muted))" }}
+        >
           Loading projects...
         </p>
       </div>
