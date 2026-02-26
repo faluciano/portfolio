@@ -39,13 +39,6 @@ div[id] {
   .animate-marquee-icons {
     will-change: transform;
   }
-
-  /* Optimize frequently animated elements */
-  [class*="transition"],
-  [class*="hover:"],
-  .group:hover * {
-    will-change: transform, opacity;
-  }
 }
 
 @layer base {

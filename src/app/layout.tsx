@@ -14,6 +14,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://faluciano.com"),
   title: "Felix Luciano - Software Engineer",
   description:
     "Felix Luciano is a Software Engineer at Microsoft building full-stack web and mobile applications with TypeScript, React, React Native, Go, and Kotlin.",
@@ -44,6 +45,12 @@ export const metadata: Metadata = {
     description:
       "Felix Luciano is a Software Engineer at Microsoft building full-stack web and mobile applications with TypeScript, React, React Native, Go, and Kotlin.",
     url: "https://faluciano.com",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Felix Luciano - Software Engineer",
+    description:
+      "Software Engineer at Microsoft building full-stack web and mobile applications with TypeScript, React, React Native, Go, and Kotlin.",
   },
   alternates: {
     canonical: "https://faluciano.com",
