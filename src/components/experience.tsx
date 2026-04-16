@@ -76,6 +76,24 @@ function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
       >
         {entry.location}
       </p>
+
+      {entry.highlights.length > 0 && (
+        <ul className="mt-3 space-y-1">
+          {entry.highlights.map((h) => (
+            <li
+              key={h}
+              className="flex items-start gap-2 text-xs"
+              style={{ color: "rgb(var(--color-text-muted))" }}
+            >
+              <span
+                className="bg-primary-500/60 mt-1.5 h-1 w-1 flex-shrink-0 rounded-full"
+                aria-hidden="true"
+              />
+              <span>{h}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </motion.div>
   );
 }

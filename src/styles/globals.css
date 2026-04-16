@@ -1,5 +1,92 @@
 @import "tailwindcss";
-@config "../../tailwind.config.cjs";
+
+@theme {
+  /* Fonts */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+
+  /* Enhanced typography scale */
+  --font-size-xs: 0.75rem;
+  --font-size-xs--line-height: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-sm--line-height: 1.375rem;
+  --font-size-base: 1rem;
+  --font-size-base--line-height: 1.625rem;
+  --font-size-lg: 1.125rem;
+  --font-size-lg--line-height: 1.75rem;
+  --font-size-xl: 1.25rem;
+  --font-size-xl--line-height: 1.875rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-2xl--line-height: 2rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-3xl--line-height: 2.25rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-4xl--line-height: 2.5rem;
+  --font-size-5xl: 3rem;
+  --font-size-5xl--line-height: 1.2;
+  --font-size-6xl: 3.75rem;
+  --font-size-6xl--line-height: 1.2;
+
+  /* Spacing */
+  --spacing-4_5: 1.125rem;
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+
+  /* Primary colors */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+
+  /* Border radius */
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
+  --radius-3xl: 1.5rem;
+
+  /* Box shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Animations */
+  --animate-float-icons: float-icons 30s linear infinite;
+  --animate-marquee-icons: marquee-icons 40s linear infinite;
+}
+
+@keyframes float-icons {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-10%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes marquee-icons {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
 @keyframes fade-up-soft {
   from {

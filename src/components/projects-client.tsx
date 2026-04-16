@@ -1,7 +1,8 @@
 "use client";
 
 import ProjectCard from "./projectcard";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Project } from "~/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { CATEGORIES } from "~/constants/categories";
@@ -25,17 +26,15 @@ const updateUrl = (params: Record<string, string | null>) => {
 };
 
 const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
-  const [selectedTech, setSelectedTech] = useState<string | null>(() => {
-    if (typeof window === "undefined") return null;
-    return new URL(window.location.href).searchParams.get("tech");
-  });
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    () => {
-      if (typeof window === "undefined") return null;
-      return new URL(window.location.href).searchParams.get("category");
-    },
-  );
+  const searchParams = useSearchParams();
+  const [selectedTech, setSelectedTech] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("recent");
+
+  useEffect(() => {
+    setSelectedTech(searchParams.get("tech"));
+    setSelectedCategory(searchParams.get("category"));
+  }, [searchParams]);
 
   const handleCategoryFilter = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -119,13 +118,17 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             className="mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base md:text-lg"
             style={{ color: "rgb(var(--color-text-muted))" }}
           >
-            A mix of personal and open-source work. Filter by category, technology, or sort
-            by what matters to you.
+            A mix of personal and open-source work. Filter by category,
+            technology, or sort by what matters to you.
           </p>
         </div>
 
         <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10 md:mt-12">
+          <label htmlFor="category-filter" className="sr-only">
+            Filter by category
+          </label>
           <select
+            id="category-filter"
             value={selectedCategory ?? ""}
             onChange={handleCategoryFilter}
             className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
@@ -143,7 +146,11 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             ))}
           </select>
 
+          <label htmlFor="tech-filter" className="sr-only">
+            Filter by technology
+          </label>
           <select
+            id="tech-filter"
             value={selectedTech ?? ""}
             onChange={handleTechFilter}
             className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
@@ -161,7 +168,11 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             ))}
           </select>
 
+          <label htmlFor="sort-select" className="sr-only">
+            Sort projects
+          </label>
           <select
+            id="sort-select"
             value={sortBy}
             onChange={handleSortChange}
             className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"

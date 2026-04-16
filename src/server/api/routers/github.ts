@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Octokit } from "@octokit/rest";
-import { unstable_cache } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import type { Project, Language } from "~/types";
 
@@ -99,26 +99,20 @@ const fetchLanguages = async (
   );
 };
 
-// Cache the combined fetch for 1 hour, revalidate in background
-const getCachedProjectsWithLanguages = unstable_cache(
-  async (): Promise<Project[]> => {
-    const projects = await fetchProjects();
+async function getCachedProjectsWithLanguages(): Promise<Project[]> {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("github-projects");
 
-    const languages = await fetchLanguages(
-      projects.map((p) => ({
-        repo: p.name,
-        owner: p.owner.login,
-      })),
-    );
-
-    return projects.map((project) => ({
-      ...project,
-      languages: languages[project.name] ?? [],
-    }));
-  },
-  ["github-projects-with-languages"],
-  { revalidate: 3600 }, // 1 hour
-);
+  const projects = await fetchProjects();
+  const languages = await fetchLanguages(
+    projects.map((p) => ({ repo: p.name, owner: p.owner.login })),
+  );
+  return projects.map((project) => ({
+    ...project,
+    languages: languages[project.name] ?? [],
+  }));
+}
 
 // Export a single router with all procedures
 export const githubRouter = createTRPCRouter({
