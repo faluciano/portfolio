@@ -1,12 +1,3 @@
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
- * This is especially useful for Docker builds.
- */
-if (!process.env.SKIP_ENV_VALIDATION) {
-  // @ts-expect-error -- env validation side-effect import
-  await import("./src/env.ts");
-}
-
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
