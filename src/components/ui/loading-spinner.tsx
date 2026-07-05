@@ -15,19 +15,3 @@ export function LoadingSpinner({ size = 24, className }: LoadingSpinnerProps) {
     />
   );
 }
-
-export function LoadingScreen() {
-  return (
-    <div className="flex min-h-[200px] items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
-        <LoadingSpinner size={48} />
-        <p
-          className="text-sm"
-          style={{ color: "rgb(var(--color-text-muted))" }}
-        >
-          Loading projects...
-        </p>
-      </div>
-    </div>
-  );
-}

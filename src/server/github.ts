@@ -1,15 +1,13 @@
+import "server-only";
 import { z } from "zod";
 import { Octokit } from "@octokit/rest";
 import { cacheLife, cacheTag } from "next/cache";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import type { Project, Language } from "~/types";
-
-if (!process.env.GITHUB_TOKEN) {
-  throw new Error("GITHUB_TOKEN is not set");
-}
+import { connection } from "next/server";
+import { env } from "~/env";
+import type { ClientProject, Language, Project } from "~/types";
 
 const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
+  auth: env.GITHUB_TOKEN,
 });
 
 // Schema for validating GitHub API responses
@@ -99,7 +97,7 @@ const fetchLanguages = async (
   );
 };
 
-async function getCachedProjectsWithLanguages(): Promise<Project[]> {
+async function getCachedProjects(): Promise<Project[]> {
   "use cache";
   cacheLife("hours");
   cacheTag("github-projects");
@@ -114,9 +112,37 @@ async function getCachedProjectsWithLanguages(): Promise<Project[]> {
   }));
 }
 
-// Export a single router with all procedures
-export const githubRouter = createTRPCRouter({
-  getProjectsWithLanguages: publicProcedure.query(async () => {
-    return getCachedProjectsWithLanguages();
-  }),
-});
+/**
+ * Projects for the client, trimmed of fields the UI never reads
+ * (`owner`, `created_at`) to keep the RSC payload small.
+ */
+export async function getProjects(): Promise<ClientProject[]> {
+  // Defer the GitHub fetch to request time so a build-time API failure
+  // (rate limit, outage, missing token) never breaks the static build; the
+  // section streams in and falls back to <ErrorBoundary> on failure instead.
+  await connection();
+  const projects = await getCachedProjects();
+  return projects.map(({ owner, created_at, ...project }) => project);
+}
+
+/**
+ * Aggregated language byte counts across all projects. Returned instead of
+ * full project objects so the Skills section payload stays tiny.
+ */
+export async function getSkills(): Promise<Language[]> {
+  // Deferred to request time as well — see getProjects() for rationale.
+  await connection();
+  const projects = await getCachedProjects();
+  const counts: Record<string, number> = {};
+
+  for (const project of projects) {
+    for (const lang of project.languages) {
+      counts[lang.language] = (counts[lang.language] ?? 0) + lang.bytes;
+    }
+  }
+
+  return Object.entries(counts).map(([language, bytes]) => ({
+    language,
+    bytes,
+  }));
+}

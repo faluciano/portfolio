@@ -1,28 +1,22 @@
 "use client";
 
-import { useMemo, useCallback } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { api } from "~/utils/api";
 import { LOGO_URLS } from "~/constants/logo-urls";
 import { motion } from "framer-motion";
-import type { Project } from "~/types";
+import type { Language } from "~/types";
 
 interface SkillsClientProps {
-  initialData: Project[];
+  languages: Language[];
   onSkillClick?: (tech: string) => void;
-}
-
-interface AggregatedLanguage {
-  language: string;
-  bytes: number;
 }
 
 function SkillIcon({
   lang,
   onSkillClick,
 }: {
-  lang: AggregatedLanguage;
+  lang: Language;
   onSkillClick: (tech: string) => void;
 }) {
   const src = LOGO_URLS[lang.language];
@@ -88,7 +82,7 @@ function SkillIcon({
   );
 }
 
-const SkillsClient = ({ initialData, onSkillClick }: SkillsClientProps) => {
+const SkillsClient = ({ languages, onSkillClick }: SkillsClientProps) => {
   const router = useRouter();
 
   const handleSkillClick = useCallback(
@@ -109,26 +103,6 @@ const SkillsClient = ({ initialData, onSkillClick }: SkillsClientProps) => {
     },
     [router, onSkillClick],
   );
-
-  const { data } = api.github.getProjectsWithLanguages.useQuery(undefined, {
-    staleTime: 60 * 60 * 1000,
-    initialData,
-  });
-
-  const aggregatedLanguages = useMemo(() => {
-    const counts: Record<string, number> = {};
-
-    data?.forEach((project: Project) => {
-      project.languages.forEach((lang) => {
-        counts[lang.language] = (counts[lang.language] ?? 0) + lang.bytes;
-      });
-    });
-
-    return Object.entries(counts).map(([language, bytes]) => ({
-      language,
-      bytes,
-    }));
-  }, [data]);
 
   return (
     <section
@@ -171,7 +145,7 @@ const SkillsClient = ({ initialData, onSkillClick }: SkillsClientProps) => {
           style={{ willChange: "transform" }}
         >
           {/* First set of icons */}
-          {aggregatedLanguages.map((lang) => (
+          {languages.map((lang) => (
             <SkillIcon
               key={`${lang.language}-1`}
               lang={lang}
@@ -179,7 +153,7 @@ const SkillsClient = ({ initialData, onSkillClick }: SkillsClientProps) => {
             />
           ))}
           {/* Duplicate set for seamless loop */}
-          {aggregatedLanguages.map((lang) => (
+          {languages.map((lang) => (
             <div
               key={`${lang.language}-2`}
               aria-hidden="true"
