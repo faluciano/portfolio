@@ -7,7 +7,7 @@ import {
   BufferAttribute,
   BufferGeometry,
   LineBasicMaterial,
-  LineSegments,
+  type LineSegments,
   type Points as PointsType,
 } from "three";
 import { useTheme } from "next-themes";
@@ -105,10 +105,9 @@ function NetworkGraphScene({
     [],
   );
 
-  const driftedPositions = useMemo(
-    () => new Float32Array(basePositions.length),
-    [basePositions],
-  );
+  const driftedPositionsRef = useRef<Float32Array | null>(null);
+  driftedPositionsRef.current ??= new Float32Array(NODE_COUNT * 3);
+  const driftedPositions = driftedPositionsRef.current;
 
   const colors = useMemo(() => generateColors(NODE_COUNT, isDark), [isDark]);
 

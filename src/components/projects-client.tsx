@@ -3,14 +3,14 @@
 import ProjectCard from "./projectcard";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import type { Project } from "~/types";
+import type { ClientProject } from "~/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { CATEGORIES } from "~/constants/categories";
 
 type SortOption = "recent" | "stars" | "name";
 
 interface ProjectsClientProps {
-  initialData: Project[];
+  initialData: ClientProject[];
 }
 
 const updateUrl = (params: Record<string, string | null>) => {

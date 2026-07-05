@@ -1,4 +1,3 @@
-import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { Space_Grotesk } from "next/font/google";
 import { type Metadata, type Viewport } from "next";
@@ -71,7 +70,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable} ${spaceGrotesk.variable}`}
+      className={`${GeistSans.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <body>

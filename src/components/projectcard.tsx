@@ -3,7 +3,7 @@
 import { Badge } from "./ui/badge";
 import * as colors from "public/github-lang-colors.json";
 import { Github, Star, GitFork, ExternalLink } from "lucide-react";
-import type { Project } from "~/types";
+import type { ClientProject } from "~/types";
 import { memo } from "react";
 import { motion } from "framer-motion";
 import { timeAgo } from "~/utils/timeago";
@@ -20,7 +20,7 @@ const ProjectCard = memo(function ProjectCard({
   stargazers_count,
   fork,
   homepage,
-}: Project) {
+}: ClientProject) {
   return (
     <motion.article
       className="group hover:border-primary-500 block overflow-hidden rounded-xl border p-4 shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-5 md:p-6"

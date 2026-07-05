@@ -5,8 +5,8 @@ import HeadNav from "~/components/headnav";
 import Footer from "~/components/footer";
 import { ProjectsGridSkeleton, SkillsSkeleton } from "~/components/ui/skeleton";
 import SkillsClient from "~/components/skills-client";
-import { api } from "~/utils/api-server";
-import HeroClient from "~/components/hero-client";
+import { getSkills } from "~/server/github";
+import Hero from "~/components/hero";
 import Experience from "~/components/experience";
 import { ErrorBoundary } from "~/components/error-boundary";
 
@@ -16,7 +16,7 @@ export default function HomePage() {
       <div className="min-h-screen">
         <HeadNav />
         <main id="main-content">
-          <HeroClient />
+          <Hero />
 
           <ErrorBoundary sectionName="skills">
             <Suspense fallback={<SkillsSkeleton />}>
@@ -40,8 +40,8 @@ export default function HomePage() {
   );
 }
 
-// Async Server Component that fetches skills data
+// Async Server Component that fetches aggregated skill languages
 async function SkillsServerWrapper() {
-  const skillsData = await api.github.getProjectsWithLanguages();
-  return <SkillsClient initialData={skillsData} />;
+  const languages = await getSkills();
+  return <SkillsClient languages={languages} />;
 }

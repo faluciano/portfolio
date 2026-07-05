@@ -19,3 +19,6 @@ export interface Project {
   homepage: string | null;
   topics: string[];
 }
+
+/** Project shape sent to the client — omits fields the UI never reads. */
+export type ClientProject = Omit<Project, "owner" | "created_at">;
