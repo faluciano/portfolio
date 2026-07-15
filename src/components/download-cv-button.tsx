@@ -11,12 +11,12 @@ export default function DownloadCVButton({ location, className }: DownloadCVButt
   return (
     <a
       href="/resume.pdf"
-      download="Felix-Luciano.pdf"
+      download="Felix-Luciano-Resume.pdf"
       onClick={() => track("download_cv", { location })}
       className={className}
       aria-label="Download Felix's resume as a PDF"
     >
-      Download CV
+      Download resume
     </a>
   );
 }

@@ -2,10 +2,10 @@ import DownloadCVButton from "~/components/download-cv-button";
 import HeroSphere from "~/components/hero-sphere";
 
 const HIGHLIGHTS = [
-  "Billions of devices protected through Microsoft Defender for Endpoint",
-  ">50% build time reduction across the Microsoft MDE portfolio",
-  "80% faster incident resolution at AWS Aurora",
-  "Open-source frameworks published to npm (@couch-kit/*)",
+  "Defender service processes approximately 3.5 billion protection samples daily",
+  "Production cutover with zero service errors",
+  "26% lower p50 and 7% lower p90 latency",
+  "80%+ lower mean time to resolution at AWS Aurora",
 ] as const;
 
 export default function Hero() {
@@ -28,12 +28,14 @@ export default function Hero() {
               className="animate-rise-in text-base leading-relaxed sm:text-lg md:text-xl"
               style={{ color: "rgb(var(--color-text-muted))", animationDelay: "0.08s" }}
             >
-              Software engineer at Microsoft, working on Defender for
-              Endpoint&mdash;security infrastructure that runs on billions of
-              devices. I collaborate across teams to ship platform migrations,
-              reduce build times by over 50%, and modernize services for ARM and
-              Kubernetes. Previously at AWS, where I built tooling that cut
-              incident resolution time by 80%.
+              Backend software engineer at Microsoft building and operating
+              large-scale production systems. I led a regional migration and
+              production cutover for a Defender service processing approximately
+              3.5 billion protection samples daily. The cutover had zero service
+              errors, and the migration reduced p50 latency by 26% and p90
+              latency by 7%. Previously at AWS, I built Aurora MySQL diagnostic
+              tooling and operational automation that reduced mean time to
+              resolution by 80%+.
             </p>
           </div>
           <div

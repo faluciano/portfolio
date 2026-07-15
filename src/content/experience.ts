@@ -15,9 +15,9 @@ export const experiences: ExperienceEntry[] = [
     period: "Sep 2024 – Present",
     current: true,
     highlights: [
-      "Security infrastructure for Microsoft Defender for Endpoint",
-      "Reduced build times by over 50% across the MDE portfolio",
-      "Platform migrations to ARM and Kubernetes",
+      "Led migration and production cutover for a Defender service processing approximately 3.5 billion protection samples daily; the cutover had zero service errors, and the migration reduced p50 latency by 26% and p90 latency by 7%",
+      "Modernizing Defender services for Microsoft Cobalt/ARM and migrating them to Kubernetes",
+      "Cut build times by 50%+ and lowered portfolio costs",
     ],
   },
   {
@@ -27,8 +27,8 @@ export const experiences: ExperienceEntry[] = [
     period: "Jun 2022 – May 2023",
     current: false,
     highlights: [
-      "Built operational tooling for Amazon Aurora",
-      "Reduced incident resolution time by 80%",
+      "Built diagnostic tooling for Amazon Aurora MySQL clusters",
+      "Automated operational workflows in Python, Bash, and SQL across multiple teams, reducing mean time to resolution by 80%+",
     ],
   },
   {
@@ -37,15 +37,9 @@ export const experiences: ExperienceEntry[] = [
     role: "Software Engineer Intern",
     period: "Jun 2021 – Aug 2021",
     current: false,
-    highlights: ["Developed internal tools for payroll and HR platform"],
-  },
-  {
-    company: "NJIT",
-    location: "Newark, NJ",
-    role: "Teaching Assistant",
-    period: "Sep 2019 – May 2021",
-    current: false,
-    highlights: ["Supported students in CS coursework and labs"],
+    highlights: [
+      "Built a Java user-management platform with Struts and Hibernate, supporting onboarding for 1,000+ customers and improving developer workflows",
+    ],
   },
 ];
 

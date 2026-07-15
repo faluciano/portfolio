@@ -132,4 +132,15 @@ test.describe('Homepage', () => {
     // Verify main content is still visible
     await expect(mainContent).toBeVisible();
   });
+
+  test('should provide the current resume PDF', async ({ page }) => {
+    const resumeLink = page.getByRole('link', { name: /^Download Felix's resume as a PDF$/ }).first();
+
+    await expect(resumeLink).toHaveAttribute('href', '/resume.pdf');
+    await expect(resumeLink).toHaveAttribute('download', 'Felix-Luciano-Resume.pdf');
+
+    const response = await page.request.get('/resume.pdf');
+    expect(response.ok()).toBeTruthy();
+    expect(response.headers()['content-type']).toContain('application/pdf');
+  });
 });
