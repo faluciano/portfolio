@@ -5,9 +5,13 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import type { ClientProject } from "~/types";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { CATEGORIES } from "~/constants/categories";
 
 type SortOption = "recent" | "stars" | "name";
+
+/** How many projects to show before "Show more" is needed. */
+const INITIAL_VISIBLE = 6;
 
 interface ProjectsClientProps {
   initialData: ClientProject[];
@@ -30,6 +34,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("recent");
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     setSelectedTech(searchParams.get("tech"));
@@ -40,6 +45,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const category = e.target.value || null;
       setSelectedCategory(category);
+      setExpanded(false);
       updateUrl({ category, tech: selectedTech });
     },
     [selectedTech],
@@ -49,6 +55,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const tech = e.target.value || null;
       setSelectedTech(tech);
+      setExpanded(false);
       updateUrl({ tech, category: selectedCategory });
     },
     [selectedCategory],
@@ -99,6 +106,12 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
       }
     });
   }, [initialData, selectedCategory, selectedTech, sortBy]);
+
+  const hasMore = filteredProjects.length > INITIAL_VISIBLE;
+  const visibleProjects =
+    expanded || !hasMore
+      ? filteredProjects
+      : filteredProjects.slice(0, INITIAL_VISIBLE);
 
   return (
     <section
@@ -210,14 +223,14 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            {filteredProjects.map((project, index) => (
+            {visibleProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.35,
-                  delay: index * 0.03,
+                  delay: (index % INITIAL_VISIBLE) * 0.03,
                   ease: "easeOut",
                 }}
               >
@@ -226,6 +239,35 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             ))}
           </motion.div>
         </AnimatePresence>
+
+        {hasMore && (
+          <div className="mt-8 flex justify-center sm:mt-10">
+            <motion.button
+              type="button"
+              onClick={() => setExpanded((prev) => !prev)}
+              aria-expanded={expanded}
+              className="focus:ring-primary-500 hover:border-primary-500 inline-flex min-h-[44px] items-center gap-2 rounded-lg border px-6 py-2.5 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
+              style={{
+                borderColor: "rgb(var(--color-surface-elevated))",
+                backgroundColor: "rgb(var(--color-surface))",
+                color: "rgb(var(--color-text))",
+              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {expanded
+                ? "Show less"
+                : `Show ${filteredProjects.length - INITIAL_VISIBLE} more`}
+              <motion.span
+                className="flex"
+                animate={{ rotate: expanded ? 180 : 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+              >
+                <ChevronDown className="h-4 w-4" aria-hidden="true" />
+              </motion.span>
+            </motion.button>
+          </div>
+        )}
 
         {filteredProjects.length === 0 && (
           <div role="status" className="mt-8 text-center sm:mt-12">
