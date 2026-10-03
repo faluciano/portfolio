@@ -15,17 +15,11 @@ export default function Error({
   }, [error]);
 
   return (
-    <div
-      className="flex min-h-screen flex-col items-center justify-center px-4"
-      style={{ backgroundColor: "rgb(var(--color-surface))" }}
-    >
+    <div className="bg-surface flex min-h-screen flex-col items-center justify-center px-4">
       <div className="w-full max-w-md space-y-8 text-center">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold">Something went wrong</h1>
-          <p
-            className="text-lg"
-            style={{ color: "rgb(var(--color-text-muted))" }}
-          >
+          <p className="text-muted text-lg">
             We encountered an unexpected error. Please try again.
           </p>
         </div>
@@ -51,11 +45,7 @@ export default function Error({
           </button>
           <Link
             href="/"
-            className="inline-flex min-h-[44px] items-center justify-center rounded-lg border-2 px-6 py-3 text-sm font-semibold transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none"
-            style={{
-              borderColor: "rgb(var(--color-surface-elevated))",
-              color: "rgb(var(--color-text))",
-            }}
+            className="border-surface-elevated text-foreground inline-flex min-h-[44px] items-center justify-center rounded-lg border-2 px-6 py-3 text-sm font-semibold transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none"
           >
             Go home
           </Link>

@@ -98,18 +98,14 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
   }, []);
 
   return (
-    <header
-      className="glass-heavy sticky top-0 z-50 w-full border-b"
-      style={{ borderColor: "rgb(var(--color-surface-elevated) / 0.6)" }}
-    >
+    <header className="glass-heavy border-surface-elevated/60 sticky top-0 z-50 w-full border-b">
       <nav
         className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
         <Link
           href="/"
-          className="hover:text-primary-600 dark:hover:text-primary-400 flex items-center gap-3 text-sm font-semibold tracking-tight transition-colors"
-          style={{ color: "rgb(var(--color-text))" }}
+          className="hover:text-primary-600 dark:hover:text-primary-400 text-foreground flex items-center gap-3 text-sm font-semibold tracking-tight transition-colors"
         >
           <span className="bg-primary-600 dark:bg-primary-500 inline-flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-white shadow-sm">
             FL
@@ -122,8 +118,7 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
           <button
             ref={buttonRef}
             type="button"
-            className="focus:ring-primary-500 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2.5 transition-colors hover:bg-[rgb(var(--color-surface-elevated))] focus:ring-2 focus:ring-offset-2 focus:outline-none"
-            style={{ color: "rgb(var(--color-text))" }}
+            className="focus:ring-primary-500 hover:bg-surface-elevated text-foreground inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2.5 transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
             aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -157,13 +152,8 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
               className={`relative text-sm font-medium transition-colors ${
                 currentSection === link.href
                   ? "text-primary-600 dark:text-primary-400"
-                  : "hover:text-primary-600 dark:hover:text-primary-400"
+                  : "text-muted hover:text-primary-600 dark:hover:text-primary-400"
               }`}
-              style={
-                currentSection !== link.href
-                  ? { color: "rgb(var(--color-text-muted))" }
-                  : undefined
-              }
               aria-current={currentSection === link.href ? "page" : undefined}
             >
               {link.label}
@@ -185,8 +175,7 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
           <motion.div
             ref={menuRef}
             id="mobile-menu"
-            className="glass-heavy border-t px-4 pt-2 pb-4 shadow-md sm:hidden"
-            style={{ borderColor: "rgb(var(--color-surface-elevated))" }}
+            className="glass-heavy border-surface-elevated border-t px-4 pt-2 pb-4 shadow-md sm:hidden"
             role="navigation"
             aria-label="Mobile navigation"
             initial={{ opacity: 0, height: 0 }}
@@ -212,13 +201,8 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
                     className={`block min-h-[44px] rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                       currentSection === link.href
                         ? "bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300"
-                        : "hover:text-primary-600 dark:hover:text-primary-400 hover:bg-[rgb(var(--color-surface-elevated))]"
+                        : "text-foreground hover:text-primary-600 dark:hover:text-primary-400 hover:bg-surface-elevated"
                     }`}
-                    style={
-                      currentSection !== link.href
-                        ? { color: "rgb(var(--color-text))" }
-                        : undefined
-                    }
                     onClick={handleClose}
                     aria-current={
                       currentSection === link.href ? "page" : undefined

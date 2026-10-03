@@ -119,10 +119,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
           >
             Selected projects
           </h2>
-          <p
-            className="mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base md:text-lg"
-            style={{ color: "rgb(var(--color-text-muted))" }}
-          >
+          <p className="text-muted mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base md:text-lg">
             A mix of personal and open-source work. Filter by category,
             technology, or sort by what matters to you.
           </p>
@@ -136,12 +133,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             id="category-filter"
             value={selectedCategory ?? ""}
             onChange={handleCategoryFilter}
-            className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
-            style={{
-              borderColor: "rgb(var(--color-surface-elevated))",
-              backgroundColor: "rgb(var(--color-surface))",
-              color: "rgb(var(--color-text))",
-            }}
+            className="focus:ring-primary-500 border-surface-elevated bg-surface text-foreground min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
           >
             <option value="">All Categories</option>
             {availableCategories.map((c) => (
@@ -158,12 +150,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             id="tech-filter"
             value={selectedTech ?? ""}
             onChange={handleTechFilter}
-            className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
-            style={{
-              borderColor: "rgb(var(--color-surface-elevated))",
-              backgroundColor: "rgb(var(--color-surface))",
-              color: "rgb(var(--color-text))",
-            }}
+            className="focus:ring-primary-500 border-surface-elevated bg-surface text-foreground min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
           >
             <option value="">All Technologies</option>
             {allTechnologies.map((tech) => (
@@ -180,12 +167,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             id="sort-select"
             value={sortBy}
             onChange={handleSortChange}
-            className="focus:ring-primary-500 min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
-            style={{
-              borderColor: "rgb(var(--color-surface-elevated))",
-              backgroundColor: "rgb(var(--color-surface))",
-              color: "rgb(var(--color-text))",
-            }}
+            className="focus:ring-primary-500 border-surface-elevated bg-surface text-foreground min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
           >
             <option value="recent">Most recent</option>
             <option value="stars">Most stars</option>
@@ -193,10 +175,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
           </select>
         </div>
 
-        <div
-          className="mt-4 text-center text-xs font-medium sm:mt-6 sm:text-sm"
-          style={{ color: "rgb(var(--color-text-muted))" }}
-        >
+        <div className="text-muted mt-4 text-center text-xs font-medium sm:mt-6 sm:text-sm">
           Showing {filteredProjects.length} project
           {filteredProjects.length === 1 ? "" : "s"}
           {selectedCategory
@@ -238,12 +217,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
               type="button"
               onClick={() => setExpandedFor(expanded ? null : filterKey)}
               aria-expanded={expanded}
-              className="focus:ring-primary-500 hover:border-primary-500 inline-flex min-h-[44px] items-center gap-2 rounded-lg border px-6 py-2.5 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
-              style={{
-                borderColor: "rgb(var(--color-surface-elevated))",
-                backgroundColor: "rgb(var(--color-surface))",
-                color: "rgb(var(--color-text))",
-              }}
+              className="focus:ring-primary-500 hover:border-primary-500 border-surface-elevated bg-surface text-foreground inline-flex min-h-[44px] items-center gap-2 rounded-lg border px-6 py-2.5 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -263,10 +237,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
 
         {filteredProjects.length === 0 && (
           <div role="status" className="mt-8 text-center sm:mt-12">
-            <p
-              className="text-sm sm:text-base"
-              style={{ color: "rgb(var(--color-text-muted))" }}
-            >
+            <p className="text-muted text-sm sm:text-base">
               No projects match these filters.
             </p>
             <button

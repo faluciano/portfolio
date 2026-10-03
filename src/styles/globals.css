@@ -60,6 +60,20 @@
   --animate-marquee-icons: marquee-icons 40s linear infinite;
 }
 
+/*
+ * Semantic colors backed by the light/dark RGB channels in @layer base.
+ * `inline` so utilities reference the runtime variables and follow the theme;
+ * opacity modifiers work as usual (e.g. `text-muted/70`, `bg-surface/60`).
+ */
+@theme inline {
+  --color-surface: rgb(var(--rgb-surface));
+  --color-surface-elevated: rgb(var(--rgb-surface-elevated));
+  --color-foreground: rgb(var(--rgb-text));
+  --color-muted: rgb(var(--rgb-text-muted));
+  --color-accent: rgb(var(--rgb-accent));
+  --color-accent-hover: rgb(var(--rgb-accent-hover));
+}
+
 @keyframes marquee-icons {
   0% {
     transform: translateX(0);
@@ -85,9 +99,9 @@
 
 /* Focus visible styles for accessibility */
 *:focus-visible {
-  outline: 2px solid rgb(var(--color-accent));
+  outline: 2px solid rgb(var(--rgb-accent));
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(var(--color-accent) / 0.2);
+  box-shadow: 0 0 0 4px rgb(var(--rgb-accent) / 0.2);
 }
 
 /* Smooth scroll behavior */
@@ -115,27 +129,27 @@ div[id] {
 
 @layer base {
   :root {
-    --color-surface: 255 255 255;
-    --color-surface-elevated: 248 250 252;
-    --color-text: 15 23 42;
-    --color-text-muted: 100 116 139;
-    --color-accent: 59 130 246;
-    --color-accent-hover: 37 99 235;
+    --rgb-surface: 255 255 255;
+    --rgb-surface-elevated: 248 250 252;
+    --rgb-text: 15 23 42;
+    --rgb-text-muted: 100 116 139;
+    --rgb-accent: 59 130 246;
+    --rgb-accent-hover: 37 99 235;
   }
 
   .dark {
-    --color-surface: 10 15 25;
-    --color-surface-elevated: 15 23 38;
-    --color-text: 236 241 255;
-    --color-text-muted: 156 170 210;
-    --color-accent: 59 130 246;
-    --color-accent-hover: 96 165 250;
+    --rgb-surface: 10 15 25;
+    --rgb-surface-elevated: 15 23 38;
+    --rgb-text: 236 241 255;
+    --rgb-text-muted: 156 170 210;
+    --rgb-accent: 59 130 246;
+    --rgb-accent-hover: 96 165 250;
   }
 
   html {
     @apply font-sans antialiased;
-    background-color: rgb(var(--color-surface));
-    color: rgb(var(--color-text));
+    background-color: rgb(var(--rgb-surface));
+    color: rgb(var(--rgb-text));
   }
 
   /* Enhanced typography hierarchy */
@@ -279,19 +293,19 @@ body::after {
 
 /* Glass morphism levels — Pillar 5: Atmosphere & Depth */
 .glass-subtle {
-  background: rgb(var(--color-surface) / 0.6);
+  background: rgb(var(--rgb-surface) / 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 
 .glass-medium {
-  background: rgb(var(--color-surface) / 0.7);
+  background: rgb(var(--rgb-surface) / 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
 .glass-heavy {
-  background: rgb(var(--color-surface) / 0.85);
+  background: rgb(var(--rgb-surface) / 0.85);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }

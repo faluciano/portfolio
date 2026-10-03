@@ -114,7 +114,7 @@ export default function RootLayout({
         />
         <a
           href="#main-content"
-          className="fixed top-0 left-0 z-[100] -translate-y-full bg-[rgb(var(--color-accent))] px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0"
+          className="bg-accent fixed top-0 left-0 z-[100] -translate-y-full px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0"
         >
           Skip to main content
         </a>

@@ -35,13 +35,8 @@ function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
   return (
     <motion.div
       className={`glass-subtle rounded-xl border p-4 transition-shadow hover:shadow-md ${
-        entry.current ? "border-primary-500/40" : ""
+        entry.current ? "border-primary-500/40" : "border-surface-elevated"
       }`}
-      style={{
-        borderColor: entry.current
-          ? undefined
-          : "rgb(var(--color-surface-elevated))",
-      }}
       variants={cardVariants}
     >
       <div className="flex items-start gap-2">
@@ -56,35 +51,18 @@ function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
         </h3>
       </div>
 
-      <p
-        className="mt-1 text-xs font-medium sm:text-sm"
-        style={{ color: "rgb(var(--color-text-muted))" }}
-      >
+      <p className="text-muted mt-1 text-xs font-medium sm:text-sm">
         {entry.role}
       </p>
 
-      <p
-        className="mt-2 text-xs"
-        style={{ color: "rgb(var(--color-text-muted) / 0.7)" }}
-      >
-        {entry.period}
-      </p>
+      <p className="text-muted/70 mt-2 text-xs">{entry.period}</p>
 
-      <p
-        className="text-xs"
-        style={{ color: "rgb(var(--color-text-muted) / 0.5)" }}
-      >
-        {entry.location}
-      </p>
+      <p className="text-muted/50 text-xs">{entry.location}</p>
 
       {entry.highlights.length > 0 && (
         <ul className="mt-3 space-y-1">
           {entry.highlights.map((h) => (
-            <li
-              key={h}
-              className="flex items-start gap-2 text-xs"
-              style={{ color: "rgb(var(--color-text-muted))" }}
-            >
+            <li key={h} className="text-muted flex items-start gap-2 text-xs">
               <span
                 className="bg-primary-500/60 mt-1.5 h-1 w-1 flex-shrink-0 rounded-full"
                 aria-hidden="true"
@@ -101,8 +79,7 @@ function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
 function EducationCard() {
   return (
     <motion.div
-      className="glass-subtle rounded-xl border p-4 transition-shadow hover:shadow-md"
-      style={{ borderColor: "rgb(var(--color-surface-elevated))" }}
+      className="glass-subtle border-surface-elevated rounded-xl border p-4 transition-shadow hover:shadow-md"
       variants={cardVariants}
     >
       <div className="flex items-center gap-2">
@@ -119,10 +96,7 @@ function EducationCard() {
           <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
           <path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5" />
         </svg>
-        <span
-          className="text-xs font-semibold tracking-wider uppercase"
-          style={{ color: "rgb(var(--color-text-muted))" }}
-        >
+        <span className="text-muted text-xs font-semibold tracking-wider uppercase">
           Education
         </span>
       </div>
@@ -131,26 +105,13 @@ function EducationCard() {
         {education.school}
       </h3>
 
-      <p
-        className="mt-1 text-xs font-medium sm:text-sm"
-        style={{ color: "rgb(var(--color-text-muted))" }}
-      >
+      <p className="text-muted mt-1 text-xs font-medium sm:text-sm">
         {education.degree}
       </p>
 
-      <p
-        className="mt-2 text-xs"
-        style={{ color: "rgb(var(--color-text-muted) / 0.7)" }}
-      >
-        {education.year}
-      </p>
+      <p className="text-muted/70 mt-2 text-xs">{education.year}</p>
 
-      <p
-        className="text-xs"
-        style={{ color: "rgb(var(--color-text-muted) / 0.5)" }}
-      >
-        {education.location}
-      </p>
+      <p className="text-muted/50 text-xs">{education.location}</p>
     </motion.div>
   );
 }

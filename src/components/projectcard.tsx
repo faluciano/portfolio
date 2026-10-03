@@ -22,11 +22,7 @@ const ProjectCard = memo(function ProjectCard({
 }: ClientProject) {
   return (
     <motion.article
-      className="group hover:border-primary-500 block overflow-hidden rounded-xl border p-4 shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-5 md:p-6"
-      style={{
-        borderColor: "rgb(var(--color-surface-elevated))",
-        backgroundColor: "rgb(var(--color-surface))",
-      }}
+      className="group hover:border-primary-500 border-surface-elevated bg-surface block overflow-hidden rounded-xl border p-4 shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-5 md:p-6"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -43,10 +39,7 @@ const ProjectCard = memo(function ProjectCard({
                 className="h-3.5 w-3.5 text-yellow-500 sm:h-4 sm:w-4"
                 aria-hidden="true"
               />
-              <span
-                className="text-xs font-medium sm:text-sm"
-                style={{ color: "rgb(var(--color-text-muted))" }}
-              >
+              <span className="text-muted text-xs font-medium sm:text-sm">
                 {stargazers_count}
               </span>
             </div>
@@ -58,8 +51,7 @@ const ProjectCard = memo(function ProjectCard({
               href={homepage}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-primary-600 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg transition-all hover:bg-[rgb(var(--color-surface-elevated))]"
-              style={{ color: "rgb(var(--color-text-muted))" }}
+              className="hover:text-primary-600 hover:bg-surface-elevated text-muted inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg transition-all"
               aria-label={`Visit ${name} demo website (opens in new tab)`}
               whileHover={{ scale: 1.1, rotate: -5 }}
               whileTap={{ scale: 0.95 }}
@@ -75,8 +67,7 @@ const ProjectCard = memo(function ProjectCard({
             href={html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary-600 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg transition-all hover:bg-[rgb(var(--color-surface-elevated))]"
-            style={{ color: "rgb(var(--color-text-muted))" }}
+            className="hover:text-primary-600 hover:bg-surface-elevated text-muted inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg transition-all"
             aria-label={`View ${name} source code on GitHub (opens in new tab)`}
             whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
@@ -88,10 +79,7 @@ const ProjectCard = memo(function ProjectCard({
       </div>
 
       {description && (
-        <p
-          className="mb-4 text-sm leading-relaxed sm:mb-5 sm:text-base md:mb-6"
-          style={{ color: "rgb(var(--color-text-muted))" }}
-        >
+        <p className="text-muted mb-4 text-sm leading-relaxed sm:mb-5 sm:text-base md:mb-6">
           {description}
         </p>
       )}
@@ -132,10 +120,7 @@ const ProjectCard = memo(function ProjectCard({
         ))}
       </motion.div>
 
-      <p
-        className="text-xs font-medium sm:text-sm"
-        style={{ color: "rgb(var(--color-text-muted) / 0.7)" }}
-      >
+      <p className="text-muted/70 text-xs font-medium sm:text-sm">
         Last updated: {timeAgo(pushed_at)}
       </p>
     </motion.article>

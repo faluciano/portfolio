@@ -39,17 +39,10 @@ class ErrorBoundaryInner extends Component<InnerProps, State> {
     if (this.state.error) {
       return (
         <div
-          className="rounded-xl border p-8 text-center"
-          style={{
-            borderColor: "rgb(var(--color-surface-elevated))",
-            backgroundColor: "rgb(var(--color-surface) / 0.6)",
-          }}
+          className="border-surface-elevated bg-surface/60 rounded-xl border p-8 text-center"
           role="alert"
         >
-          <p
-            className="text-sm font-medium"
-            style={{ color: "rgb(var(--color-text-muted))" }}
-          >
+          <p className="text-muted text-sm font-medium">
             Failed to load {this.props.sectionName}.
           </p>
           <button

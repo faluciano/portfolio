@@ -79,11 +79,11 @@ test.describe('Homepage', () => {
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     
     // Wait for Contact section header or content
-    const contactHeading = page.getByRole('heading', { name: /contact/i });
+    const contactHeading = page.locator('section#contact h2');
     await expect(contactHeading).toBeVisible();
     
     // Verify contact section is present
-    const contactSection = page.locator('section').filter({ hasText: /contact/i });
+    const contactSection = page.locator('section#contact');
     await expect(contactSection).toBeVisible();
   });
 

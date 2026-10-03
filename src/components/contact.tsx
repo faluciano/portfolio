@@ -12,8 +12,7 @@ const Contact = memo(function Contact() {
       aria-labelledby="contact-heading"
     >
       <motion.div
-        className="glass-medium mx-auto max-w-3xl rounded-2xl border px-6 py-10 text-center shadow-lg sm:rounded-3xl sm:px-10 sm:py-14 md:px-12 md:py-16"
-        style={{ borderColor: "rgb(var(--color-surface-elevated))" }}
+        className="glass-medium border-surface-elevated mx-auto max-w-3xl rounded-2xl border px-6 py-10 text-center shadow-lg sm:rounded-3xl sm:px-10 sm:py-14 md:px-12 md:py-16"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -26,10 +25,7 @@ const Contact = memo(function Contact() {
           Get in Touch
         </h2>
         <div className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
-          <p
-            className="text-sm leading-relaxed sm:text-base md:text-lg"
-            style={{ color: "rgb(var(--color-text-muted))" }}
-          >
+          <p className="text-muted text-sm leading-relaxed sm:text-base md:text-lg">
             I&apos;m always interested in discussing new projects, technical
             challenges, and collaboration opportunities. Feel free to reach out
             via LinkedIn or download my resume to learn more about my

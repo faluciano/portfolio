@@ -9,8 +9,7 @@ interface LoadingSpinnerProps {
 export function LoadingSpinner({ size = 24, className }: LoadingSpinnerProps) {
   return (
     <Loader2
-      className={cn("animate-spin", className)}
-      style={{ color: "rgb(var(--color-accent))" }}
+      className={cn("text-accent animate-spin", className)}
       size={size}
     />
   );

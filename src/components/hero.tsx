@@ -18,15 +18,12 @@ export default function Hero() {
         {/* ── Text column ──────────────────────────────────── */}
         <div className="order-2 flex flex-col justify-center space-y-6 sm:space-y-8 lg:order-1">
           <div className="space-y-6 sm:space-y-8">
-            <h1
-              className="animate-rise-in text-3xl leading-tight font-bold tracking-tight text-balance sm:text-4xl sm:leading-tight md:text-5xl lg:text-7xl lg:leading-[1.1]"
-              style={{ color: "rgb(var(--color-text))" }}
-            >
+            <h1 className="animate-rise-in text-foreground text-3xl leading-tight font-bold tracking-tight text-balance sm:text-4xl sm:leading-tight md:text-5xl lg:text-7xl lg:leading-[1.1]">
               Felix Luciano
             </h1>
             <p
-              className="animate-rise-in text-base leading-relaxed sm:text-lg md:text-xl"
-              style={{ color: "rgb(var(--color-text-muted))", animationDelay: "0.08s" }}
+              className="animate-rise-in text-muted text-base leading-relaxed sm:text-lg md:text-xl"
+              style={{ animationDelay: "0.08s" }}
             >
               Backend software engineer at Microsoft building and operating
               large-scale production systems. I led a regional migration and
@@ -46,10 +43,7 @@ export default function Hero() {
               {HIGHLIGHTS.map((item) => (
                 <li key={item} className="flex items-center gap-2 sm:gap-3">
                   <span className="bg-primary-500 h-1.5 w-1.5 flex-shrink-0 rounded-full sm:h-2 sm:w-2" />
-                  <span
-                    className="text-xs font-medium sm:text-sm"
-                    style={{ color: "rgb(var(--color-text-muted))" }}
-                  >
+                  <span className="text-muted text-xs font-medium sm:text-sm">
                     {item}
                   </span>
                 </li>

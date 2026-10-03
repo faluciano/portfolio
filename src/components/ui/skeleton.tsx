@@ -9,8 +9,7 @@ export const Skeleton = memo(function Skeleton({
 }: SkeletonProps) {
   return (
     <div
-      className={`animate-pulse rounded-md ${className}`}
-      style={{ backgroundColor: "rgb(var(--color-surface-elevated))" }}
+      className={`animate-pulse rounded-md ${className} bg-surface-elevated`}
       aria-hidden="true"
     />
   );
@@ -18,13 +17,7 @@ export const Skeleton = memo(function Skeleton({
 
 export const ProjectCardSkeleton = memo(function ProjectCardSkeleton() {
   return (
-    <div
-      className="block overflow-hidden rounded-xl border p-6 shadow-md"
-      style={{
-        borderColor: "rgb(var(--color-surface-elevated))",
-        backgroundColor: "rgb(var(--color-surface))",
-      }}
-    >
+    <div className="border-surface-elevated bg-surface block overflow-hidden rounded-xl border p-6 shadow-md">
       <div className="mb-6 flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1 space-y-3">
           <Skeleton className="h-7 w-3/4" />
@@ -68,39 +61,17 @@ export const ProjectsGridSkeleton = memo(function ProjectsGridSkeleton() {
 
 export const SkillsSkeleton = memo(function SkillsSkeleton() {
   return (
-    <section
-      className="border-y py-12 sm:py-16 md:py-20"
-      style={{
-        borderColor: "rgb(var(--color-surface-elevated))",
-        backgroundColor: "rgb(var(--color-surface) / 0.6)",
-      }}
-    >
+    <section className="border-surface-elevated bg-surface/60 border-y py-12 sm:py-16 md:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <div
-            className="mx-auto h-8 w-48 animate-pulse rounded"
-            style={{ backgroundColor: "rgb(var(--color-surface-elevated))" }}
-          />
-          <div
-            className="mx-auto mt-4 h-4 w-96 animate-pulse rounded"
-            style={{ backgroundColor: "rgb(var(--color-surface-elevated))" }}
-          />
+          <div className="bg-surface-elevated mx-auto h-8 w-48 animate-pulse rounded" />
+          <div className="bg-surface-elevated mx-auto mt-4 h-4 w-96 animate-pulse rounded" />
         </div>
         <div className="mt-12 flex justify-center gap-8">
           {[...Array<undefined>(8)].map((_, i) => (
             <div key={i} className="flex flex-col items-center gap-2">
-              <div
-                className="h-16 w-16 animate-pulse rounded-xl sm:h-20 sm:w-20"
-                style={{
-                  backgroundColor: "rgb(var(--color-surface-elevated))",
-                }}
-              />
-              <div
-                className="h-3 w-12 animate-pulse rounded"
-                style={{
-                  backgroundColor: "rgb(var(--color-surface-elevated))",
-                }}
-              />
+              <div className="bg-surface-elevated h-16 w-16 animate-pulse rounded-xl sm:h-20 sm:w-20" />
+              <div className="bg-surface-elevated h-3 w-12 animate-pulse rounded" />
             </div>
           ))}
         </div>

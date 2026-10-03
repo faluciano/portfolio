@@ -26,10 +26,7 @@ function SkillIcon({
           type="button"
           onClick={() => onSkillClick(lang.language)}
           aria-label={`Filter projects by ${lang.language}`}
-          className="hover:border-primary-500 flex h-16 w-16 items-center justify-center rounded-xl border-2 border-transparent p-2.5 shadow-sm backdrop-blur-sm transition-all sm:h-20 sm:w-20 sm:p-3"
-          style={{
-            backgroundColor: "rgb(var(--color-surface) / 0.5)",
-          }}
+          className="hover:border-primary-500 bg-surface/50 flex h-16 w-16 items-center justify-center rounded-xl border-2 border-transparent p-2.5 shadow-sm backdrop-blur-sm transition-all sm:h-20 sm:w-20 sm:p-3"
           whileHover={{
             scale: 1.15,
             rotate: [0, -5, 5, -5, 0],
@@ -57,23 +54,14 @@ function SkillIcon({
           aria-label={`Filter projects by ${lang.language}`}
         >
           <span
-            className="hover:border-primary-500 rounded-xl border-2 px-3 py-1.5 text-xs font-semibold shadow-sm backdrop-blur-sm transition-all sm:px-4 sm:py-2"
-            style={{
-              borderColor: "rgb(var(--color-surface-elevated))",
-              backgroundColor: "rgb(var(--color-surface) / 0.5)",
-              color: "rgb(var(--color-text-muted))",
-            }}
+            className="hover:border-primary-500 border-surface-elevated bg-surface/50 text-muted rounded-xl border-2 px-3 py-1.5 text-xs font-semibold shadow-sm backdrop-blur-sm transition-all sm:px-4 sm:py-2"
             aria-hidden="true"
           >
             {lang.language}
           </span>
         </motion.button>
       )}
-      <span
-        className="text-xs font-medium"
-        style={{ color: "rgb(var(--color-text-muted))" }}
-        aria-hidden="true"
-      >
+      <span className="text-muted text-xs font-medium" aria-hidden="true">
         {lang.language}
       </span>
     </div>
@@ -94,11 +82,7 @@ const SkillsClient = ({ languages }: SkillsClientProps) => {
     <section
       id="skills"
       aria-labelledby="skills-heading"
-      className="flex flex-col justify-center border-y py-12 sm:py-16 md:py-20"
-      style={{
-        borderColor: "rgb(var(--color-surface-elevated))",
-        backgroundColor: "rgb(var(--color-surface) / 0.6)",
-      }}
+      className="border-surface-elevated bg-surface/60 flex flex-col justify-center border-y py-12 sm:py-16 md:py-20"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
@@ -108,10 +92,7 @@ const SkillsClient = ({ languages }: SkillsClientProps) => {
           >
             Skills & tools
           </h2>
-          <p
-            className="mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base md:text-lg"
-            style={{ color: "rgb(var(--color-text-muted))" }}
-          >
+          <p className="text-muted mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base md:text-lg">
             Technologies inferred from my GitHub projects, updated dynamically
             based on the code I&apos;ve been writing.
           </p>

@@ -91,12 +91,9 @@ export function SocialLinks() {
             href={link.url}
             className={`inline-flex h-20 w-20 transition-colors ${
               isCurrentColor
-                ? "hover:text-primary-600 dark:hover:text-primary-400"
+                ? "text-foreground hover:text-primary-600 dark:hover:text-primary-400"
                 : ""
             }`}
-            style={
-              isCurrentColor ? { color: "rgb(var(--color-text))" } : undefined
-            }
             aria-label={link.ariaLabel}
             target="_blank"
             rel="noopener noreferrer"
