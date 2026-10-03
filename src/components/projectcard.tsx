@@ -19,10 +19,16 @@ const ProjectCard = memo(function ProjectCard({
   languages,
   stargazers_count,
   homepage,
+  featuredRank,
 }: ClientProject) {
+  const featured = featuredRank !== null;
   return (
     // Entrance animation lives on the wrapper in projects-client
-    <article className="group hover:border-primary-500 border-surface-elevated bg-surface block overflow-hidden rounded-xl border p-4 shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-5 md:p-6">
+    <article
+      className={`group hover:border-primary-500 bg-surface block overflow-hidden rounded-xl border p-4 shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-5 md:p-6 ${
+        featured ? "border-primary-500/40" : "border-surface-elevated"
+      }`}
+    >
       <div className="mb-4 flex items-start justify-between gap-3 sm:mb-5 sm:gap-4 md:mb-6">
         <div className="min-w-0 flex-1">
           <h3 className="group-hover:text-primary-600 mb-2 text-lg leading-tight font-bold tracking-tight transition-colors sm:mb-3 sm:text-xl md:text-2xl">
@@ -38,6 +44,11 @@ const ProjectCard = memo(function ProjectCard({
                 {stargazers_count}
               </span>
             </div>
+            {featured && (
+              <span className="bg-primary-500/10 text-primary-700 dark:text-primary-300 rounded-full px-2 py-0.5 text-xs font-semibold">
+                Featured
+              </span>
+            )}
           </div>
         </div>
         <div className="flex flex-shrink-0 gap-1.5 sm:gap-2">

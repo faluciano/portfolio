@@ -9,7 +9,7 @@ import { ChevronDown } from "lucide-react";
 import { CATEGORIES } from "~/constants/categories";
 import { updateUrl } from "~/lib/url";
 
-type SortOption = "recent" | "stars" | "name";
+type SortOption = "featured" | "recent" | "stars" | "name";
 
 /** How many projects to show before "Show more" is needed. */
 const INITIAL_VISIBLE = 6;
@@ -22,7 +22,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
   const searchParams = useSearchParams();
   const selectedTech = searchParams.get("tech");
   const selectedCategory = searchParams.get("category");
-  const [sortBy, setSortBy] = useState<SortOption>("recent");
+  const [sortBy, setSortBy] = useState<SortOption>("featured");
   // Remember which filter combination was expanded so changing filters
   // (including from the Skills section) collapses the list again.
   const filterKey = `${selectedCategory}-${selectedTech}`;
@@ -83,18 +83,24 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
         )
       : filtered;
 
+    const byRecent = (a: ClientProject, b: ClientProject) =>
+      new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime();
+
     // Then sort
     return [...filtered].sort((a, b) => {
       switch (sortBy) {
+        case "featured":
+          // Featured projects first, in configured order; the rest by recency
+          return (
+            (a.featuredRank ?? Infinity) - (b.featuredRank ?? Infinity) ||
+            byRecent(a, b)
+          );
         case "stars":
           return b.stargazers_count - a.stargazers_count;
         case "name":
           return a.name.localeCompare(b.name);
         case "recent":
-        default:
-          return (
-            new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime()
-          );
+          return byRecent(a, b);
       }
     });
   }, [initialData, selectedCategory, selectedTech, sortBy]);
@@ -169,6 +175,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             onChange={handleSortChange}
             className="focus:ring-primary-500 border-surface-elevated bg-surface text-foreground min-h-[44px] flex-1 rounded-lg border px-3 py-2 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none sm:px-4 md:flex-initial"
           >
+            <option value="featured">Featured</option>
             <option value="recent">Most recent</option>
             <option value="stars">Most stars</option>
             <option value="name">Name</option>

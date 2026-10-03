@@ -33,18 +33,10 @@ test.describe('Homepage', () => {
     await expect(skillsSection).toBeVisible();
   });
 
-  test('should load GitHub data in Skills section', async ({ page }) => {
-    // Wait for the skills section to load
-    await page.waitForSelector('section#skills', { state: 'visible' });
-    
-    // Wait for loading state to complete - check for absence of loading indicators
-    await page.waitForTimeout(2000); // Give time for GitHub API call
-    
-    // Verify that technology items are displayed
-    // This checks that GitHub data has loaded and rendered
-    const techItems = page.locator('section#skills button[aria-label*="Filter projects"]');
-    const count = await techItems.count();
-    expect(count).toBeGreaterThan(0);
+  test('should list skills by group', async ({ page }) => {
+    const skillsSection = page.locator('section#skills');
+    await expect(skillsSection.getByRole('heading', { name: 'Languages' })).toBeVisible();
+    await expect(skillsSection.getByRole('listitem').filter({ hasText: 'Kubernetes' })).toBeVisible();
   });
 
   test('should display Projects section', async ({ page }) => {

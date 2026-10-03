@@ -16,7 +16,7 @@ export default function Hero() {
     >
       <div className="grid w-full grid-cols-1 items-center gap-12 sm:gap-16 lg:grid-cols-[1fr_0.8fr] lg:gap-20">
         {/* ── Text column ──────────────────────────────────── */}
-        <div className="order-2 flex flex-col justify-center space-y-6 sm:space-y-8 lg:order-1">
+        <div className="flex flex-col justify-center space-y-6 sm:space-y-8">
           <div className="space-y-6 sm:space-y-8">
             <h1 className="animate-rise-in text-foreground text-3xl leading-tight font-bold tracking-tight text-balance sm:text-4xl sm:leading-tight md:text-5xl lg:text-7xl lg:leading-[1.1]">
               Felix Luciano
@@ -25,14 +25,10 @@ export default function Hero() {
               className="animate-rise-in text-muted text-base leading-relaxed sm:text-lg md:text-xl"
               style={{ animationDelay: "0.08s" }}
             >
-              Backend software engineer at Microsoft building and operating
-              large-scale production systems. I led a regional migration and
-              production cutover for a Defender service processing approximately
-              3.5 billion protection samples daily. The cutover had zero service
-              errors, and the migration reduced p50 latency by 26% and p90
-              latency by 7%. Previously at AWS, I built Aurora MySQL diagnostic
-              tooling and operational automation that reduced mean time to
-              resolution by 80%+.
+              Backend software engineer at Microsoft, building and operating
+              large-scale production systems with a focus on distributed
+              systems, backend infrastructure, and databases. Previously at AWS
+              on Amazon Aurora MySQL.
             </p>
           </div>
           <div
@@ -71,8 +67,8 @@ export default function Hero() {
         </div>
 
         {/* ── Particle sphere column ─────────────────────────── */}
-        <div className="animate-rise-in order-1 flex items-center justify-center lg:order-2">
-          <div className="relative aspect-square w-full max-w-[300px] sm:max-w-[380px] md:max-w-[400px] lg:max-w-[460px]">
+        <div className="animate-rise-in flex items-center justify-center">
+          <div className="relative aspect-square w-full max-w-[260px] sm:max-w-[380px] md:max-w-[400px] lg:max-w-[460px]">
             <div
               className="from-primary-500/20 absolute inset-0 -translate-y-4 rounded-[2.5rem] bg-gradient-to-br via-transparent to-blue-500/20 blur-3xl"
               aria-hidden="true"

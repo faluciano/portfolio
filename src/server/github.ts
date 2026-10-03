@@ -4,6 +4,7 @@ import { Octokit } from "@octokit/rest";
 import { cacheLife, cacheTag } from "next/cache";
 import { connection } from "next/server";
 import { env } from "~/env";
+import { FEATURED_PROJECTS } from "~/content/projects";
 import type { ClientProject, Language, Project } from "~/types";
 
 const octokit = new Octokit({
@@ -123,27 +124,8 @@ export async function getProjects(): Promise<ClientProject[]> {
   // section streams in and falls back to <ErrorBoundary> on failure instead.
   await connection();
   const projects = await getCachedProjects();
-  return projects.map(({ owner, created_at, fork, ...project }) => project);
-}
-
-/**
- * Aggregated language byte counts across all projects. Returned instead of
- * full project objects so the Skills section payload stays tiny.
- */
-export async function getSkills(): Promise<Language[]> {
-  // Deferred to request time as well — see getProjects() for rationale.
-  await connection();
-  const projects = await getCachedProjects();
-  const counts: Record<string, number> = {};
-
-  for (const project of projects) {
-    for (const lang of project.languages) {
-      counts[lang.language] = (counts[lang.language] ?? 0) + lang.bytes;
-    }
-  }
-
-  return Object.entries(counts).map(([language, bytes]) => ({
-    language,
-    bytes,
-  }));
+  return projects.map(({ owner, created_at, fork, ...project }) => {
+    const rank = FEATURED_PROJECTS.indexOf(project.name);
+    return { ...project, featuredRank: rank === -1 ? null : rank };
+  });
 }
