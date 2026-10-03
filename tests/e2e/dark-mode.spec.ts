@@ -1,4 +1,16 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
+
+// After a reload, Next.js serves the page's segment prefetches from the HTTP
+// cache and Playwright never reports those requests as finished, so
+// "networkidle" would wait forever. The theme toggle renders only after
+// hydration, so wait for it instead.
+const waitForHydration = async (page: Page) => {
+  await page.waitForLoadState("load");
+  await page
+    .locator('button[aria-label^="Switch to"]:visible')
+    .first()
+    .waitFor();
+};
 
 test.describe("Dark Mode", () => {
   test.beforeEach(async ({ page }) => {
@@ -76,7 +88,7 @@ test.describe("Dark Mode", () => {
 
     // Reload the page
     await page.reload();
-    await page.waitForLoadState("networkidle");
+    await waitForHydration(page);
 
     // Verify theme persisted after reload
     const reloadedClass = await htmlElement.getAttribute("class");
@@ -217,7 +229,7 @@ test.describe("Dark Mode", () => {
 
     // Reload to get fresh state
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await waitForHydration(page);
 
     // Check if there's a system preference
     const prefersDark = await page.evaluate(() => {

@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 
 const ThemeToggle = memo(function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  // resolvedTheme, not theme: with theme="system" the latter isn't light/dark
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Only show the toggle after mounting to avoid hydration mismatch
@@ -18,7 +19,7 @@ const ThemeToggle = memo(function ThemeToggle() {
     return <div className="h-10 w-10 sm:h-11 sm:w-11" />;
   }
 
-  const isDark = theme === "dark";
+  const isDark = resolvedTheme === "dark";
 
   return (
     <motion.button

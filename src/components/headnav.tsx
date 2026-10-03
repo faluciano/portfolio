@@ -46,13 +46,13 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
   // Focus trap for mobile menu
   useEffect(() => {
     if (open && menuRef.current) {
-      const focusableElements = menuRef.current.querySelectorAll(
+      const focusableElements = menuRef.current.querySelectorAll<HTMLElement>(
         "a[href], button:not([disabled])",
       );
-      const firstElement = focusableElements[0] as HTMLElement;
-      const lastElement = focusableElements[
-        focusableElements.length - 1
-      ] as HTMLElement;
+      const firstElement = focusableElements.item(0) as HTMLElement | null;
+      const lastElement = focusableElements.item(
+        focusableElements.length - 1,
+      ) as HTMLElement | null;
 
       const handleTab = (e: KeyboardEvent) => {
         if (e.key !== "Tab") return;

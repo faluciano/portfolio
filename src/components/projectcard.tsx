@@ -21,13 +21,8 @@ const ProjectCard = memo(function ProjectCard({
   homepage,
 }: ClientProject) {
   return (
-    <motion.article
-      className="group hover:border-primary-500 border-surface-elevated bg-surface block overflow-hidden rounded-xl border p-4 shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-5 md:p-6"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-    >
+    // Entrance animation lives on the wrapper in projects-client
+    <article className="group hover:border-primary-500 border-surface-elevated bg-surface block overflow-hidden rounded-xl border p-4 shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-5 md:p-6">
       <div className="mb-4 flex items-start justify-between gap-3 sm:mb-5 sm:gap-4 md:mb-6">
         <div className="min-w-0 flex-1">
           <h3 className="group-hover:text-primary-600 mb-2 text-lg leading-tight font-bold tracking-tight transition-colors sm:mb-3 sm:text-xl md:text-2xl">
@@ -120,10 +115,14 @@ const ProjectCard = memo(function ProjectCard({
         ))}
       </motion.div>
 
-      <p className="text-muted/70 text-xs font-medium sm:text-sm">
+      {/* Relative time can tick over between server render and hydration */}
+      <p
+        className="text-muted/70 text-xs font-medium sm:text-sm"
+        suppressHydrationWarning
+      >
         Last updated: {timeAgo(pushed_at)}
       </p>
-    </motion.article>
+    </article>
   );
 });
 
