@@ -21,4 +21,4 @@ export interface Project {
 }
 
 /** Project shape sent to the client — omits fields the UI never reads. */
-export type ClientProject = Omit<Project, "owner" | "created_at">;
+export type ClientProject = Omit<Project, "owner" | "created_at" | "fork">;

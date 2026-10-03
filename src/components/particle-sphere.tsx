@@ -105,9 +105,12 @@ function NetworkGraphScene({
     [],
   );
 
-  const driftedPositionsRef = useRef<Float32Array | null>(null);
-  driftedPositionsRef.current ??= new Float32Array(NODE_COUNT * 3);
-  const driftedPositions = driftedPositionsRef.current;
+  // Initial point positions. A copy, because the geometry takes ownership of
+  // this array and useFrame writes drifted positions into it every frame.
+  const initialPositions = useMemo(
+    () => basePositions.slice(),
+    [basePositions],
+  );
 
   const colors = useMemo(() => generateColors(NODE_COUNT, isDark), [isDark]);
 
@@ -141,6 +144,8 @@ function NetworkGraphScene({
     if (!points) return;
 
     const elapsed = state.clock.elapsedTime;
+    const posAttr = points.geometry.getAttribute("position");
+    const driftedPositions = posAttr.array as Float32Array;
 
     // Apply drift to node positions
     if (enableAnimation) {
@@ -162,9 +167,6 @@ function NetworkGraphScene({
       driftedPositions.set(basePositions);
     }
 
-    // Update point positions
-    const posAttr = points.geometry.getAttribute("position");
-    (posAttr.array as Float32Array).set(driftedPositions);
     posAttr.needsUpdate = true;
 
     // Recompute edges every N frames
@@ -222,7 +224,7 @@ function NetworkGraphScene({
     <>
       <Points
         ref={pointsRef}
-        positions={driftedPositions}
+        positions={initialPositions}
         colors={colors}
         stride={3}
         frustumCulled={false}

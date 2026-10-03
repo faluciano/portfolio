@@ -2,7 +2,7 @@
 
 import { Badge } from "./ui/badge";
 import * as colors from "public/github-lang-colors.json";
-import { Github, Star, GitFork, ExternalLink } from "lucide-react";
+import { Github, Star, ExternalLink } from "lucide-react";
 import type { ClientProject } from "~/types";
 import { memo } from "react";
 import { motion } from "framer-motion";
@@ -18,7 +18,6 @@ const ProjectCard = memo(function ProjectCard({
   pushed_at,
   languages,
   stargazers_count,
-  fork,
   homepage,
 }: ClientProject) {
   return (
@@ -51,21 +50,6 @@ const ProjectCard = memo(function ProjectCard({
                 {stargazers_count}
               </span>
             </div>
-            {fork && (
-              <div className="flex items-center gap-1.5">
-                <GitFork
-                  className="h-3.5 w-3.5 sm:h-4 sm:w-4"
-                  style={{ color: "rgb(var(--color-text-muted))" }}
-                  aria-hidden="true"
-                />
-                <span
-                  className="text-xs font-medium sm:text-sm"
-                  style={{ color: "rgb(var(--color-text-muted))" }}
-                >
-                  Fork
-                </span>
-              </div>
-            )}
           </div>
         </div>
         <div className="flex flex-shrink-0 gap-1.5 sm:gap-2">
@@ -103,12 +87,14 @@ const ProjectCard = memo(function ProjectCard({
         </div>
       </div>
 
-      <p
-        className="mb-4 text-sm leading-relaxed sm:mb-5 sm:text-base md:mb-6"
-        style={{ color: "rgb(var(--color-text-muted))" }}
-      >
-        {description}
-      </p>
+      {description && (
+        <p
+          className="mb-4 text-sm leading-relaxed sm:mb-5 sm:text-base md:mb-6"
+          style={{ color: "rgb(var(--color-text-muted))" }}
+        >
+          {description}
+        </p>
+      )}
 
       <motion.div
         className="mb-4 flex flex-wrap gap-1.5 sm:mb-5 sm:gap-2 md:mb-6"

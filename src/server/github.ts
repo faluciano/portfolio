@@ -114,7 +114,8 @@ async function getCachedProjects(): Promise<Project[]> {
 
 /**
  * Projects for the client, trimmed of fields the UI never reads
- * (`owner`, `created_at`) to keep the RSC payload small.
+ * (`owner`, `created_at`, `fork` — forks are already filtered out) to keep
+ * the RSC payload small.
  */
 export async function getProjects(): Promise<ClientProject[]> {
   // Defer the GitHub fetch to request time so a build-time API failure
@@ -122,7 +123,7 @@ export async function getProjects(): Promise<ClientProject[]> {
   // section streams in and falls back to <ErrorBoundary> on failure instead.
   await connection();
   const projects = await getCachedProjects();
-  return projects.map(({ owner, created_at, ...project }) => project);
+  return projects.map(({ owner, created_at, fork, ...project }) => project);
 }
 
 /**

@@ -14,14 +14,13 @@ test.describe('Homepage', () => {
     await page.waitForLoadState('networkidle');
   });
 
-  test('should display hero section with profile image', async ({ page }) => {
+  test('should display hero section', async ({ page }) => {
     // Wait for the hero section heading to be visible (not the hidden nav text)
     const heroHeading = page.locator('h1', { hasText: /Felix/ });
     await expect(heroHeading).toBeVisible();
-    
-    // Check for profile image
-    const profileImage = page.locator('img[alt*="Me" i], img[alt*="Felix" i], img[alt*="profile" i]');
-    await expect(profileImage.first()).toBeVisible();
+
+    // Check for the primary CTAs
+    await expect(page.getByRole('link', { name: /View Felix's projects/i })).toBeVisible();
   });
 
   test('should display Skills section', async ({ page }) => {

@@ -1,15 +1,13 @@
 "use client";
 
-import { useCallback } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { LOGO_URLS } from "~/constants/logo-urls";
 import { motion } from "framer-motion";
 import type { Language } from "~/types";
+import { updateUrl } from "~/lib/url";
 
 interface SkillsClientProps {
   languages: Language[];
-  onSkillClick?: (tech: string) => void;
 }
 
 function SkillIcon({
@@ -82,28 +80,16 @@ function SkillIcon({
   );
 }
 
-const SkillsClient = ({ languages, onSkillClick }: SkillsClientProps) => {
-  const router = useRouter();
+// Push (not replace) so Back returns to the unfiltered list. The projects
+// section is already in the DOM, so we can scroll immediately.
+const handleSkillClick = (tech: string) => {
+  updateUrl({ tech }, "push");
+  document
+    .getElementById("projects")
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+};
 
-  const handleSkillClick = useCallback(
-    (tech: string) => {
-      router.push(`/?tech=${encodeURIComponent(tech)}`);
-
-      setTimeout(() => {
-        const projectsSection = document.getElementById("projects");
-        if (projectsSection) {
-          projectsSection.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      }, 100);
-
-      onSkillClick?.(tech);
-    },
-    [router, onSkillClick],
-  );
-
+const SkillsClient = ({ languages }: SkillsClientProps) => {
   return (
     <section
       id="skills"

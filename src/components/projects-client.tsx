@@ -1,12 +1,13 @@
 "use client";
 
 import ProjectCard from "./projectcard";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import type { ClientProject } from "~/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { CATEGORIES } from "~/constants/categories";
+import { updateUrl } from "~/lib/url";
 
 type SortOption = "recent" | "stars" | "name";
 
@@ -17,49 +18,34 @@ interface ProjectsClientProps {
   initialData: ClientProject[];
 }
 
-const updateUrl = (params: Record<string, string | null>) => {
-  const url = new URL(window.location.href);
-  for (const [key, value] of Object.entries(params)) {
-    if (value) {
-      url.searchParams.set(key, value);
-    } else {
-      url.searchParams.delete(key);
-    }
-  }
-  window.history.replaceState({}, "", url.toString());
-};
-
 const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
   const searchParams = useSearchParams();
-  const [selectedTech, setSelectedTech] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const selectedTech = searchParams.get("tech");
+  const selectedCategory = searchParams.get("category");
   const [sortBy, setSortBy] = useState<SortOption>("recent");
-  const [expanded, setExpanded] = useState(false);
-
-  useEffect(() => {
-    setSelectedTech(searchParams.get("tech"));
-    setSelectedCategory(searchParams.get("category"));
-  }, [searchParams]);
+  // Remember which filter combination was expanded so changing filters
+  // (including from the Skills section) collapses the list again.
+  const filterKey = `${selectedCategory}-${selectedTech}`;
+  const [expandedFor, setExpandedFor] = useState<string | null>(null);
+  const expanded = expandedFor === filterKey;
 
   const handleCategoryFilter = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const category = e.target.value || null;
-      setSelectedCategory(category);
-      setExpanded(false);
-      updateUrl({ category, tech: selectedTech });
+      updateUrl({ category: e.target.value || null });
     },
-    [selectedTech],
+    [],
   );
 
   const handleTechFilter = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const tech = e.target.value || null;
-      setSelectedTech(tech);
-      setExpanded(false);
-      updateUrl({ tech, category: selectedCategory });
+      updateUrl({ tech: e.target.value || null });
     },
-    [selectedCategory],
+    [],
   );
+
+  const handleClearFilters = useCallback(() => {
+    updateUrl({ category: null, tech: null });
+  }, []);
 
   const handleSortChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -76,11 +62,17 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
     return Array.from(techs).sort();
   }, [initialData]);
 
+  // Only offer categories that at least one project is tagged with
+  const availableCategories = useMemo(() => {
+    const topics = new Set(initialData.flatMap((project) => project.topics));
+    return CATEGORIES.filter((c) => topics.has(c.topic));
+  }, [initialData]);
+
   const filteredProjects = useMemo(() => {
     // First filter by category
     let filtered = selectedCategory
       ? initialData.filter((project) =>
-          project.topics?.includes(selectedCategory),
+          project.topics.includes(selectedCategory),
         )
       : initialData;
 
@@ -152,7 +144,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
             }}
           >
             <option value="">All Categories</option>
-            {CATEGORIES.map((c) => (
+            {availableCategories.map((c) => (
               <option key={c.topic} value={c.topic}>
                 {c.label}
               </option>
@@ -244,7 +236,7 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
           <div className="mt-8 flex justify-center sm:mt-10">
             <motion.button
               type="button"
-              onClick={() => setExpanded((prev) => !prev)}
+              onClick={() => setExpandedFor(expanded ? null : filterKey)}
               aria-expanded={expanded}
               className="focus:ring-primary-500 hover:border-primary-500 inline-flex min-h-[44px] items-center gap-2 rounded-lg border px-6 py-2.5 text-sm font-semibold shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
               style={{
@@ -275,9 +267,15 @@ const ProjectsClient = ({ initialData }: ProjectsClientProps) => {
               className="text-sm sm:text-base"
               style={{ color: "rgb(var(--color-text-muted))" }}
             >
-              No projects match your filters. Try selecting a different
-              technology.
+              No projects match these filters.
             </p>
+            <button
+              type="button"
+              onClick={handleClearFilters}
+              className="text-primary-600 dark:text-primary-400 mt-3 min-h-[44px] text-sm font-semibold underline-offset-4 hover:underline"
+            >
+              Clear filters
+            </button>
           </div>
         )}
       </div>
