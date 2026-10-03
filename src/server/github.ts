@@ -4,7 +4,7 @@ import { Octokit } from "@octokit/rest";
 import { cacheLife, cacheTag } from "next/cache";
 import { connection } from "next/server";
 import { env } from "~/env";
-import { FEATURED_PROJECTS } from "~/content/projects";
+import { FEATURED_PROJECTS, HIDDEN_PROJECTS } from "~/content/projects";
 import type { ClientProject, Language, Project } from "~/types";
 
 const octokit = new Octokit({
@@ -50,7 +50,7 @@ const fetchProjects = async (): Promise<RepoType[]> => {
   if (!ownedRepos.success) throw new Error("Failed to validate owned repos");
 
   return ownedRepos.data
-    .filter((repo) => !repo.fork)
+    .filter((repo) => !repo.fork && !HIDDEN_PROJECTS.includes(repo.name))
     .sort(
       (a, b) =>
         new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime(),
