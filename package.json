@@ -57,7 +57,7 @@
     "sharp"
   ],
   "engines": {
-    "bun": ">=1.0.0"
+    "bun": ">=1.1.40"
   },
-  "packageManager": "bun@1.1.26"
+  "packageManager": "bun@1.1.40"
 }
