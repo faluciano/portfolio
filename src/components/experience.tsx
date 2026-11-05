@@ -1,6 +1,7 @@
 "use client";
 
 import { memo } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   experiences,
@@ -150,6 +151,13 @@ const Experience = memo(function Experience() {
 
           <EducationCard />
         </motion.div>
+
+        <Link
+          href="/resume"
+          className="text-primary-700 dark:text-primary-300 mt-6 inline-flex min-h-[44px] items-center gap-1 text-sm font-semibold hover:underline"
+        >
+          View full resume <span aria-hidden="true">→</span>
+        </Link>
       </div>
     </section>
   );

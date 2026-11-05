@@ -2,6 +2,7 @@
 
 import type { NextComponentType } from "next";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useCallback, memo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ui/theme-toggle";
@@ -12,11 +13,15 @@ const navLinks = [
   { href: "/#experience", label: "Experience" },
   { href: "/#projects", label: "Projects" },
   { href: "/#contact", label: "Contact" },
+  { href: "/resume", label: "Resume" },
 ] as const;
 
 const HeadNav: NextComponentType = memo(function HeadNav() {
   const [open, setOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState("");
+  const pathname = usePathname();
+  const [sectionInView, setSectionInView] = useState("");
+  // Section links only apply on the homepage; other routes match by path.
+  const currentSection = pathname === "/" ? sectionInView : pathname;
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -86,7 +91,7 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setCurrentSection(`/#${entry.target.id}`);
+          setSectionInView(`/#${entry.target.id}`);
         }
       });
     }, observerOptions);
@@ -98,7 +103,7 @@ const HeadNav: NextComponentType = memo(function HeadNav() {
   }, []);
 
   return (
-    <header className="glass-heavy border-surface-elevated/60 sticky top-0 z-50 w-full border-b">
+    <header className="glass-heavy border-surface-elevated/60 sticky top-0 z-50 w-full border-b print:hidden">
       <nav
         className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
