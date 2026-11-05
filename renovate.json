@@ -1,0 +1,50 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommits"],
+  "timezone": "America/Los_Angeles",
+  "schedule": ["before 9am on monday"],
+  "prConcurrentLimit": 5,
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
+  "labels": ["dependencies"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 9am on the first day of the month"]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "labels": ["dependencies", "security"]
+  },
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "description": "One weekly PR for all minor/patch updates",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "non-major dependencies",
+      "groupSlug": "all-non-major"
+    },
+    {
+      "description": "Next.js gets its own PR: minor releases have broken the build before (edge runtime + cacheComponents in 16.4)",
+      "matchPackageNames": ["next", "eslint-config-next"],
+      "groupName": "next"
+    },
+    {
+      "description": "React and its types move together",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "react"
+    },
+    {
+      "description": "three.js and its types move together",
+      "matchPackageNames": ["three", "@types/three"],
+      "groupName": "three"
+    },
+    {
+      "description": "Keep @types/node on the runtime's major (Vercel runs Node 24 LTS; bump by hand with the runtime)",
+      "matchPackageNames": ["@types/node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ]
+}
