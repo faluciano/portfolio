@@ -14,15 +14,19 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://faluciano.com"),
-  title: "Felix Luciano | Backend Software Engineer",
+  title: {
+    default: "Felix Luciano | Backend Software Engineer",
+    template: "%s | Felix Luciano",
+  },
   description:
-    "Felix Luciano is a backend software engineer at Microsoft specializing in distributed systems, backend infrastructure, and databases.",
+    "Felix Luciano is a backend software engineer at Microsoft specializing in backend infrastructure, distributed systems, and cloud services.",
   keywords: [
     "Felix Luciano",
     "Felix Luciano Salomon",
     "Backend Software Engineer",
     "Distributed Systems",
     "Backend Infrastructure",
+    "Cloud Services",
     "Databases",
     "Kubernetes",
     "AWS",
@@ -95,6 +99,7 @@ export default function RootLayout({
               knowsAbout: [
                 "Distributed Systems",
                 "Backend Infrastructure",
+                "Cloud Services",
                 "Databases",
                 "Kubernetes",
                 "AWS",

@@ -3,7 +3,7 @@
 import { track } from "@vercel/analytics";
 
 interface DownloadCVButtonProps {
-  location: "homepage" | "contact";
+  location: "homepage" | "resume";
   className?: string;
 }
 

@@ -26,8 +26,9 @@ export default function Hero() {
               style={{ animationDelay: "0.08s" }}
             >
               Backend software engineer at Microsoft, building and operating
-              large-scale production systems with a focus on distributed
-              systems, backend infrastructure, and databases. Previously at AWS
+              large-scale production systems with a focus on backend
+              infrastructure, distributed systems, and cloud services.
+              Previously at AWS
               on Amazon Aurora MySQL.
             </p>
           </div>

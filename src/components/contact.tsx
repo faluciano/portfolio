@@ -2,7 +2,8 @@
 
 import { memo } from "react";
 import { motion } from "framer-motion";
-import DownloadCVButton from "./download-cv-button";
+import Link from "next/link";
+import { profile } from "~/content/profile";
 
 const Contact = memo(function Contact() {
   return (
@@ -26,26 +27,34 @@ const Contact = memo(function Contact() {
         </h2>
         <div className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
           <p className="text-muted text-sm leading-relaxed sm:text-base md:text-lg">
-            I&apos;m always interested in discussing new projects, technical
-            challenges, and collaboration opportunities. Feel free to reach out
-            via LinkedIn or download my resume to learn more about my
-            experience.
+            I&apos;m always happy to talk about backend systems, distributed
+            infrastructure, and interesting engineering problems. Email is the
+            fastest way to reach me.
           </p>
         </div>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4">
           <a
+            href={`mailto:${profile.email}`}
+            className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-400 inline-flex min-h-[44px] w-full items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+            aria-label="Email Felix"
+          >
+            Email me
+          </a>
+          <a
             href="https://www.linkedin.com/in/faluciano/"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-400 inline-flex min-h-[44px] w-full items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+            className="border-primary-600 text-primary-700 hover:bg-primary-600 focus:ring-primary-500 dark:border-primary-400 dark:text-primary-300 dark:hover:bg-primary-900 inline-flex min-h-[44px] w-full items-center justify-center rounded-lg border-2 px-6 py-3 text-sm font-semibold shadow-sm transition-all hover:text-white hover:shadow-md focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
             aria-label="Visit Felix's LinkedIn profile"
           >
-            LinkedIn Profile
+            LinkedIn
           </a>
-          <DownloadCVButton
-            location="contact"
+          <Link
+            href="/resume"
             className="border-primary-600 text-primary-700 hover:bg-primary-600 focus:ring-primary-500 dark:border-primary-400 dark:text-primary-300 dark:hover:bg-primary-900 inline-flex min-h-[44px] w-full items-center justify-center rounded-lg border-2 px-6 py-3 text-sm font-semibold shadow-sm transition-all hover:text-white hover:shadow-md focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
-          />
+          >
+            View resume
+          </Link>
         </div>
       </motion.div>
     </section>
